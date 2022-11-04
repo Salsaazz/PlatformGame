@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,12 @@ namespace Sprites
     {
         public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        public int counter;
+        public int counter=0;
         private double secondCounter = 0;
-
         public Animation()
         {
             frames = new List<AnimationFrame>();
         }
-        public void AddFrame(AnimationFrame frame)
-        {
-            frames.Add(frame);
-            CurrentFrame = frames[0];
-        }
-
 
         public void Update(GameTime gametime)
         {
@@ -54,6 +48,8 @@ namespace Sprites
             {
                 for (int x = 0; x <= width - widthOfFrame; x += widthOfFrame)
                 {
+                    //x schuiven we op om naar de volgende frame te gaan
+                    //van de spritesheet
                     frames.Add(new AnimationFrame(new Rectangle(x, y, widthOfFrame, heightOfFrame)));
                 }
             }

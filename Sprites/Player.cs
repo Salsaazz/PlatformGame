@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PlatformGame;
 using SharpDX.Direct2D1;
 using System;
 using System.Collections.Generic;
@@ -16,33 +17,50 @@ namespace Sprites
     {
         public int xCoordinaat = 0;
         private Texture2D texture;
-        Animation animation;
+        public Animation walkAnimation;
         //bewegen
         public static Vector2 positie;
         //snelheid
         private Vector2 snelheid = new Vector2(1, 3);
         private bool isLeft = false;
-
+        public int textureWidth = 0;
+        public int textureHeight = 0;
         public Player(Texture2D texture)
         {
             this.texture = texture;
-            animation = new Animation();
+            walkAnimation = new Animation();
             //+21 marge door spritesheet marge tss de images
-            animation.GetFramesFromTextureProperties(texture.Width+25, texture.Height,4, 1);
+            walkAnimation.GetFramesFromTextureProperties(texture.Width+25, texture.Height,4, 1);
             positie = new Vector2(0, 700);
+            textureWidth = texture.Width;
+            textureHeight = texture.Height;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D objTexture)
+        {
+            //probleem coordinaat x past zich aan wanneer er wordt afgewisseld tss links rechts
+            //oplossing, x coordinaat aanpassen wnr dit gebeurd door +15 te doen
+            Vector2 nieuwePositie = positie;
+            if (isLeft)
+                spriteBatch.Draw(texture, nieuwePositie, walkAnimation.CurrentFrame.SourceRectangle, Color.White,0f, new Vector2(0,0),new Vector2(1,1), SpriteEffects.FlipHorizontally,0f);
+            if (!isLeft)
+            { 
+                nieuwePositie.X += 15;
+                spriteBatch.Draw(texture, nieuwePositie, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //probleem coordinaat x past zich aan wanneer er wordt afgewisseld tss links rechts
             //oplossing, x coordinaat aanpassen wnr dit gebeurd door +15 te doen
-            Vector2 nieuw = positie;
+            Vector2 nieuwePositie = positie;
             if (isLeft)
-                spriteBatch.Draw(texture, nieuw, animation.CurrentFrame.SourceRectangle, Color.White,0f, new Vector2(0,0),new Vector2(1,1), SpriteEffects.FlipHorizontally,0f);
+                spriteBatch.Draw(texture, nieuwePositie, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
             if (!isLeft)
-            { 
-                nieuw.X += 15;
-                spriteBatch.Draw(texture, nieuw, animation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
+            {
+                nieuwePositie.X += 15;
+                spriteBatch.Draw(texture, nieuwePositie, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
             }
         }
 
@@ -66,7 +84,7 @@ namespace Sprites
             }
             direction *= snelheid;
             positie += direction;
-            animation.Update(gameTime);
+            walkAnimation.Update(gameTime);
             //Move(windowWidth, windowHeight);
         }
 

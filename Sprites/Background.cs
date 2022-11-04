@@ -41,6 +41,11 @@ namespace Sprites
 
         }
 
+        public void Draw(SpriteBatch spriteBatch, Texture2D objTexture)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             throw new NotImplementedException();

@@ -24,7 +24,7 @@ namespace Sprites
             //normale width = 513 maar -1 want er is een zwarte streep
             walkRectangle = new Rectangle(0, 0, 64, 49);
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 8, 1);
-            this.positie = new Vector2(10, 500);
+            positie = new Vector2(10, 500);
             positie2.X = Player.positie.X - marge;
             positie2.Y = Player.positie.Y+5;
         }
@@ -33,6 +33,12 @@ namespace Sprites
         {
             spriteBatch.Draw(_walkTexture, this.positie2, walkAnimation.CurrentFrame.SourceRectangle, Color.White);
         }
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D objTexture)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
 
