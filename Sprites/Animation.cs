@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PlatformGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Sprites
         private List<AnimationFrame> frames;
         public int counter=0;
         private double secondCounter = 0;
+        public List<Block> blocks = new List<Block>();
         public Animation()
         {
             frames = new List<AnimationFrame>();

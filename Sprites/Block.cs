@@ -3,48 +3,59 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PlatformGame
 {
-    internal class Block : IGameObject
+    internal class Block : IGameComponent, ICollide<Block>
     {
         Rectangle rectangle;
-        Vector2 positie;
-        Texture2D objTexture;
+        public Vector2 positie;
+        public Texture2D objTexture;
         Color color;
+        Vector2 snelheid;
+        Vector2 direction = new Vector2(1, 1);
         public Block()
         {
-            throw new NotImplementedException();
         }
-        public Block(Vector2 positie, int textureWidth, int textureHeight, Color color, Texture2D texture)
+        public Block(Rectangle rectangle, Texture2D texture, Vector2 snelheid, Color color)
         {
-            this.positie.X = positie.X;
-            this.positie.Y = positie.Y;
-            this.rectangle = new Rectangle((int)this.positie.X, (int)this.positie.Y, textureWidth, textureHeight);
-            this.color = color;
-            this.objTexture = texture;
-        }
-        public void Draw(SpriteBatch spriteBatch, Texture2D objTexture)
-        {
-            spriteBatch.Draw(objTexture, rectangle, this.color);
 
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(objTexture, rectangle, this.color);
+            this.rectangle = rectangle;
+            this.objTexture = texture;
+            this.snelheid = snelheid;
+            this.color = color;
+            this.positie.X = this.rectangle.X;
+            this.positie.Y = this.rectangle.Y;
         }
 
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
-            this.positie.X += 1;
+            snelheid *= direction;
+            positie += snelheid;
+            this.rectangle.X = (int)positie.X;
+            this.rectangle.Y = (int)positie.Y;
+
         }
-        public void LoadContent(GraphicsDevice graphicsDevice)
+
+        public void Draw(SpriteBatch spriteBatch)
         {
-            objTexture = new Texture2D(graphicsDevice, 1, 1);
-            objTexture.SetData(new[] { Color.White });
+            spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
+        }
+
+        public void Collide(Block block)
+        {
+            if (this.rectangle.Intersects(block.rectangle))
+            {
+                this.direction.X *= -1;
+                block.direction.X *= -1;
+                this.color = Color.White;
+                block.color = Color.White;
+            }
+
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 namespace Sprites
 {
@@ -25,12 +26,15 @@ namespace Sprites
         private bool isLeft = false;
         public int textureWidth = 0;
         public int textureHeight = 0;
+        public int healthBar;
+        public float Watermelons;
         public Player(Texture2D texture)
         {
             this.texture = texture;
             walkAnimation = new Animation();
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width+25, texture.Height,4, 1);
+            walkAnimation.blocks.Add(new Block(new Rectangle(texture.Width + 25, texture.Height, 4, 1), this.texture, this.snelheid, Color.Pink));
             positie = new Vector2(0, 700);
             textureWidth = texture.Width;
             textureHeight = texture.Height;
