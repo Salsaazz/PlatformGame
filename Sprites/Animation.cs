@@ -1,8 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using PlatformGame;
+using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sprites
@@ -10,26 +14,21 @@ namespace Sprites
      class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
+        //public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        public int counter;
+        //static maken zodat je dit kan meegeven voor de hitboxes list
+        public int counter=0;
         private double secondCounter = 0;
-
+        public List<Block> blocks = new List<Block>();
         public Animation()
         {
             frames = new List<AnimationFrame>();
         }
-        public void AddFrame(AnimationFrame frame)
-        {
-            frames.Add(frame);
-            CurrentFrame = frames[0];
-        }
 
-
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime)
         {
             CurrentFrame = frames[counter];
-
-            secondCounter += gametime.ElapsedGameTime.TotalSeconds;
+            secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
             //animatie met de snelheid aanpassen
             //per 0.3sec 1frame
@@ -54,6 +53,8 @@ namespace Sprites
             {
                 for (int x = 0; x <= width - widthOfFrame; x += widthOfFrame)
                 {
+                    //x schuiven we op om naar de volgende frame te gaan
+                    //van de spritesheet
                     frames.Add(new AnimationFrame(new Rectangle(x, y, widthOfFrame, heightOfFrame)));
                 }
             }

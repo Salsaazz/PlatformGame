@@ -1,8 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PlatformGame;
+using SharpDX.Direct2D1;
+using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
+using System.Collections.Generic;
 using System.Diagnostics;
+using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace Sprites
 {
@@ -20,6 +25,17 @@ namespace Sprites
         Texture2D _mountainTexture;
         Texture2D _pineTexture;
         Texture2D _skyTexture;
+        Texture2D boxPlayerTexture;
+        Vector2 blockPositie = new Vector2(40, 30);
+        Vector2 blockPositie2 = new Vector2(290, 30);
+        Rectangle rec1;
+        Rectangle rec2;
+        Rectangle rec3;
+        Block block1 = new Block();
+        SpriteFont font;
+        Block block;
+        Block hitBoxPlayer;
+        List<Block> blockList = new List<Block>();
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -30,39 +46,89 @@ namespace Sprites
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
             base.Initialize();
             _graphics.PreferredBackBufferWidth = 1000;
             _graphics.PreferredBackBufferHeight = 1000;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
-            player = new Player(_playerTexture);
+            player = new Player(_playerTexture, boxPlayerTexture);
+            //block1
+            rec1 = new Rectangle((int)blockPositie.X, (int)blockPositie.Y, (player.textureWidth - 25) / 4, player.textureHeight);
+            //block2
+            rec2 = new Rectangle((int)blockPositie2.X, (int)blockPositie2.Y, 50, 50);
+            rec3 = new Rectangle((int)blockPositie2.X + 500, (int)blockPositie2.Y, 30, 50);
+            //block = new Block(rec1, boxPlayerTexture, new Vector2(1,1), Color.Red) ;
+            //blockLijst.Add(new Block(rec1, boxPlayerTexture, new Vector2(2, 2), Color.Red));
+            //blokken toevoegen
             capy = new Capybara(_capybara);
+
+            //blocks.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Blue));
+            //blocks.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1,1),Color.Red));
+            //blocks.Add(new Block(rec3, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
+            hitBoxPlayer = new Block();
+            blockList.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Red));
+            blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
+
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            boxPlayerTexture = new Texture2D(GraphicsDevice, 1, 1);
+            boxPlayerTexture.SetData(new[] { Color.White });
+            //block1.objTexture = boxPlayerTexture;
+            //block1.Initialize();
 
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
             _playerTexture = Content.Load<Texture2D>("playersheetsprites (5)");
             _capybara = Content.Load<Texture2D>("./Capybara/CapybaraWalk");
             _cloudTexture = Content.Load<Texture2D>("./Background/cloud");
-             _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
+            _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
             _pineTexture = Content.Load<Texture2D>("./Background/pine1");
             _skyTexture = Content.Load<Texture2D>("./Background/sky");
-            Debug.WriteLine(",sklcc");
+            font = Content.Load<SpriteFont>("./Font/myFont");
         }
 
         protected override void Update(GameTime gameTime)
         {
+            Debug.WriteLine("Updated");
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            // TODO: Add your update logic here 
-            player.Update(gameTime, _graphics.PreferredBackBufferWidth,_graphics.PreferredBackBufferHeight);
+            // TODO: Add your update logic here
+            for (int i = 0; i < blockList.Count; i++)
+            {
+                for (int j = i+1; j < blockList.Count; j++)
+                {
+                    blockList[i].Collide(blockList[j]);
+                }
+
+            }
+           /* if (player.HitBox.Intersects(blockList[1].rectangle))
+            {
+                player.drawBox.color = Color.Red;
+            }
+            else
+            {
+                player.drawBox.color = Color.White;
+            }
+           */
+            //colliden met player
+            for (int i = 0; i < blockList.Count; i++)
+            {
+                player.Collide(blockList[i]);
+
+            }
+            foreach (var block in blockList)
+            {
+                block.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            }
+            player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             capy.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             base.Update(gameTime);
-           // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
+
+            // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
         }
 
 
@@ -73,10 +139,40 @@ namespace Sprites
             // TODO: Add your drawing code here
             //nog enemy, jumping player,tilesets met collision detections
             background.Draw(_spriteBatch, _graphics);
-            player.Draw(_spriteBatch);
-            capy.Draw(_spriteBatch);
+            foreach (var block in blockList)
+            {
+                block.Draw(_spriteBatch);
+            }
+            player.Draw(_spriteBatch, _playerTexture);
+            capy.Draw(_spriteBatch, player);
+            _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, player.healthBar.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
+
+        /*void Collided(List<Block> blocks)
+       {
+           for (int i = 0; i < blocks.Count; i++)
+           {
+               for (int j = i+1; j < blocks.Count; j++)
+               {
+                   blocks[i].Collide(blocks[j]);
+               }
+           }
+
+       }*/
+        /*void Collided(Block block1, List<Block> blocks)
+        {
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                for (int j = i + 1; j < blocks.Count; j++)
+                {
+                    block1.Collide(blocks[j]);
+                }
+            }
+
+        }
+        */
     }
 }
