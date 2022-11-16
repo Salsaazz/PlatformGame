@@ -12,6 +12,5 @@ namespace Sprites
     {
         void Update(GameTime gameTime, int windowWidth, int widowHeight);
         void Draw(SpriteBatch spriteBatch);
-        void Draw(SpriteBatch spriteBatch, Texture2D objTexture);
     }
 }

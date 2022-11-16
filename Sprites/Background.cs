@@ -15,7 +15,6 @@ namespace Sprites
         Texture2D _mountainTexture;
         Texture2D pineTexture;
         Texture2D skyTexture;
-        GraphicsDeviceManager _graphics;
         public Background(Texture2D cloud, Texture2D mountain, Texture2D pine, Texture2D sky)
         {
             this._cloudTexture = cloud;
