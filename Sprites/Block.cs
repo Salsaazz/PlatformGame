@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
-using Sprites;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,6 +21,8 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
+        public bool IsDead{get; set;}
+
         public Block()
         {
         }
@@ -46,16 +47,16 @@ namespace PlatformGame
             this.rectangle = rectangle;
             this.snelheid = new Vector2(2, 2);
             this.color = Color.Black;
-            this.positie.X = this.rectangle.X;
-            this.positie.Y = this.rectangle.Y;
+            this.Position.X = this.rectangle.X;
+            this.Position.Y = this.rectangle.Y;
 
         }
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             snelheid *= direction;
-            positie += snelheid;
-            this.rectangle.X = (int)positie.X;
-            this.rectangle.Y = (int)positie.Y;
+            Position += snelheid;
+            this.rectangle.X = (int)Position.X;
+            this.rectangle.Y = (int)Position.Y;
             teller += teller<1000?(float)gameTime.ElapsedGameTime.TotalMilliseconds:1000;
         }
         public void Draw(SpriteBatch spriteBatch)
