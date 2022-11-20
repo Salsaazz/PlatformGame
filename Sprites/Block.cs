@@ -22,7 +22,6 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
-        public bool IsDead { get; set; } = false;
         public Block()
         {
         }
@@ -61,9 +60,7 @@ namespace PlatformGame
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(!IsDead)
             spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
-
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color)
