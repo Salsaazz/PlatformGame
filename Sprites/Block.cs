@@ -63,6 +63,7 @@ namespace PlatformGame
         {
             if (!IsDead)
                 spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
+
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color)
