@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
-using Sprites;
+using PlatformGame;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ namespace PlatformGame
     internal class Block : ICollide<Block>
     {
         public Rectangle rectangle;
-        public Vector2 Position;
+        public Vector2 positie;
         public Texture2D objTexture;
         public Color color;
         Vector2 snelheid;
@@ -22,7 +22,6 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
-        public bool IsDead { get; set; } = false;
         public Block()
         {
         }
@@ -33,9 +32,9 @@ namespace PlatformGame
             this.objTexture = texture;
             this.snelheid = snelheid;
             this.color = color;
-            this.Position.X = this.rectangle.X;
-            this.Position.Y = this.rectangle.Y;
-            //addBlock(rectangle, texture, Speed2, color);
+            this.positie.X = this.rectangle.X;
+            this.positie.Y = this.rectangle.Y;
+            //addBlock(rectangle, texture, Speed, color);
         }
         private void addBlock(Rectangle rectangle, Texture2D texture, Vector2 snelheid, Color color)
         {
@@ -47,23 +46,21 @@ namespace PlatformGame
             this.rectangle = rectangle;
             this.snelheid = new Vector2(2, 2);
             this.color = Color.Black;
-            this.Position.X = this.rectangle.X;
-            this.Position.Y = this.rectangle.Y;
+            this.positie.X = this.rectangle.X;
+            this.positie.Y = this.rectangle.Y;
 
         }
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             snelheid *= direction;
-            Position += snelheid;
-            this.rectangle.X = (int)Position.X;
-            this.rectangle.Y = (int)Position.Y;
+            positie += snelheid;
+            this.rectangle.X = (int)positie.X;
+            this.rectangle.Y = (int)positie.Y;
             teller += teller<1000?(float)gameTime.ElapsedGameTime.TotalMilliseconds:1000;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(!IsDead)
             spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
-
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color)

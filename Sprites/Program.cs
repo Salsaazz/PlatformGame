@@ -1,3 +1,3 @@
 ﻿
-using var game = new Sprites.Game1();
+using var game = new PlatformGame.Game1();
 game.Run();

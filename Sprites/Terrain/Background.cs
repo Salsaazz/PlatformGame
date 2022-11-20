@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Interfaces;
-using Sprites;
+using PlatformGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -9,7 +9,7 @@ using SharpDX.DirectWrite;
 using SharpDX.MediaFoundation;
 using SharpDX.MediaFoundation.DirectX;
 using SharpDX.WIC;
-using Sprites;
+using PlatformGame;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,8 +33,8 @@ namespace PlatformGame.Characters
         public Rectangle idleFrame;
         //bewegen
         public Vector2 Position { get; set; }
-        //Speed2
-        public Vector2 Speed { get; set; }
+        //Speed
+        private Vector2 Speed { get; set; } = new Vector2(1, 3);
         public bool isLeft = false;
         public int textureWidth = 0;
         public int textureHeight = 0;
@@ -50,7 +50,6 @@ namespace PlatformGame.Characters
         public Vector2 Speed2 { get; set; }
         private bool keyPressed = false;
         public IInputReader InputReader { get; set; } = new KeyboardReader();
-
         private MovementManager movementManager = new MovementManager();
         Texture2D boxTexture;
         bool isJumping = false;
@@ -59,11 +58,10 @@ namespace PlatformGame.Characters
         {
             this.texture = texture;
             walkAnimation = new Animation();
-            idleFrame = new Rectangle(0, 0, 55, 57);
+            idleFrame = new Rectangle(0, 0, 57, 57);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width + 25, texture.Height, 4, 1);
             Position = new Vector2(0, 700);
-            Speed =  new Vector2(1, 3);
             textureWidth = texture.Width;
             textureHeight = texture.Height;
             boxTexture = recTexture;
@@ -88,7 +86,7 @@ namespace PlatformGame.Characters
 
             if (isLeft)
             {
-                drawBox.Draw(spriteBatch, boxTexture, new Rectangle(HitBox.X + 28, HitBox.Y + 5, 32, 48), Colour);
+                drawBox.Draw(spriteBatch, boxTexture, new Rectangle(HitBox.X + 30, HitBox.Y + 5, 32, 48), Colour);
 
                 if (!keyPressed)
                 {
@@ -135,14 +133,14 @@ namespace PlatformGame.Characters
                 }
                 if (isJumping)
                 {
-                    //de Speed2 van de jump
+                    //de Speed van de jump
                     float i = 10;
                     //gravity
                     direction.Y -= 0.15f * i;
                 }
                 if (isFalling == true)
                 {
-                    //de Speed2 van de jump
+                    //de Speed van de jump
                     float i = 10;
                     //gravity
                     direction.Y += 0.15f * i;
@@ -179,31 +177,28 @@ namespace PlatformGame.Characters
         {
 
             //collision detection
-            /*if (Position2.X > windowWidth - 25 || Position2.X < 0)
-                Speed2.X *= -1;
-            if (Position2.Y > windowHeight - texture.Height || Position2.Y < 0)
-                Speed2.Y *= -1;
-            Position2 += Speed2;*/
+            /*if (Position.X > windowWidth - 25 || Position.X < 0)
+                Speed.X *= -1;
+            if (Position.Y > windowHeight - texture.Height || Position.Y < 0)
+                Speed.Y *= -1;
+            Position += Speed;*/
             movementManager.Move(this);
             
         }
 
         public void Collide(Block block)
         {
-            Debug.WriteLine("block positie y: " + block.Position.Y);
             if (HitBox.Intersects(block.rectangle))
             {
-                 
-                    block.direction.X *= -1;
-                    block.direction.Y *= -1;
-                    Colour = Color.Red;
-                    block.color = Color.White;
-                    if (block.teller >= 1000)
-                    {
-                        healthBar -= block.damagePerSec;
-                        block.teller = 0;
-                    }
-                
+                block.direction.X *= -1;
+                block.direction.Y *= -1;
+                Colour = Color.Red;
+                block.color = Color.White;
+                if (block.teller >= 1000)
+                {
+                    healthBar -= block.damagePerSec;
+                    block.teller = 0;
+                }
             }
             else
             {
