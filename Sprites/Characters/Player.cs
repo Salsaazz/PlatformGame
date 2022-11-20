@@ -9,7 +9,7 @@ using SharpDX.DirectWrite;
 using SharpDX.MediaFoundation;
 using SharpDX.MediaFoundation.DirectX;
 using SharpDX.WIC;
-using Sprites;
+using PlatformGame;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

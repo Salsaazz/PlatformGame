@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sprites
+namespace PlatformGame
 {
     internal interface IGameObject
     {

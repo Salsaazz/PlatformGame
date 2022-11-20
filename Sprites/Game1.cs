@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
-namespace Sprites
+namespace PlatformGame
 {
     public class Game1 : Game
     {

@@ -22,7 +22,6 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
-        public bool IsDead { get; set; } = false;
         public Block()
         {
         }
@@ -47,16 +46,16 @@ namespace PlatformGame
             this.rectangle = rectangle;
             this.snelheid = new Vector2(2, 2);
             this.color = Color.Black;
-            this.Position.X = this.rectangle.X;
-            this.Position.Y = this.rectangle.Y;
+            this.positie.X = this.rectangle.X;
+            this.positie.Y = this.rectangle.Y;
 
         }
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             snelheid *= direction;
-            Position += snelheid;
-            this.rectangle.X = (int)Position.X;
-            this.rectangle.Y = (int)Position.Y;
+            positie += snelheid;
+            this.rectangle.X = (int)positie.X;
+            this.rectangle.Y = (int)positie.Y;
             teller += teller<1000?(float)gameTime.ElapsedGameTime.TotalMilliseconds:1000;
         }
         public void Draw(SpriteBatch spriteBatch)
