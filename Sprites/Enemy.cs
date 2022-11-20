@@ -12,14 +12,14 @@ namespace PlatformGame
     internal class Enemy : IGameObject
     {
         public Rectangle HitBox { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Speed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Vector2 Position2 { get; set; }
+        public Vector2 Speed2 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Enemy() { }
         public Enemy(Vector2 position, Vector2 speed, Rectangle hitBox) {
             this.HitBox = hitBox;
-            this.Position = position;
-            this.Speed = speed;
+            this.Position2 = position;
+            this.Speed2 = speed;
                 
           }
 

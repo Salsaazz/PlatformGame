@@ -60,7 +60,7 @@ namespace Sprites
             rec1 = new Rectangle((int)blockPositie.X, (int)blockPositie.Y, (player.textureWidth - 25) / 4, player.textureHeight);
             //block2
             rec2 = new Rectangle((int)blockPositie2.X, (int)blockPositie2.Y, 50, 50);
-            rec3 = new Rectangle((int)player.Position.X + 100,(int) player.Position.Y, 50, 50);
+            rec3 = new Rectangle((int)player.Position2.X + 100,(int) player.Position2.Y, 50, 50);
             capy = new Capybara(_capybara);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
@@ -106,10 +106,10 @@ namespace Sprites
                 player.Collide(blockList[i]);
 
             }
-            /*foreach (var block in blockList)
+            foreach (var block in blockList)
             {
                 block.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            }*/
+            }
             player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             capy.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             base.Update(gameTime);

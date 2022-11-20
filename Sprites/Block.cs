@@ -22,6 +22,7 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
+        public bool IsDead { get; set; } = false;
         public Block()
         {
         }
@@ -34,7 +35,7 @@ namespace PlatformGame
             this.color = color;
             this.Position.X = this.rectangle.X;
             this.Position.Y = this.rectangle.Y;
-            //addBlock(rectangle, texture, Speed2, color);
+            //addBlock(rectangle, texture, Speed, color);
         }
         private void addBlock(Rectangle rectangle, Texture2D texture, Vector2 snelheid, Color color)
         {
@@ -60,12 +61,15 @@ namespace PlatformGame
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
+            if (!IsDead)
+                spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color)
         {
+            if(!IsDead)
             spriteBatch.Draw(texture, rectangle, color);
+            
         }
         public void Collide(Block block)
         {
