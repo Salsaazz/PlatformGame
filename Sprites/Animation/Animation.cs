@@ -30,7 +30,7 @@ namespace Sprites
             CurrentFrame = frames[counter];
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
-            //animatie met de snelheid aanpassen
+            //animatie met de Speed2 aanpassen
             //per 0.3sec 1frame
             if (secondCounter >= 0.3d/ fps)
             {

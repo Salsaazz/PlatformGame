@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PlatformGame;
+using PlatformGame.Characters;
+using PlatformGame.Terrain;
 using SharpDX.Direct2D1;
 using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
@@ -36,6 +38,7 @@ namespace Sprites
         Block block;
         Block hitBoxPlayer;
         List<Block> blockList = new List<Block>();
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -57,19 +60,14 @@ namespace Sprites
             rec1 = new Rectangle((int)blockPositie.X, (int)blockPositie.Y, (player.textureWidth - 25) / 4, player.textureHeight);
             //block2
             rec2 = new Rectangle((int)blockPositie2.X, (int)blockPositie2.Y, 50, 50);
-            rec3 = new Rectangle((int)blockPositie2.X + 500, (int)blockPositie2.Y, 30, 50);
-            //block = new Block(rec1, boxPlayerTexture, new Vector2(1,1), Color.Red) ;
-            //blockLijst.Add(new Block(rec1, boxPlayerTexture, new Vector2(2, 2), Color.Red));
-            //blokken toevoegen
+            rec3 = new Rectangle((int)player.Position.X + 100,(int) player.Position.Y, 50, 50);
             capy = new Capybara(_capybara);
-
-            //blocks.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Blue));
-            //blocks.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1,1),Color.Red));
-            //blocks.Add(new Block(rec3, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
-            blockList.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Red));
-            blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
+            //blockList.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Red));
+            //blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
+            blockList.Add(new Block(rec3, boxPlayerTexture, new Vector2(0, 0), Color.Blue));
+
 
         }
 
@@ -77,8 +75,6 @@ namespace Sprites
         {
             boxPlayerTexture = new Texture2D(GraphicsDevice, 1, 1);
             boxPlayerTexture.SetData(new[] { Color.White });
-            //block1.objTexture = boxPlayerTexture;
-            //block1.Initialize();
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
@@ -105,25 +101,15 @@ namespace Sprites
                 }
 
             }
-           /* if (player.HitBox.Intersects(blockList[1].rectangle))
-            {
-                player.drawBox.color = Color.Red;
-            }
-            else
-            {
-                player.drawBox.color = Color.White;
-            }
-           */
-            //colliden met player
             for (int i = 0; i < blockList.Count; i++)
             {
                 player.Collide(blockList[i]);
 
             }
-            foreach (var block in blockList)
+            /*foreach (var block in blockList)
             {
                 block.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            }
+            }*/
             player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             capy.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             base.Update(gameTime);
@@ -150,29 +136,5 @@ namespace Sprites
             _spriteBatch.End();
             base.Draw(gameTime);
         }
-
-        /*void Collided(List<Block> blocks)
-       {
-           for (int i = 0; i < blocks.Count; i++)
-           {
-               for (int j = i+1; j < blocks.Count; j++)
-               {
-                   blocks[i].Collide(blocks[j]);
-               }
-           }
-
-       }*/
-        /*void Collided(Block block1, List<Block> blocks)
-        {
-            for (int i = 0; i < blocks.Count; i++)
-            {
-                for (int j = i + 1; j < blocks.Count; j++)
-                {
-                    block1.Collide(blocks[j]);
-                }
-            }
-
-        }
-        */
     }
 }

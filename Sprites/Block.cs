@@ -14,7 +14,7 @@ namespace PlatformGame
     internal class Block : ICollide<Block>
     {
         public Rectangle rectangle;
-        public Vector2 positie;
+        public Vector2 Position;
         public Texture2D objTexture;
         public Color color;
         Vector2 snelheid;
@@ -22,6 +22,7 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
+        public bool IsDead { get; set; } = false;
         public Block()
         {
         }
@@ -32,9 +33,9 @@ namespace PlatformGame
             this.objTexture = texture;
             this.snelheid = snelheid;
             this.color = color;
-            this.positie.X = this.rectangle.X;
-            this.positie.Y = this.rectangle.Y;
-            //addBlock(rectangle, texture, snelheid, color);
+            this.Position.X = this.rectangle.X;
+            this.Position.Y = this.rectangle.Y;
+            //addBlock(rectangle, texture, Speed2, color);
         }
         private void addBlock(Rectangle rectangle, Texture2D texture, Vector2 snelheid, Color color)
         {
@@ -44,46 +45,31 @@ namespace PlatformGame
         {
 
             this.rectangle = rectangle;
-            //this.objTexture = texture;
             this.snelheid = new Vector2(2, 2);
             this.color = Color.Black;
-            this.positie.X = this.rectangle.X;
-            this.positie.Y = this.rectangle.Y;
+            this.Position.X = this.rectangle.X;
+            this.Position.Y = this.rectangle.Y;
 
         }
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             snelheid *= direction;
-            positie += snelheid;
-            this.rectangle.X = (int)positie.X;
-            this.rectangle.Y = (int)positie.Y;
+            Position += snelheid;
+            this.rectangle.X = (int)Position.X;
+            this.rectangle.Y = (int)Position.Y;
             teller += teller<1000?(float)gameTime.ElapsedGameTime.TotalMilliseconds:1000;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            if(!IsDead)
             spriteBatch.Draw(this.objTexture, this.rectangle, this.color);
+
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color)
         {
             spriteBatch.Draw(texture, rectangle, color);
         }
-        //public void Collide(Block block)
-        //{
-        //    for (int i = 0; i < blockLijst.Count; i++)
-        //    {
-        //        for (int j = i; j < blockLijst.Count; j++)
-        //        {
-        //            if (blockLijst[i].rectangle.Intersects(blockLijst[j].rectangle))
-        //            {
-        //                blockLijst[i].direction.X *= -1;
-        //                blockLijst[j].direction.X *= -1;
-        //                blockLijst[i].color = Color.White;
-        //                blockLijst[j].color = Color.White;
-        //            }
-        //        }
-        //    }
-        //}
         public void Collide(Block block)
         {
 
@@ -97,20 +83,4 @@ namespace PlatformGame
         }
             }
         }
-        //public void CollideMethod()
-        //{
-        //    for (int i = 0; i < blockLijst.Count; i++)
-        //    {
-        //        for (int j = i; j < blockLijst.Count; j++)
-        //        {
-        //            if (blockLijst[i].rectangle.Intersects(blockLijst[j].rectangle))
-        //            {
-        //                blockLijst[i].direction.X *= -1;
-        //                blockLijst[j].direction.X *= -1;
-        //                blockLijst[i].color = Color.White;
-        //                blockLijst[j].color = Color.White;
-        //            }
-        //        }
-        //    }
-        //}
  
