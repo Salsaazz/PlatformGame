@@ -15,6 +15,9 @@ namespace PlatformGame
 {
     public class Game1 : Game
     {
+        //TODO tiles
+        //FOOD collect
+        //collide met enemy --> dood
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //dePokemonPlayer
