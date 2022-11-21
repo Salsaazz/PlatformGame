@@ -41,7 +41,28 @@ namespace PlatformGame
         Block block;
         Block hitBoxPlayer;
         List<Block> blockList = new List<Block>();
+        List<Block> blocks = new List<Block>();
+        int[,] gameboard = new int[,]
+     {
+        { 1,0,0,0,0,0,0,1,0,0,0,10 },
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,1,1,1,1,1,0,1,0,0,0,0},
+        { 1,0,0,0,0,0,0,2,0,0,0,0 },
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,0,0,0,0,0,0,0,0,0,0,0 },
+        { 1,0,0,0,0,0,0,0,0,0,0,0},
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,0,0,0,0,0,0,1,0,0,0,0 },
+        { 1,1,1,1,1,1,0,1,0,0,0,0},
+        { 1,0,0,0,0,0,0,2,0,0,0,0 },
+        { 1,0,0,0,0,0,0,8,0,0,0,0 },
+        { 1,1,1,1,1,1,1,1,1,1,1,1},
+        { 1,1,1,1,1,1,1,1,1,1,1,1}
 
+     };
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -67,10 +88,10 @@ namespace PlatformGame
             capy = new Capybara(_capybara);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
+            CreateBlocks();
             //blockList.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Red));
             //blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
             blockList.Add(new Block(rec3, boxPlayerTexture, new Vector2(0, 0), Color.Blue));
-
 
         }
 
@@ -81,7 +102,7 @@ namespace PlatformGame
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            _playerTexture = Content.Load<Texture2D>("playersheetsprites (5)");
+            _playerTexture = Content.Load<Texture2D>("playersheetsprites_0");
             _capybara = Content.Load<Texture2D>("./Capybara/CapybaraWalk");
             _cloudTexture = Content.Load<Texture2D>("./Background/cloud");
             _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
@@ -96,23 +117,25 @@ namespace PlatformGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            for (int i = 0; i < blockList.Count; i++)
+           /* for (int i = 0; i < blockList.Count; i++)
             {
                 for (int j = i+1; j < blockList.Count; j++)
                 {
                     blockList[i].Collide(blockList[j]);
                 }
 
-            }
+            }*/
             for (int i = 0; i < blockList.Count; i++)
             {
                 player.Collide(blockList[i]);
 
             }
-            foreach (var block in blockList)
+            /*foreach (var block in blockList)
             {
                 block.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            }
+            }*/
+            //tiles draw
+
             player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             capy.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             base.Update(gameTime);
@@ -132,12 +155,33 @@ namespace PlatformGame
             {
                 block.Draw(_spriteBatch);
             }
+            foreach (var item in blocks)
+            {
+                item.Draw(_spriteBatch);
+            }
             player.Draw(_spriteBatch, _playerTexture);
             capy.Draw(_spriteBatch, player);
+            _spriteBatch.Draw(_playerTexture, new Rectangle(500, 700, _playerTexture.Width, _playerTexture.Height), Color.Green);
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, player.healthBar.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
+         void CreateBlocks()
+        {
+
+            for (int i = 0; i < gameboard.GetLength(0); i++)
+            {
+                for (int j = 0; j < gameboard.GetLength(1); j++)
+                {
+                    if (gameboard[i, j] == 1)
+                    {
+                        blocks.Add(new Block(new Rectangle((j * 50), (i * 50), 50, 50), boxPlayerTexture, Color.Green));
+                    }
+                }
+            }
+
+        }
+
     }
 }

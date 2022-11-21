@@ -37,10 +37,21 @@ namespace PlatformGame
             this.Position.Y = this.rectangle.Y;
             //addBlock(rectangle, texture, Speed, color);
         }
+        public Block(Rectangle rectangle, Texture2D texture, Color color)
+        {
+
+            this.rectangle = rectangle;
+            this.objTexture = texture;
+            this.snelheid = new Vector2(0,0);
+            this.color = color;
+            this.Position.X = this.rectangle.X;
+            this.Position.Y = this.rectangle.Y;
+        }
         private void addBlock(Rectangle rectangle, Texture2D texture, Vector2 snelheid, Color color)
         {
             blockLijst.Add(new Block(rectangle, texture, snelheid, color));
         }
+
         public Block(Rectangle rectangle)
         {
 

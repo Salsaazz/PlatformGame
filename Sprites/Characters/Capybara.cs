@@ -17,6 +17,7 @@ namespace PlatformGame
         Rectangle walkRectangle;
         Vector2 positie;
         int marge = 70;
+        Player followObject{ get; set; }
         public Capybara(Texture2D texture)
         {
             this._walkTexture = texture;
@@ -33,22 +34,18 @@ namespace PlatformGame
         public Vector2 Position2 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Vector2 Speed2 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public void Draw(SpriteBatch spriteBatch, Player player)
+        public void Draw(SpriteBatch spriteBatch, Player followObject)
         {
 
-            if (player.isLeft)
-                spriteBatch.Draw(_walkTexture, new Vector2(player.Position.X - marge, player.Position.Y + 5), walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
+            if (followObject.isLeft)
+                spriteBatch.Draw(_walkTexture, new Vector2(followObject.Position.X - marge, followObject.Position.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
 
             else
-                spriteBatch.Draw(_walkTexture, new Vector2(player.Position.X - marge, player.Position.Y + 5), walkAnimation.CurrentFrame.SourceRectangle, Color.White);
+                spriteBatch.Draw(_walkTexture, new Vector2(followObject.Position.X - marge, followObject.Position.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White);
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            throw new NotImplementedException();
-        }
-
+        public void Draw(SpriteBatch spritebatch) { throw new NotImplementedException(); }
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
 
