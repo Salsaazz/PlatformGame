@@ -49,7 +49,7 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, 57, 57);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(0,700);
+            Position = new Vector2(500,700);
             textureWidth = texture.Width;
             textureHeight = texture.Height;
             boxTexture = recTexture;
@@ -120,7 +120,6 @@ namespace PlatformGame.Characters
 
         public void Update(GameTime gameTime, int windowWidth, int windowHeight)
         {
-            Debug.WriteLine(Position.Y);
             KeyboardState state = Keyboard.GetState();
             Vector2 direction = Vector2.Zero;
             if (state.GetPressedKeys().Length == 0) keyPressed = false;
@@ -198,7 +197,7 @@ namespace PlatformGame.Characters
             Debug.WriteLine("box positie y: " + block.rectangle.Top);
             if (HitBox.Intersects(block.rectangle))
             {
-                if (HitBox.Bottom <= block.rectangle.Top+10)
+                if (HitBox.Bottom <= block.rectangle.Top + 10)
                 {
                     block.IsDead = true;
                     Debug.WriteLine("DEATH");
@@ -207,12 +206,24 @@ namespace PlatformGame.Characters
                 {
 
                     //this.Position.X -= 5;
-                    block.direction.X *= -1;
-                    block.direction.Y *= -1;
+                    /*block.direction.X *= -1;
+                    block.direction.Y *= -1;*/
+                    if (HitBox.Right == block.rectangle.Left+2)
+  
+                   {
+                        if (isLeft) Speed = new Vector2(1, Speed.Y);
+
+                        else Speed = new Vector2(0, Speed.Y);
+                    }
+                    if (HitBox.Left == block.rectangle.Right + 2)
+
+                    {
+                        if (!isLeft) Speed = new Vector2(1, Speed.Y);
+
+                        else Speed = new Vector2(0, Speed.Y);
+                    }
                     Colour = Color.Red;
                     block.color = Color.White;
-                    Debug.WriteLine("collided" + healthBar);
-                    Debug.WriteLine("healthbar: " + healthBar);
                     //this.Speed = new Vector2(0, this.Speed.Y);
                     //hasCollided = true;
                     if (block.teller >= 1000)

@@ -84,7 +84,7 @@ namespace PlatformGame
             rec1 = new Rectangle((int)blockPositie.X, (int)blockPositie.Y, (player.textureWidth - 25) / 4, player.textureHeight);
             //block2
             rec2 = new Rectangle((int)blockPositie2.X, (int)blockPositie2.Y, 50, 50);
-            rec3 = new Rectangle((int)player.Position2.X + 100,(int) player.Position2.Y, 50, 50);
+            rec3 = new Rectangle((int)player.Position2.X - 100,(int) player.Position2.Y, 50, 50);
             capy = new Capybara(_capybara);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
@@ -161,7 +161,6 @@ namespace PlatformGame
             }
             player.Draw(_spriteBatch, _playerTexture);
             capy.Draw(_spriteBatch, player);
-            _spriteBatch.Draw(_playerTexture, new Rectangle(500, 700, _playerTexture.Width, _playerTexture.Height), Color.Green);
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, player.healthBar.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.End();
