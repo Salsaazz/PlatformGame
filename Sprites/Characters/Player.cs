@@ -154,7 +154,7 @@ namespace PlatformGame.Characters
                 isFalling = false;
                 direction.Y = 0;
             }
-            if (Position.Y + texture.Height <= 580 + textureHeight && isJumping)
+            if (Position.Y + texture.Height <= 560 + textureHeight && isJumping)
             {
                 isFalling = true;
                 direction.Y = 0;
@@ -195,7 +195,7 @@ namespace PlatformGame.Characters
         {
             Debug.WriteLine("player positie y: " + HitBox.Bottom);
             Debug.WriteLine("box positie y: " + block.rectangle.Top);
-            if (HitBox.Intersects(block.rectangle))
+            if (HitBox.Intersects(block.rectangle) && !block.IsDead)
             {
                 if (HitBox.Bottom <= block.rectangle.Top + 10)
                 {
@@ -204,28 +204,27 @@ namespace PlatformGame.Characters
                 }
                 else
                 {
-
-                    //this.Position.X -= 5;
-                    /*block.direction.X *= -1;
-                    block.direction.Y *= -1;*/
-                    if (HitBox.Right == block.rectangle.Left+2)
+                    if (HitBox.Right == block.rectangle.Left-2 && HitBox.Bottom >= block.rectangle.Top +10)
   
                    {
                         if (isLeft) Speed = new Vector2(1, Speed.Y);
 
                         else Speed = new Vector2(0, Speed.Y);
                     }
-                    if (HitBox.Left == block.rectangle.Right + 2)
-
+                    if (HitBox.Left == block.rectangle.Right-2 && HitBox.Bottom >= block.rectangle.Top + 10)
+                       
                     {
                         if (!isLeft) Speed = new Vector2(1, Speed.Y);
 
                         else Speed = new Vector2(0, Speed.Y);
                     }
+                    if(HitBox.Top == block.rectangle.Bottom -4)
+                    {
+                        Speed = new Vector2(Speed.X, Speed.Y *(int)-0.15);
+                    }
                     Colour = Color.Red;
                     block.color = Color.White;
-                    //this.Speed = new Vector2(0, this.Speed.Y);
-                    //hasCollided = true;
+
                     if (block.teller >= 1000)
                     {
                         healthBar -= block.damagePerSec;
@@ -233,6 +232,8 @@ namespace PlatformGame.Characters
                     }
                 }
             }
+            Debug.WriteLine("ISDEAD: " + block.IsDead);
+
         }
         /*else
         {

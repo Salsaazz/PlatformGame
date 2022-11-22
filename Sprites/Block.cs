@@ -21,7 +21,7 @@ namespace PlatformGame
         public List<Block> blockLijst = new List<Block>();
         public float teller = 0;
         public int damagePerSec = 2;
-        public bool IsDead{get; set;}
+        public bool IsDead { get; set; } = false;
 
         public Block()
         {

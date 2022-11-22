@@ -14,8 +14,6 @@ namespace PlatformGame
         void Update(GameTime gameTime, int windowWidth, int widowHeight);
         void Draw(SpriteBatch spriteBatch);
         Rectangle HitBox { get; set; }
-        Vector2 Position2 { get; set; }
-        Vector2 Speed2 { get; set; }
 
     }
 }

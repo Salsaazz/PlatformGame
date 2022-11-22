@@ -36,6 +36,7 @@ namespace PlatformGame
         Rectangle rec1;
         Rectangle rec2;
         Rectangle rec3;
+        Rectangle rec4;
         Block block1 = new Block();
         SpriteFont font;
         Block block;
@@ -84,7 +85,8 @@ namespace PlatformGame
             rec1 = new Rectangle((int)blockPositie.X, (int)blockPositie.Y, (player.textureWidth - 25) / 4, player.textureHeight);
             //block2
             rec2 = new Rectangle((int)blockPositie2.X, (int)blockPositie2.Y, 50, 50);
-            rec3 = new Rectangle((int)player.Position2.X - 100,(int) player.Position2.Y, 50, 50);
+            rec3 = new Rectangle((int)player.Position.X - 100,(int) player.Position.Y, 50, 50);
+            rec4 = new Rectangle((int)player.Position.X + 200, (int)player.Position.Y - 100, 50, 50);
             capy = new Capybara(_capybara);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
@@ -92,6 +94,7 @@ namespace PlatformGame
             //blockList.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Red));
             //blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
             blockList.Add(new Block(rec3, boxPlayerTexture, new Vector2(0, 0), Color.Blue));
+            blockList.Add(new Block(rec4, boxPlayerTexture, new Vector2(0, 0), Color.Red));
 
         }
 
