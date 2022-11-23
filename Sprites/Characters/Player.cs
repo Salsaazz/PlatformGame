@@ -21,7 +21,8 @@ namespace PlatformGame.Characters
         //bewegen
         public Vector2 Position { get; set; }
         //Speed
-        private Vector2 Speed { get; set; } = new Vector2(1, 3);
+        //private Vector2 Speed { get; set; } = new Vector2(1, 3);
+        Vector2 Speed { get; set; } = new Vector2(0,0);
         public bool isLeft = false;
         public int textureWidth = 0;
         public int textureHeight = 0;
@@ -41,6 +42,7 @@ namespace PlatformGame.Characters
         private MovementManager movementManager = new MovementManager();
         Texture2D boxTexture;
         bool isJumping = false;
+        bool hasJumped = false;
 
         public Player(Texture2D texture, Texture2D recTexture)
         {
@@ -118,7 +120,7 @@ namespace PlatformGame.Characters
 
 
 
-        public void Update(GameTime gameTime, int windowWidth, int windowHeight)
+        /*public void Update(GameTime gameTime, int windowWidth, int windowHeight)
         {
             KeyboardState state = Keyboard.GetState();
             Vector2 direction = Vector2.Zero;
@@ -130,24 +132,28 @@ namespace PlatformGame.Characters
                 isLeft = true;
 
             }
-            if (state.IsKeyDown(Keys.Up) && isJumping == false && !isFalling)
+            if (state.IsKeyDown(Keys.Up) && !isJumping && !isFalling)
             {
                 isJumping = true;
+                Debug.WriteLine("WANTS TO JUMP");
             }
             if (isJumping)
             {
                 //de Speed van de jump
-                float i = 10;
+                float i = 10f;
                 //gravity
                 direction.Y -= 0.15f * i;
             }
-            if (isFalling == true)
+            if (isFalling)
             {
                 //de Speed van de jump
-                float i = 10;
+                float i = 10f;
                 //gravity
                 direction.Y += 0.15f * i;
+                isJumping = false;
+                
             }
+
             ///werk hier verder aan
             if (Position.Y + texture.Height >= 750 && isFalling)
             {
@@ -156,16 +162,17 @@ namespace PlatformGame.Characters
             }
             if (Position.Y + texture.Height <= 560 + textureHeight && isJumping)
             {
-                isFalling = true;
+                isFalling = true;               
                 direction.Y = 0;
                 isJumping = false;
             }
+
+
             if (state.IsKeyDown(Keys.Right))
             {
                 direction.X = 2;
                 isLeft = false;
             }
-
             direction *= Speed;
             Position += direction;
             //Move();
@@ -176,8 +183,54 @@ namespace PlatformGame.Characters
             Debug.WriteLine(Position.Y);
 
             //Move(windowWidth, windowHeight);
-        }
+        }*/
+        public void Update(GameTime gameTime, int windowWidth, int windowHeight)
+        {
+            KeyboardState state = Keyboard.GetState();
+            //Vector2 direction = Vector2.Zero;
+            if (state.GetPressedKeys().Length == 0) keyPressed = false;
+            else keyPressed = true;
+            if (state.IsKeyDown(Keys.Left))
+            {
+                //Speed.X = -3;
+                Speed = new Vector2(-3, Speed.Y);
+                isLeft = true;
 
+            }
+            else Speed = new Vector2(0,Speed.Y);
+            if (state.IsKeyDown(Keys.Up) && !hasJumped)
+            {
+                Position -= new Vector2(0, 10);
+                Speed += new Vector2(0, -5f);
+                hasJumped = true;
+            }
+            ///werk hier verder aan
+            if (hasJumped)
+            {
+                float i = 1;
+                Speed += new Vector2(0, (0.15f * i));
+            }
+            if (Position.Y + texture.Height >= 750)
+            {
+                hasJumped = false;
+            }
+            if (!hasJumped)
+            {
+                Speed = new Vector2(Speed.X, 0);
+            }
+            if (state.IsKeyDown(Keys.Right))
+            {
+                //Speed.X += 3;
+                Speed = new Vector2(3, Speed.Y);
+                isLeft = false;
+            }
+
+            //direction *= Speed;
+            Position += Speed;
+           HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
+            walkAnimation.Update(gameTime);
+
+        }
         public void Move()//int windowWidth, int windowHeight)
         {
 
@@ -191,10 +244,11 @@ namespace PlatformGame.Characters
 
         }
 
-        public void Collide(Block block)
+        /*public void Collide(Block block)
         {
             Debug.WriteLine("player positie y: " + HitBox.Bottom);
             Debug.WriteLine("box positie y: " + block.rectangle.Top);
+            bool hitBottom = false;
             if (HitBox.Intersects(block.rectangle) && !block.IsDead)
             {
                 if (HitBox.Bottom <= block.rectangle.Top + 10)
@@ -218,9 +272,74 @@ namespace PlatformGame.Characters
 
                         else Speed = new Vector2(0, Speed.Y);
                     }
-                    if(HitBox.Top == block.rectangle.Bottom -4)
+                    //BEWERKEN
+                    if (HitBox.Top == block.rectangle.Bottom-1)
                     {
-                        Speed = new Vector2(Speed.X, Speed.Y *(int)-0.15);
+                        Speed = new Vector2(Speed.X, 0);
+                        hitBottom = true;
+                    }
+                    if (hitBottom)
+                    {
+                        Vector2 decreasing = new Vector2();
+                        Speed = new Vector2(Speed.X, 1);
+                        decreasing.Y = Speed.Y * (int)0.15;
+                        decreasing.X = 0;
+                        Speed += decreasing;
+                    }
+                    Colour = Color.Red;
+                    block.color = Color.White;
+
+                    if (block.teller >= 1000)
+                    {
+                        healthBar -= block.damagePerSec;
+                        block.teller = 0;
+                    }
+                }
+            }
+            Debug.WriteLine("ISDEAD: " + block.IsDead);
+
+        }*/
+          public void Collide(Block block)
+        {
+            Debug.WriteLine("player positie y: " + HitBox.Bottom);
+            Debug.WriteLine("box positie y: " + block.rectangle.Top);
+            bool hitBottom = false;
+            if (HitBox.Intersects(block.rectangle) && !block.IsDead)
+            {
+                if (HitBox.Bottom <= block.rectangle.Top + 10)
+                {
+                    block.IsDead = true;
+                    Debug.WriteLine("DEATH");
+                }
+                else
+                {
+                    if (HitBox.Right == block.rectangle.Left-2 && HitBox.Bottom >= block.rectangle.Top +10)
+  
+                   {
+                        if (isLeft) Speed = new Vector2(1, Speed.Y);
+
+                        else Speed = new Vector2(0, Speed.Y);
+                    }
+                    if (HitBox.Left == block.rectangle.Right-2 && HitBox.Bottom >= block.rectangle.Top + 10)
+                       
+                    {
+                        if (!isLeft) Speed = new Vector2(1, Speed.Y);
+
+                        else Speed = new Vector2(0, Speed.Y);
+                    }
+                    //BEWERKEN
+                    if (HitBox.Top == block.rectangle.Bottom-1)
+                    {
+                        Speed = new Vector2(Speed.X, 0);
+                        hitBottom = true;
+                    }
+                    if (hitBottom)
+                    {
+                        Vector2 decreasing = new Vector2();
+                        Speed = new Vector2(Speed.X, 1);
+                        decreasing.Y = Speed.Y * (int)0.15;
+                        decreasing.X = 0;
+                        Speed += decreasing;
                     }
                     Colour = Color.Red;
                     block.color = Color.White;
@@ -245,7 +364,7 @@ namespace PlatformGame.Characters
 
         public bool IsTouchingGround()
         {
-            if (Position.Y == 1000)
+            if (Position.Y == 700)
                 return true;
             else return false;
         }

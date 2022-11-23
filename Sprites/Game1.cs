@@ -120,23 +120,23 @@ namespace PlatformGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-           /* for (int i = 0; i < blockList.Count; i++)
+            for (int i = 0; i < blockList.Count; i++)
             {
                 for (int j = i+1; j < blockList.Count; j++)
                 {
                     blockList[i].Collide(blockList[j]);
                 }
 
-            }*/
+            }
             for (int i = 0; i < blockList.Count; i++)
             {
                 player.Collide(blockList[i]);
 
             }
-            /*foreach (var block in blockList)
+            foreach (var block in blockList)
             {
                 block.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            }*/
+            }
             //tiles draw
 
             player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
