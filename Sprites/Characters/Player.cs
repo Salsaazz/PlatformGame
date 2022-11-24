@@ -20,16 +20,13 @@ namespace PlatformGame.Characters
         public Rectangle idleFrame;
         //bewegen
         public Vector2 Position { get; set; }
-        //Speed
-        //private Vector2 Speed { get; set; } = new Vector2(1, 3);
-        Vector2 Speed { get; set; } = new Vector2(0,0);
+        //Velocity
+        Vector2 Velocity { get; set; } = new Vector2(0,0);
         public bool isLeft = false;
         public int textureWidth = 0;
         public int textureHeight = 0;
         public int healthBar = 10;
         public float food;
-        // bool isFalling = false;
-        bool isFalling = false;
         public bool hasCollided = false;
         public Block drawBox;
         public Rectangle DrawBox { get; set; }
@@ -43,6 +40,7 @@ namespace PlatformGame.Characters
         Texture2D boxTexture;
         bool isJumping = false;
         bool hasJumped = false;
+        int currentYAxis;
 
         public Player(Texture2D texture, Texture2D recTexture)
         {
@@ -51,19 +49,15 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, 57, 57);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(500,700);
+            Position = new Vector2(500,500);
             textureWidth = texture.Width;
             textureHeight = texture.Height;
             boxTexture = recTexture;
-            //HitBox = new Rectangle((int)Position.X + 19, (int)Position.Y + 5, 32, 43);
-            //DrawBox = new Rectangle((int)Position.X, (int)Position.Y, 32, 43);
-            //HitBox = new Rectangle((int)Position.X, (int)Position.Y, 32, 43);
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
-            //drawBox = new Block(new Rectangle((int)Position.X + 19, (int)Position.Y + 5, 32, 43), recTexture, Speed, Color.AliceBlue);
-            drawBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 32, 43), boxTexture, Speed, Color.AliceBlue);
+            drawBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 32, 43), boxTexture, Velocity, Color.AliceBlue);
             //van de IMoveable
             Position2 = this.Position;
-            Speed2 = this.Speed;
+            Speed2 = this.Velocity;
 
         }
 
@@ -139,14 +133,14 @@ namespace PlatformGame.Characters
             }
             if (isJumping)
             {
-                //de Speed van de jump
+                //de Velocity van de jump
                 float i = 10f;
                 //gravity
                 direction.Y -= 0.15f * i;
             }
             if (isFalling)
             {
-                //de Speed van de jump
+                //de Velocity van de jump
                 float i = 10f;
                 //gravity
                 direction.Y += 0.15f * i;
@@ -173,7 +167,7 @@ namespace PlatformGame.Characters
                 direction.X = 2;
                 isLeft = false;
             }
-            direction *= Speed;
+            direction *= Velocity;
             Position += direction;
             //Move();
             //HitBox = new Rectangle((int)Position.X, (int)Position.Y, 32, 43);
@@ -187,46 +181,43 @@ namespace PlatformGame.Characters
         public void Update(GameTime gameTime, int windowWidth, int windowHeight)
         {
             KeyboardState state = Keyboard.GetState();
-            //Vector2 direction = Vector2.Zero;
             if (state.GetPressedKeys().Length == 0) keyPressed = false;
             else keyPressed = true;
             if (state.IsKeyDown(Keys.Left))
             {
-                //Speed.X = -3;
-                Speed = new Vector2(-3, Speed.Y);
+                Velocity = new Vector2(-3, Velocity.Y);
                 isLeft = true;
 
             }
-            else Speed = new Vector2(0,Speed.Y);
+            else Velocity = new Vector2(0,Velocity.Y);
             if (state.IsKeyDown(Keys.Up) && !hasJumped)
             {
+                currentYAxis = (int)Position.Y;
                 Position -= new Vector2(0, 10);
-                Speed += new Vector2(0, -5f);
+                Velocity += new Vector2(0, -5f);
                 hasJumped = true;
             }
-            ///werk hier verder aan
             if (hasJumped)
             {
                 float i = 1;
-                Speed += new Vector2(0, (0.15f * i));
+                Velocity += new Vector2(0, (0.15f * i));
             }
-            if (Position.Y + texture.Height >= 750)
+            //de grond
+            if (Position.Y + texture.Height >= currentYAxis+ texture.Height)
             {
                 hasJumped = false;
             }
             if (!hasJumped)
             {
-                Speed = new Vector2(Speed.X, 0);
+                Velocity = new Vector2(Velocity.X, 0);
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                //Speed.X += 3;
-                Speed = new Vector2(3, Speed.Y);
+                Velocity = new Vector2(3, Velocity.Y);
                 isLeft = false;
             }
 
-            //direction *= Speed;
-            Position += Speed;
+            Position += Velocity;
            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             walkAnimation.Update(gameTime);
 
@@ -236,10 +227,10 @@ namespace PlatformGame.Characters
 
             //collision detection
             /*if (Position.X > windowWidth - 25 || Position.X < 0)
-                Speed.X *= -1;
+                Velocity.X *= -1;
             if (Position.Y > windowHeight - texture.Height || Position.Y < 0)
-                Speed.Y *= -1;
-            Position += Speed;*/
+                Velocity.Y *= -1;
+            Position += Velocity;*/
             movementManager.Move(this);
 
         }
@@ -261,30 +252,30 @@ namespace PlatformGame.Characters
                     if (HitBox.Right == block.rectangle.Left-2 && HitBox.Bottom >= block.rectangle.Top +10)
   
                    {
-                        if (isLeft) Speed = new Vector2(1, Speed.Y);
+                        if (isLeft) Velocity = new Vector2(1, Velocity.Y);
 
-                        else Speed = new Vector2(0, Speed.Y);
+                        else Velocity = new Vector2(0, Velocity.Y);
                     }
                     if (HitBox.Left == block.rectangle.Right-2 && HitBox.Bottom >= block.rectangle.Top + 10)
                        
                     {
-                        if (!isLeft) Speed = new Vector2(1, Speed.Y);
+                        if (!isLeft) Velocity = new Vector2(1, Velocity.Y);
 
-                        else Speed = new Vector2(0, Speed.Y);
+                        else Velocity = new Vector2(0, Velocity.Y);
                     }
                     //BEWERKEN
                     if (HitBox.Top == block.rectangle.Bottom-1)
                     {
-                        Speed = new Vector2(Speed.X, 0);
+                        Velocity = new Vector2(Velocity.X, 0);
                         hitBottom = true;
                     }
                     if (hitBottom)
                     {
                         Vector2 decreasing = new Vector2();
-                        Speed = new Vector2(Speed.X, 1);
-                        decreasing.Y = Speed.Y * (int)0.15;
+                        Velocity = new Vector2(Velocity.X, 1);
+                        decreasing.Y = Velocity.Y * (int)0.15;
                         decreasing.X = 0;
-                        Speed += decreasing;
+                        Velocity += decreasing;
                     }
                     Colour = Color.Red;
                     block.color = Color.White;
@@ -316,30 +307,30 @@ namespace PlatformGame.Characters
                     if (HitBox.Right == block.rectangle.Left-2 && HitBox.Bottom >= block.rectangle.Top +10)
   
                    {
-                        if (isLeft) Speed = new Vector2(1, Speed.Y);
+                        if (isLeft) Velocity = new Vector2(1, Velocity.Y);
 
-                        else Speed = new Vector2(0, Speed.Y);
+                        else Velocity = new Vector2(0, Velocity.Y);
                     }
                     if (HitBox.Left == block.rectangle.Right-2 && HitBox.Bottom >= block.rectangle.Top + 10)
                        
                     {
-                        if (!isLeft) Speed = new Vector2(1, Speed.Y);
+                        if (!isLeft) Velocity = new Vector2(1, Velocity.Y);
 
-                        else Speed = new Vector2(0, Speed.Y);
+                        else Velocity = new Vector2(0, Velocity.Y);
                     }
                     //BEWERKEN
                     if (HitBox.Top == block.rectangle.Bottom-1)
                     {
-                        Speed = new Vector2(Speed.X, 0);
+                        Velocity = new Vector2(Velocity.X, 0);
                         hitBottom = true;
                     }
                     if (hitBottom)
                     {
                         Vector2 decreasing = new Vector2();
-                        Speed = new Vector2(Speed.X, 1);
-                        decreasing.Y = Speed.Y * (int)0.15;
+                        Velocity = new Vector2(Velocity.X, 1);
+                        decreasing.Y = Velocity.Y * (int)0.15;
                         decreasing.X = 0;
-                        Speed += decreasing;
+                        Velocity += decreasing;
                     }
                     Colour = Color.Red;
                     block.color = Color.White;
@@ -351,16 +342,8 @@ namespace PlatformGame.Characters
                     }
                 }
             }
-            Debug.WriteLine("ISDEAD: " + block.IsDead);
 
         }
-        /*else
-        {
-            Debug.WriteLine("not collided");
-            //Debug.WriteLine(drawBox.Position);
-            hasCollided = false;
-        }*/
-
 
         public bool IsTouchingGround()
         {

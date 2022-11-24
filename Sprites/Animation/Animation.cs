@@ -30,7 +30,7 @@ namespace PlatformGame
             CurrentFrame = frames[counter];
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
-            //animatie met de Speed aanpassen
+            //animatie met de Velocity aanpassen
             //per 0.3sec 1frame
             if (secondCounter >= 0.3d/ fps)
             {
