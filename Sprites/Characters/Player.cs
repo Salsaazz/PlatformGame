@@ -27,7 +27,8 @@ namespace PlatformGame.Characters
         public int textureHeight = 0;
         public int healthBar = 10;
         public float food;
-        public bool hasCollided = false;
+        public bool hasCollidedY = false;
+        public bool hasCollidedX = false;
         public Block drawBox;
         public Rectangle DrawBox { get; set; }
         public Rectangle HitBox { get; set; }
@@ -183,11 +184,11 @@ namespace PlatformGame.Characters
             KeyboardState state = Keyboard.GetState();
             if (state.GetPressedKeys().Length == 0) keyPressed = false;
             else keyPressed = true;
-            if (state.IsKeyDown(Keys.Left))
+            if (state.IsKeyDown(Keys.Left) && !hasCollidedY)
             {
                 Velocity = new Vector2(-3, Velocity.Y);
                 isLeft = true;
-
+                hasCollidedX = false;
             }
             else Velocity = new Vector2(0,Velocity.Y);
             if (state.IsKeyDown(Keys.Up) && !hasJumped)
@@ -211,14 +212,16 @@ namespace PlatformGame.Characters
             {
                 Velocity = new Vector2(Velocity.X, 0);
             }
-            if (state.IsKeyDown(Keys.Right))
+            if (state.IsKeyDown(Keys.Right)&& !hasCollidedX)
             {
                 Velocity = new Vector2(3, Velocity.Y);
                 isLeft = false;
+                hasCollidedY = false;
             }
 
             Position += Velocity;
-           HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
+            Debug.WriteLine(Velocity);
+            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             walkAnimation.Update(gameTime);
 
         }
@@ -292,9 +295,9 @@ namespace PlatformGame.Characters
         }*/
           public void Collide(Block block)
         {
-            Debug.WriteLine("player positie y: " + HitBox.Bottom);
-            Debug.WriteLine("box positie y: " + block.rectangle.Top);
-            bool hitBottom = false;
+            Debug.WriteLine("player positie left: " + HitBox.Left);
+            Debug.WriteLine("box positie right: " + block.rectangle.Right);
+            Colour = Color.Red;
             if (HitBox.Intersects(block.rectangle) && !block.IsDead)
             {
                 if (HitBox.Bottom <= block.rectangle.Top + 10)
@@ -304,36 +307,32 @@ namespace PlatformGame.Characters
                 }
                 else
                 {
-                    if (HitBox.Right == block.rectangle.Left-2 && HitBox.Bottom >= block.rectangle.Top +10)
-  
-                   {
-                        if (isLeft) Velocity = new Vector2(1, Velocity.Y);
-
-                        else Velocity = new Vector2(0, Velocity.Y);
-                    }
-                    if (HitBox.Left == block.rectangle.Right-2 && HitBox.Bottom >= block.rectangle.Top + 10)
-                       
+                    if (HitBox.Right >= block.rectangle.Left)
                     {
-                        if (!isLeft) Velocity = new Vector2(1, Velocity.Y);
+                        if (isLeft) { hasCollidedX = false; }
 
-                        else Velocity = new Vector2(0, Velocity.Y);
+                        else { Velocity = new Vector2(0, Velocity.Y);
+                            hasCollidedX = true; }
+                    }
+                    if (HitBox.Left <= block.rectangle.Right)
+                    {
+                        if (!isLeft) { 
+                            hasCollidedY = false;
+                        }
+
+                        else
+                        {
+                            Velocity = new Vector2(0, Velocity.Y); 
+                            block.color = Color.Red;
+                            hasCollidedY = true;
+                        } 
                     }
                     //BEWERKEN
-                    if (HitBox.Top == block.rectangle.Bottom-1)
+                    if (HitBox.Top <= block.rectangle.Bottom)
                     {
                         Velocity = new Vector2(Velocity.X, 0);
-                        hitBottom = true;
                     }
-                    if (hitBottom)
-                    {
-                        Vector2 decreasing = new Vector2();
-                        Velocity = new Vector2(Velocity.X, 1);
-                        decreasing.Y = Velocity.Y * (int)0.15;
-                        decreasing.X = 0;
-                        Velocity += decreasing;
-                    }
-                    Colour = Color.Red;
-                    block.color = Color.White;
+
 
                     if (block.teller >= 1000)
                     {
