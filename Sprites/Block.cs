@@ -22,6 +22,8 @@ namespace PlatformGame
         public float teller = 0;
         public int damagePerSec = 2;
         public bool IsDead { get; set; } = false;
+        public blockType type { get; set; } = blockType.Tile;
+        public enum blockType { Enemy, Tile }
 
         public Block()
         {

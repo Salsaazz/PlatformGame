@@ -27,8 +27,8 @@ namespace PlatformGame.Characters
         public int textureHeight = 0;
         public int healthBar = 10;
         public float food;
-        public bool hasCollidedY = false;
-        public bool hasCollidedX = false;
+        public bool hasCollidedL = false;
+        public bool hasCollidedR = false;
         public Block drawBox;
         public Rectangle DrawBox { get; set; }
         public Rectangle HitBox { get; set; }
@@ -42,7 +42,8 @@ namespace PlatformGame.Characters
         bool isJumping = false;
         bool hasJumped = false;
         int currentYAxis;
-
+        bool onTile { get; set; } = false;
+        bool collideTop { get; set; } = false;
         public Player(Texture2D texture, Texture2D recTexture)
         {
             this.texture = texture;
@@ -184,25 +185,26 @@ namespace PlatformGame.Characters
             KeyboardState state = Keyboard.GetState();
             if (state.GetPressedKeys().Length == 0) keyPressed = false;
             else keyPressed = true;
-            if (state.IsKeyDown(Keys.Left) && !hasCollidedY)
+            if (state.IsKeyDown(Keys.Left) && !hasCollidedL)
             {
                 Velocity = new Vector2(-3, Velocity.Y);
                 isLeft = true;
-                hasCollidedX = false;
+                hasCollidedR = false;
             }
             else Velocity = new Vector2(0,Velocity.Y);
-            if (state.IsKeyDown(Keys.Up) && !hasJumped)
+            if (state.IsKeyDown(Keys.Up) && !hasJumped )
             {
                 currentYAxis = (int)Position.Y;
                 Position -= new Vector2(0, 10);
                 Velocity += new Vector2(0, -5f);
                 hasJumped = true;
             }
-            if (hasJumped)
+            if (hasJumped )
             {
                 float i = 1;
                 Velocity += new Vector2(0, (0.15f * i));
             }
+
             //de grond
             if (Position.Y + texture.Height >= currentYAxis+ texture.Height)
             {
@@ -212,11 +214,21 @@ namespace PlatformGame.Characters
             {
                 Velocity = new Vector2(Velocity.X, 0);
             }
-            if (state.IsKeyDown(Keys.Right)&& !hasCollidedX)
+            if (state.IsKeyDown(Keys.Right)&& !hasCollidedR ||
+                state.IsKeyDown(Keys.Right) && !hasCollidedR && collideTop)
             {
                 Velocity = new Vector2(3, Velocity.Y);
                 isLeft = false;
-                hasCollidedY = false;
+                hasCollidedL = false;
+            }
+            if (onTile)
+            {
+                Velocity = new Vector2(Velocity.X, 0);
+            }
+            if (!IsTouchingGround() && onTile)
+            {
+                onTile = false;
+                hasJumped = true;
             }
 
             Position += Velocity;
@@ -295,41 +307,45 @@ namespace PlatformGame.Characters
         }*/
           public void Collide(Block block)
         {
-            Debug.WriteLine("player positie left: " + HitBox.Left);
-            Debug.WriteLine("box positie right: " + block.rectangle.Right);
             Colour = Color.Red;
             if (HitBox.Intersects(block.rectangle) && !block.IsDead)
             {
-                if (HitBox.Bottom <= block.rectangle.Top + 10)
+                if (HitBox.Bottom <= block.rectangle.Top + 10 && block.type == Block.blockType.Enemy)
                 {
                     block.IsDead = true;
                     Debug.WriteLine("DEATH");
                 }
-                else
+                else if (HitBox.Bottom <= block.rectangle.Top + 10 && block.type == Block.blockType.Tile)
                 {
+                    onTile = true;
+                    Debug.WriteLine("VELOCITY Y: " + Velocity.Y);
+                }
                     if (HitBox.Right >= block.rectangle.Left)
                     {
-                        if (isLeft) { hasCollidedX = false; }
+                        if (isLeft) { hasCollidedR = false; }
 
                         else { Velocity = new Vector2(0, Velocity.Y);
-                            hasCollidedX = true; }
+                            hasCollidedR = true; }
                     }
                     if (HitBox.Left <= block.rectangle.Right)
                     {
                         if (!isLeft) { 
-                            hasCollidedY = false;
+                            hasCollidedL = false;
                         }
 
                         else
                         {
                             Velocity = new Vector2(0, Velocity.Y); 
                             block.color = Color.Red;
-                            hasCollidedY = true;
+                            hasCollidedL = true;
                         } 
                     }
                     //BEWERKEN
+                    //als de de hitbox van een enemy is 
+                    //anders player.x = 0
                     if (HitBox.Top <= block.rectangle.Bottom)
                     {
+                        collideTop = true;
                         Velocity = new Vector2(Velocity.X, 0);
                     }
 
@@ -342,11 +358,11 @@ namespace PlatformGame.Characters
                 }
             }
 
-        }
+        
 
         public bool IsTouchingGround()
         {
-            if (Position.Y == 700)
+            if (Position.Y == 500)
                 return true;
             else return false;
         }
