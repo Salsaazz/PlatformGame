@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PlatformGame.Interfaces;
+using SharpDX.Direct2D1.Effects;
 using SharpDX.Mathematics.Interop;
 using System;
 using System.Diagnostics;
@@ -27,8 +28,8 @@ namespace PlatformGame.Characters
         public int textureHeight = 0;
         public int healthBar = 10;
         public float food;
-        public bool hasCollidedL = false;
-        public bool hasCollidedR = false;
+        public bool boxCollideL = false;
+        public bool boxCollideR = false;
         public Block drawBox;
         public Rectangle DrawBox { get; set; }
         public Rectangle HitBox { get; set; }
@@ -46,7 +47,7 @@ namespace PlatformGame.Characters
         bool collideTop { get; set; } = false;
         public bool isFalling { get; private set; }
 
-        public int ground;
+        public int ground = 550;
         public Player(Texture2D texture, Texture2D recTexture)
         {
             this.texture = texture;
@@ -54,7 +55,7 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, 57, 57);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(500,500);
+            Position = new Vector2(500,450);
             textureWidth = texture.Width;
             textureHeight = texture.Height;
             boxTexture = recTexture;
@@ -192,69 +193,57 @@ namespace PlatformGame.Characters
             {
                 Velocity = new Vector2(0, Velocity.Y);
             }
-            if (state.IsKeyDown(Keys.Left) && !hasCollidedL ||
-                state.IsKeyDown(Keys.Left) && hasCollidedR 
-                || state.IsKeyDown(Keys.Left) && hasJumped)
+
+            if (state.IsKeyDown(Keys.Left) && !boxCollideL
+                || state.IsKeyDown(Keys.Left) && hasJumped && !boxCollideL)
             {
                 Velocity = new Vector2(-3, Velocity.Y);
                 isLeft = true;
-                hasCollidedR = false;
+                boxCollideR = false;
             }
 
-            if (state.IsKeyDown(Keys.Right) && !hasCollidedR
-                || state.IsKeyDown(Keys.Right) && hasJumped)
+            if (state.IsKeyDown(Keys.Right) && !boxCollideR
+                || state.IsKeyDown(Keys.Right) && hasJumped && !boxCollideR)
             {
                 Velocity = new Vector2(3, Velocity.Y);
                 isLeft = false;
-                hasCollidedL = false;
+                boxCollideL = false;
             }
 
-            if (state.IsKeyDown(Keys.Up) && !hasJumped )
+            if (state.IsKeyDown(Keys.Up) && !hasJumped)
             {
-                currentYAxis = (int)Position.Y;
+                //currentYAxis = (int)Position.Y;
                 Position -= new Vector2(0, 10);
                 Velocity += new Vector2(0, -5f);
                 hasJumped = true;
             }
-            if (hasJumped || !onTile)
+            if (hasJumped)
             {
                 float i = 1;
                 Velocity += new Vector2(0, (0.15f * i));
             }
-
-            if (onTile)
-            {
-                Velocity = new Vector2(Velocity.X, 0);
-
-            }
-            //sprong hoogte
-            if (Position.Y + texture.Height >= currentYAxis+ texture.Height )
+   
+            if ( Position.Y + texture.Height >= ground)
             {
                 hasJumped = false;
+                Debug.WriteLine(ground + "GROUND");
             }
+            
             if (!hasJumped)
             {
                 Velocity = new Vector2(Velocity.X, 0);
             }
 
-
-            /*if (onTile)
+            /*if (!onTile && !hasJumped)
             {
-                Velocity = new Vector2(Velocity.X, 0);
-                //currentYAxis = ground;
-                Debug.WriteLine(Velocity);
-
+                Velocity = new Vector2(Velocity.X, (int)0.25);
             }
-            if (!onTile)
-            {
-                isFalling = true;
-                Debug.WriteLine("not on tile");
-                //hasJumped = true;
-            }*/
 
             Position += Velocity;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             walkAnimation.Update(gameTime);
+            Debug.WriteLine(ground + "tile");
+            Debug.WriteLine(Position.Y + "YYYY");
 
         }
         public void Move()//int windowWidth, int windowHeight)
@@ -275,42 +264,38 @@ namespace PlatformGame.Characters
             Colour = Color.Red;
             if (HitBox.Intersects(block.rectangle) && !block.IsDead)
             {
-                if (HitBox.Bottom <= block.rectangle.Top + 10 && block.type == Block.blockType.Enemy)
+                if (HitBox.Bottom <= block.rectangle.Top + 3 && block.type == Block.blockType.Enemy)
                 {
                     block.IsDead = true;
                     Debug.WriteLine("DEATH");
                 }
-                else if (HitBox.Bottom <= block.rectangle.Top + 10 && block.type == Block.blockType.Tile)
+                else if (HitBox.Bottom <= block.rectangle.Top+3  && block.type == Block.blockType.Tile)
                 {
                     onTile = true;
                     ground = HitBox.Bottom;
 
                 }
 
-                if (HitBox.Right >= block.rectangle.Left)
+                if (HitBox.Right-5 == block.rectangle.Left)
                 {
-                    hasCollidedR = true;
+                    boxCollideR = true;
                     Velocity = new Vector2(0, Velocity.Y);
-                    if (isLeft && hasCollidedR)
-                    { hasCollidedR = false; }
+                    if (isLeft && boxCollideR)
+                    { boxCollideR = false; }
 
                 }
-                if (HitBox.Left == block.rectangle.Right)
+                if (HitBox.Left == block.rectangle.Right-4 ||
+                    hasJumped && HitBox.Left == block.rectangle.Right - 4)
                 {
-                    hasCollidedL = true;
+                    boxCollideL = true;
                     Velocity = new Vector2(0, Velocity.Y);
-                    if (hasCollidedL && !isLeft)
+                    if (boxCollideL && !isLeft)
                     {
-                        hasCollidedL = false;
+                        boxCollideL = false;
                     }
 
                 }
 
-                else
-                {
-                    block.color = Color.Red;
-                    hasCollidedL = true;
-                }
 
                 //BEWERKEN
                 //als de de hitbox van een enemy is 
@@ -327,15 +312,18 @@ namespace PlatformGame.Characters
                     healthBar -= block.damagePerSec;
                     block.teller = 0;
                 }
+
             }
-            else onTile = false;
+
+           else onTile = false;
+
 
         }
-        
+
 
         public bool IsTouchingGround()
         {
-            if (Position.Y == 500)
+            if ((int)Position.Y == ground)
                 return true;
             else return false;
         }
