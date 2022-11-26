@@ -95,6 +95,8 @@ namespace PlatformGame
             //blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
             blockList.Add(new Block(rec3, boxPlayerTexture, new Vector2(0, 0), Color.Blue));
             blockList.Add(new Block(rec4, boxPlayerTexture, new Vector2(0, 0), Color.Red));
+            blockList.Add(new Block(new Rectangle(500,560,100,100), boxPlayerTexture, new Vector2(0, 0), Color.Red));
+
             //blockList.Add(new Block(new Rectangle(500,550,50,50), boxPlayerTexture, new Vector2(0, 0), Color.Red));
         }
 
