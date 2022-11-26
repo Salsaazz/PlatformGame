@@ -77,7 +77,7 @@ namespace PlatformGame.Characters
             //probleem coordinaat x past zich aan wanneer er wordt afgewisseld tss links rechts
             //oplossing, x coordinaat aanpassen wnr dit gebeurd door +15 te doen
             Vector2 nieuwePositie = Position;
-
+            Debug.WriteLine(walkAnimation.CurrentFrame.SourceRectangle);
             if (isLeft)
             {
                 //drawBox.Draw(spriteBatch, boxTexture, new Rectangle(HitBox.X + 30, HitBox.Y + 5, 32, 48), Colour);
@@ -237,7 +237,7 @@ namespace PlatformGame.Characters
             /*if (!onTile && !hasJumped)
             {
                 Velocity = new Vector2(Velocity.X, (int)0.25);
-            }
+            }*/
 
             Position += Velocity;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);

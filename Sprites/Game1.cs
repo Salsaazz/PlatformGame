@@ -74,7 +74,6 @@ namespace PlatformGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
             _graphics.PreferredBackBufferWidth = 1000;
             _graphics.PreferredBackBufferHeight = 1000;
@@ -85,7 +84,7 @@ namespace PlatformGame
             rec1 = new Rectangle((int)blockPositie.X, (int)blockPositie.Y, (player.textureWidth - 25) / 4, player.textureHeight);
             //block2
             rec2 = new Rectangle((int)blockPositie2.X, (int)blockPositie2.Y, 50, 50);
-            rec3 = new Rectangle((int)player.Position.X - 100,(int) player.Position.Y, 50, 50);
+            rec3 = new Rectangle((int)player.Position.X - 100, (int)player.Position.Y, 50, 50);
             rec4 = new Rectangle((int)player.Position.X + 200, (int)player.Position.Y - 100, 50, 50);
             capy = new Capybara(_capybara);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
@@ -95,8 +94,7 @@ namespace PlatformGame
             //blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
             blockList.Add(new Block(rec3, boxPlayerTexture, new Vector2(0, 0), Color.Blue));
             blockList.Add(new Block(rec4, boxPlayerTexture, new Vector2(0, 0), Color.Red));
-            blockList.Add(new Block(new Rectangle(500,500,50,50), boxPlayerTexture, new Vector2(0, 0), Color.Red));
-            blockList.Add(new Block(new Rectangle(650, 520, 50, 50), boxPlayerTexture, new Vector2(0, 0), Color.Red));
+            blockList.Add(new Block(new Rectangle(500, 560, 100, 100), boxPlayerTexture, new Vector2(0, 0), Color.Red));
 
             //blockList.Add(new Block(new Rectangle(500,550,50,50), boxPlayerTexture, new Vector2(0, 0), Color.Red));
         }
