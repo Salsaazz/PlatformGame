@@ -9,8 +9,8 @@ namespace PlatformGame.Interfaces
 {
     internal interface IMovable
     {
-        public Vector2 Position2 { get; set; }
-        public Vector2 Speed2 { get; set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Speed { get; set; }
         public IInputReader InputReader { get; set; }
     }
 }

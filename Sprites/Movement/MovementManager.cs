@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame
+namespace PlatformGame.Movement
 {
     internal class MovementManager
     {
@@ -18,31 +18,31 @@ namespace PlatformGame
             var direction = movable.InputReader.ReadInput();
             if (movable.InputReader.IsDestinationInput)
             {
-                direction -= movable.Position2;
+                direction -= movable.Position;
             }
 
-            var afstand = direction * movable.Speed2;
-            var toekomstigePositie = movable.Position2 + afstand;
-            movable.Position2 = toekomstigePositie;
-            movable.Position2 += afstand;
+            var afstand = direction * movable.Speed;
+            var toekomstigePositie = movable.Position + afstand;
+            movable.Position = toekomstigePositie;
+            movable.Position += afstand;
 
-            movable.Position2 += movable.Speed2;
+            movable.Position += movable.Speed;
             if (direction.Y < 0 && jump == false)
             {
-                currentHeight = movable.Position2.Y;
-                movable.Position2 -= new Vector2(0, -10f);
-                movable.Speed2 -= new Vector2(0, -5f);
+                currentHeight = movable.Position.Y;
+                movable.Position -= new Vector2(0, -10f);
+                movable.Speed -= new Vector2(0, -5f);
                 jump = true;
             }
 
             if (jump == true)
             {
                 float gravity = 1;
-                movable.Speed2 += new Vector2(0, 0.15f * gravity);
+                movable.Speed += new Vector2(0, 0.15f * gravity);
             }
 
-            if (movable.Position2.Y >= currentHeight)
-                movable.Speed2 = Vector2.Zero;
+            if (movable.Position.Y >= currentHeight)
+                movable.Speed = Vector2.Zero;
 
         }
     }
