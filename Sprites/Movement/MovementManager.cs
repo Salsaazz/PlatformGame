@@ -11,7 +11,7 @@ namespace PlatformGame.Movement
     internal class MovementManager
     {
         public bool jump = false;
-        public float currentHeight;
+        public float currentHeight = 600;
 
         public void Move(IMovable movable)
         {
@@ -19,6 +19,7 @@ namespace PlatformGame.Movement
             if (movable.InputReader.IsDestinationInput)
             {
                 direction -= movable.Position;
+                direction.Normalize();
             }
 
             var afstand = direction * movable.Speed;
@@ -26,10 +27,9 @@ namespace PlatformGame.Movement
             movable.Position = toekomstigePositie;
             movable.Position += afstand;
 
-            movable.Position += movable.Speed;
             if (direction.Y < 0 && jump == false)
             {
-                currentHeight = movable.Position.Y;
+                //currentHeight = movable.Position.Y;
                 movable.Position -= new Vector2(0, -10f);
                 movable.Speed -= new Vector2(0, -5f);
                 jump = true;
@@ -42,7 +42,7 @@ namespace PlatformGame.Movement
             }
 
             if (movable.Position.Y >= currentHeight)
-                movable.Speed = Vector2.Zero;
+                movable.Speed = new Vector2(0, 0);
 
         }
     }

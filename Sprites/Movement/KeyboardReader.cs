@@ -17,28 +17,20 @@ namespace PlatformGame.Movement
         {
             KeyboardState state = Keyboard.GetState();
             Vector2 direction = Vector2.Zero;
-            if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.Q))
+            if (state.IsKeyDown(Keys.Left))
             {
-                direction.X -= 1;
+                direction.X = -1;
             }
-            if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
-            {
-                direction.X += 1;
-            }
-            if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.LeftShift) ||
-                state.IsKeyDown(Keys.Q) && state.IsKeyDown(Keys.LeftShift))
-            {
-                direction.X -= 1;
-            }
-            if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.LeftShift) ||
-                state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.LeftShift))
+            if (state.IsKeyDown(Keys.Right))
             {
                 direction.X += 1;
             }
+
             if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.Space))
             {
-                direction.Y -= 1;
+                direction.Y = 1;
             }
+            else direction.Y = 0;
 
             return direction;
         }

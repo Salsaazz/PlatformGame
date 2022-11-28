@@ -50,7 +50,7 @@ namespace PlatformGame.Characters
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             drawBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 32, 43), boxTexture, Speed, Color.AliceBlue);
             //van de IMoveable
-            Speed = new Vector2(2, 2);
+            Speed = new Vector2(2, 1);
             InputReader = inputReader;
             movementManager = new MovementManager();
         }
@@ -75,10 +75,11 @@ namespace PlatformGame.Characters
 
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
-            var direction = InputReader.ReadInput();
-            direction *= Speed;
-            Position += direction;
             movementManager.Move(this);
+            /*var direction = InputReader.ReadInput();
+            direction *= Speed;
+            Position += direction;*/
+            Debug.WriteLine(Position);
             walkAnimation.Update(gameTime);
         }
 
