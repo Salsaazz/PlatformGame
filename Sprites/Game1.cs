@@ -90,12 +90,7 @@ namespace PlatformGame
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
             CreateBlocks();
-            //blockList.Add(new Block(rec1, boxPlayerTexture, new Vector2(1, 1), Color.Red));
-            //blockList.Add(new Block(rec2, boxPlayerTexture, new Vector2(-1, 1), Color.Red));
-            blockList.Add(new Block(rec3, boxPlayerTexture, new Vector2(0, 0), Color.Blue));
-            blockList.Add(new Block(rec4, boxPlayerTexture, new Vector2(0, 0), Color.Red));
-            blockList.Add(new Block(new Rectangle(560,351,50,50), boxPlayerTexture, new Vector2(0, 0), Color.Red));
-            blockList.Add(new Block(new Rectangle(500, 478, 100, 100), boxPlayerTexture, new Vector2(0, 0), Color.Red));
+
 
             //blockList.Add(new Block(new Rectangle(500,550,50,50), boxPlayerTexture, new Vector2(0, 0), Color.Red));
         }
@@ -122,18 +117,30 @@ namespace PlatformGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            for (int i = 0; i < blockList.Count; i++)
+            /*for (int i = 0; i < blockList.Count; i++)
             {
                 for (int j = i+1; j < blockList.Count; j++)
                 {
                     blockList[i].Collide(blockList[j]);
                 }
 
-            }
-            for (int i = 0; i < blockList.Count; i++)
+            }*/
+            /*for (int i = 0; i < blockList.Count; i++)
             {
-                player.Collide(blockList[i]);
+                bool collided = player.Collide(blockList[i]);
+                if (collided)
+                {
+                    break;
+                }
 
+            }*/
+            foreach (var block in blocks)
+            {
+                bool collided = player.Collide(block);
+                if (collided)
+                {
+                    break;
+                }
             }
             foreach (var block in blockList)
             {
@@ -180,7 +187,7 @@ namespace PlatformGame
                 {
                     if (gameboard[i, j] == 1)
                     {
-                        blocks.Add(new Block(new Rectangle((j * 50), (i * 50), 50, 50), boxPlayerTexture, Color.Green));
+                        blocks.Add(new Block(new Rectangle((j * 57), (i * 57), 57, 57), boxPlayerTexture, Color.Green));
                     }
                 }
             }

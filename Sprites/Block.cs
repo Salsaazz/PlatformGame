@@ -44,7 +44,7 @@ namespace PlatformGame
 
             this.rectangle = rectangle;
             this.objTexture = texture;
-            this.snelheid = new Vector2(0,0);
+            this.snelheid = new Vector2(0, 0);
             this.color = color;
             this.Position.X = this.rectangle.X;
             this.Position.Y = this.rectangle.Y;
@@ -70,7 +70,7 @@ namespace PlatformGame
             Position += snelheid;
             this.rectangle.X = (int)Position.X;
             this.rectangle.Y = (int)Position.Y;
-            teller += teller<1000?(float)gameTime.ElapsedGameTime.TotalMilliseconds:1000;
+            teller += teller < 1000 ? (float)gameTime.ElapsedGameTime.TotalMilliseconds : 1000;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -81,11 +81,11 @@ namespace PlatformGame
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color)
         {
-            if(!IsDead)
-            spriteBatch.Draw(texture, rectangle, color);
-            
+            if (!IsDead)
+                spriteBatch.Draw(texture, rectangle, color);
+
         }
-        public void Collide(Block block)
+        public bool Collide(Block block)
         {
 
             if (this.rectangle.Intersects(block.rectangle))
@@ -95,7 +95,9 @@ namespace PlatformGame
                 this.color = Color.White;
                 block.color = Color.White;
             }
+            //TODO
+            return false;
         }
-            }
-        }
- 
+    }
+}
+

@@ -8,6 +8,6 @@ namespace PlatformGame
 {
     internal interface ICollide<T>
     {
-        void Collide(T obj);
+        bool Collide(T obj);
     }
 }

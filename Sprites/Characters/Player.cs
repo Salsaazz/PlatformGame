@@ -23,7 +23,7 @@ namespace PlatformGame.Characters
         //bewegen
         public Vector2 Position { get; set; }
         //Velocity
-        Vector2 Velocity { get; set; } = new Vector2(0,0);
+        Vector2 Velocity { get; set; } = new Vector2(0, 0);
         public bool isLeft = false;
         public int textureWidth = 0;
         public int textureHeight = 0;
@@ -43,7 +43,7 @@ namespace PlatformGame.Characters
         Texture2D boxTexture;
         bool isJumping = false;
         bool hasJumped = false;
-        int currentYAxis;
+        int currentYAxis = 550;
         bool onTile { get; set; } = false;
         bool collideTop { get; set; } = false;
         public bool isFalling { get; private set; }
@@ -56,7 +56,7 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, 57, 57);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(500,420);
+            Position = new Vector2(500, 420);
             textureWidth = texture.Width;
             textureHeight = texture.Height;
             boxTexture = recTexture;
@@ -109,8 +109,8 @@ namespace PlatformGame.Characters
 
 
                 if (!keyPressed)
-                { 
-                    spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f); 
+                {
+                    spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
                 }
                 else
                 {
@@ -131,7 +131,6 @@ namespace PlatformGame.Characters
             {
                 direction.X = -2;
                 isLeft = true;
-
             }
             if (state.IsKeyDown(Keys.Up) && !isJumping && !isFalling)
             {
@@ -154,7 +153,6 @@ namespace PlatformGame.Characters
                 isJumping = false;
                 
             }
-
             ///werk hier verder aan
             if (Position.Y + texture.Height >= 750 && isFalling)
             {
@@ -167,8 +165,6 @@ namespace PlatformGame.Characters
                 direction.Y = 0;
                 isJumping = false;
             }
-
-
             if (state.IsKeyDown(Keys.Right))
             {
                 direction.X = 2;
@@ -182,7 +178,6 @@ namespace PlatformGame.Characters
             //DrawBox = HitBox;
             walkAnimation.Update(gameTime);
             Debug.WriteLine(Position.Y);
-
             //Move(windowWidth, windowHeight);
         }*/
         public void Update(GameTime gameTime, int windowWidth, int windowHeight)
@@ -196,8 +191,10 @@ namespace PlatformGame.Characters
                 Velocity = new Vector2(0, Velocity.Y);
             }
 
-            if (state.IsKeyDown(Keys.Left) && !boxCollideL)
-                /*|| state.IsKeyDown(Keys.Left) && hasJumped && !boxCollideL)*/
+            if (state.IsKeyDown(Keys.Left) && !boxCollideL
+                ||state.IsKeyDown(Keys.Left) && onTile && !boxCollideL
+                || state.IsKeyDown(Keys.Left) && !collideTop)
+            /*|| state.IsKeyDown(Keys.Left) && hasJumped && !boxCollideL)*/
             /*|| state.IsKeyDown(Keys.Left) && collideTop)*/
             {
                 Velocity = new Vector2(-3, Velocity.Y);
@@ -205,8 +202,10 @@ namespace PlatformGame.Characters
                 boxCollideR = false;
             }
 
-            if (state.IsKeyDown(Keys.Right) && !boxCollideR)
-                /*|| state.IsKeyDown(Keys.Right) && hasJumped && !boxCollideR)*/
+            if (state.IsKeyDown(Keys.Right) && !boxCollideR
+                || state.IsKeyDown(Keys.Right) && onTile
+                || state.IsKeyDown(Keys.Right) && collideTop)
+            /*|| state.IsKeyDown(Keys.Right) && hasJumped && !boxCollideR)*/
             /*||  state.IsKeyDown(Keys.Right) && collideTop)*/
             {
                 Velocity = new Vector2(3, Velocity.Y);
@@ -221,7 +220,7 @@ namespace PlatformGame.Characters
                 Velocity += new Vector2(0, -5f);
                 hasJumped = true;
             }
-            if (hasJumped )
+            if (hasJumped || !onTile)
             {
                 float i = 1;
                 Velocity += new Vector2(0, (0.15f * i));
@@ -229,26 +228,27 @@ namespace PlatformGame.Characters
 
 
             //if ((int)Position.Y + texture.Height == currentYAxis)
-            if (HitBox.Bottom == currentYAxis)
+            //if (HitBox.Bottom == currentYAxis && onTile)
+            if (HitBox.Bottom == currentYAxis && onTile) //&& onTile)
             {
                 hasJumped = false;
-                onTile = true;
             }
-            else onTile = false;
+            //else onTile = false;
 
             if (!hasJumped && onTile)
             {
                 Velocity = new Vector2(Velocity.X, 0);
             }
+            /* if (!onTile)
+             {
+                 Velocity = new Vector2(0, 10);
+             }*/
 
 
-            Debug.WriteLine("ONTILE "+  onTile);
-            
             Position += Velocity;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             walkAnimation.Update(gameTime);
-            Debug.WriteLine(ground + "tile");
-            Debug.WriteLine(Position.Y + texture.Height + "YYYY");
+ 
 
         }
         public void Move()//int windowWidth, int windowHeight)
@@ -264,40 +264,51 @@ namespace PlatformGame.Characters
 
         }
 
-     public void Collide(Block block)
+        public bool Collide(Block block)
         {
+            bool collided = false;
             Colour = Color.Red;
             if (HitBox.Intersects(block.rectangle) && !block.IsDead)
             {
-                if (HitBox.Bottom <= block.rectangle.Top+3 && block.type == Block.blockType.Enemy)
+                collided = true;
+                if (HitBox.Bottom <= block.rectangle.Top + 5 && block.type == Block.blockType.Enemy)
                 {
                     block.IsDead = true;
                     Debug.WriteLine("DEATH");
                 }
-                else if (HitBox.Bottom <= block.rectangle.Top+3  && block.type == Block.blockType.Tile)
+                else if (HitBox.Bottom <= block.rectangle.Top+5 && block.type == Block.blockType.Tile)
                 {
                     onTile = true;
                     //Velocity = new Vector2(Velocity.X, 0);
                     //ground = HitBox.Bottom;
-                    currentYAxis = HitBox.Bottom +3;
+                    currentYAxis = HitBox.Bottom;
                     //currentYAxis = hitbo.rectangle.Top +3;
-                    ground = currentYAxis;
+                    //ground = currentYAxis;
                     Debug.WriteLine(Position.Y);
                 }
 
-                if (HitBox.Right -3 == block.rectangle.Left)
+                //geef input
+                //input => richting of valrichting
+                //bereken toekomstige plaats adhv input
+                //check of tp botst
+                    //nee positie = toekomst
+                    //ja richting = 0;
+
+
+                if (HitBox.Right <= block.rectangle.Left)
                 {
                     boxCollideR = true;
                     Velocity = new Vector2(0, Velocity.Y);
-                    //collideTop = false;
+                    collideTop = false;
                     if (isLeft && boxCollideR)
                     { boxCollideR = false; }
 
                 }
-                if (HitBox.Left == block.rectangle.Right -4)
+                if (HitBox.Left+4 == block.rectangle.Right)
                 {
+                    block.color = Color.Beige;
                     boxCollideL = true;
-                    //collideTop = false;
+                    collideTop = false;
                     Velocity = new Vector2(0, Velocity.Y);
                     if (boxCollideL && !isLeft)
                     {
@@ -306,15 +317,15 @@ namespace PlatformGame.Characters
 
                 }
 
-
                 //BEWERKEN
                 //als de de hitbox van een enemy is 
                 //anders player.x = 0
-                if (HitBox.Top == block.rectangle.Bottom-1)
+                if (HitBox.Top <= block.rectangle.Bottom - 3)
                 {
                     collideTop = true;
                     Velocity = new Vector2(Velocity.X, 0);
                 }
+                else collideTop = false;
 
 
                 if (block.teller >= 1000)
@@ -329,15 +340,13 @@ namespace PlatformGame.Characters
             {
                 onTile = false;
             }
-            Debug.WriteLine(block.rectangle.Top);
-            Debug.WriteLine(HitBox.Bottom);
-
+            return collided;
         }
 
 
         public bool IsTouchingGround()
         {
-            if ((int)Position.Y  == ground)
+            if (HitBox.Bottom != currentYAxis)
                 return true;
             else return false;
         }
