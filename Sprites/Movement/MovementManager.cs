@@ -1,8 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.VisualBasic.Devices;
+using Microsoft.Xna.Framework;
 using PlatformGame.Interfaces;
+using SharpDX.XInput;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,20 +14,22 @@ namespace PlatformGame.Movement
 {
     internal class MovementManager
     {
-        public bool jump = false;
         public float currentHeight;
         public bool isLeft = false;
         public bool standStill = true;
+        public bool jump = false;
+        public bool isFalling = false;
         public void Move(IMovable movable)
         {
-            var direction = movable.InputReader.ReadInput();
-
-            if (direction.X < 0)
+            //var direction = movable.InputReader.ReadInput();
+            movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
+            float yAxis = movable.InputReader.ReadInput().Y;
+            if (movable.Speed.X < 0)
             {
                 isLeft = true;
                 standStill = false;
             }
-            else if (direction.X == 1)
+            else if (movable.Speed.X > 0)
             {
                 isLeft = false;
                 standStill = false;
@@ -31,35 +37,43 @@ namespace PlatformGame.Movement
             else standStill = true;
             if (movable.InputReader.IsDestinationInput)
             {
-                direction -= movable.Position;
-                direction.Normalize();
+                movable.Speed -= movable.Position;
+                movable.Speed.Normalize();
             }
 
-
-
-            var distance = direction * movable.Speed;
-            var futurePosition = movable.Position + distance;
-            movable.Position = futurePosition;
-
-
-
-            /*if (direction.Y < 0 && jump == false)
+            if ((int)yAxis> 0 && jump == false && !isFalling)
             {
                 currentHeight = movable.Position.Y;
-                movable.Position -= new Vector2(0, 10f);
-                movable.Speed -= new Vector2(0, 5f);
+                movable.Position -= new Vector2(0, 120f);
+                movable.Speed += new Vector2(0, -10f);
                 jump = true;
+                isFalling = true;
             }
 
-            if (jump == true)
+            if (jump && isFalling)
             {
-                float gravity = 1;
-                movable.Speed += new Vector2(0, 0.15f * gravity);
+                float i = 8f;
+                movable.Speed += new Vector2(0, 0.15f * i);
             }
 
             if (movable.Position.Y >= currentHeight)
-                movable.Speed = Vector2.Zero;
-            */
+            {
+                jump = false;
+
+            }
+            if (!jump)
+            {
+                movable.Speed = new Vector2(movable.Speed.X, 0);
+                isFalling = false;
+            }
+
+            var afstand =  movable.Speed;
+            var toekomstigePositie = movable.Position + afstand;
+            movable.Position = toekomstigePositie;
+            //movable.Position += movable.Speed;
+            Debug.WriteLine(jump);
+
+
         }
     }
 }

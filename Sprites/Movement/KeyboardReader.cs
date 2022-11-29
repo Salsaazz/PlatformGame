@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,17 +20,19 @@ namespace PlatformGame.Movement
             Vector2 direction = Vector2.Zero;
             if (state.IsKeyDown(Keys.Left))
             {
-                direction.X = -1;
+                direction.X -= 2;
+                
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                direction.X = 1;
+                direction.X += 2;
             }
 
-            if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.Space))
+            if (state.IsKeyDown(Keys.Up))
             {
-                direction.Y = 1;
+                direction.Y += 2;
             }
+
             return direction;
         }
 
