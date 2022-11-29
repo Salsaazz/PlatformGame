@@ -23,15 +23,13 @@ namespace PlatformGame.Movement
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                direction.X += 1;
+                direction.X = 1;
             }
 
             if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.Space))
             {
                 direction.Y = 1;
             }
-            else direction.Y = 0;
-
             return direction;
         }
 

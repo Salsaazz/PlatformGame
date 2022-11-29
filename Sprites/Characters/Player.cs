@@ -50,7 +50,7 @@ namespace PlatformGame.Characters
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             drawBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 32, 43), boxTexture, Speed, Color.AliceBlue);
             //van de IMoveable
-            Speed = new Vector2(2, 1);
+            Speed = new Vector2(2, 2);
             InputReader = inputReader;
             movementManager = new MovementManager();
         }
@@ -62,7 +62,21 @@ namespace PlatformGame.Characters
         }
         public void Draw(SpriteBatch spriteBatch, Texture2D objTexture)
         {
-            spriteBatch.Draw(objTexture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White);
+
+             if ( movementManager.isLeft && !movementManager.standStill) {
+                spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
+            }
+            else if (movementManager.isLeft && movementManager.standStill)
+            {
+                spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
+            }
+            else if(!movementManager.isLeft && !movementManager.standStill)
+                spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White,0f,new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
+             else if(!movementManager.isLeft && movementManager.standStill)
+            {
+                spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
+
+            }
         }
 
         //geef input
@@ -76,9 +90,7 @@ namespace PlatformGame.Characters
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             movementManager.Move(this);
-            /*var direction = InputReader.ReadInput();
-            direction *= Speed;
-            Position += direction;*/
+
             Debug.WriteLine(Position);
             walkAnimation.Update(gameTime);
         }

@@ -12,26 +12,39 @@ namespace PlatformGame.Movement
     {
         public bool jump = false;
         public float currentHeight = 600;
-
+        public bool isLeft = false;
+        public bool standStill = true;
         public void Move(IMovable movable)
         {
+
+
             var direction = movable.InputReader.ReadInput();
+            if (direction.X < 0)
+            {
+                isLeft = true;
+                standStill = false;
+            }
+            else if (direction.X == 1)
+            {
+                isLeft = false;
+                standStill = false;
+            }
+            else standStill = true;
             if (movable.InputReader.IsDestinationInput)
             {
                 direction -= movable.Position;
                 direction.Normalize();
             }
 
+
             var afstand = direction * movable.Speed;
-            var toekomstigePositie = movable.Position + afstand;
-            movable.Position = toekomstigePositie;
             movable.Position += afstand;
 
             if (direction.Y < 0 && jump == false)
             {
-                //currentHeight = movable.Position.Y;
-                movable.Position -= new Vector2(0, -10f);
-                movable.Speed -= new Vector2(0, -5f);
+                currentHeight = movable.Position.Y;
+                movable.Position -= new Vector2(0, 10f);
+                movable.Speed -= new Vector2(0, 5f);
                 jump = true;
             }
 
@@ -42,7 +55,7 @@ namespace PlatformGame.Movement
             }
 
             if (movable.Position.Y >= currentHeight)
-                movable.Speed = new Vector2(0, 0);
+                movable.Speed = Vector2.Zero;
 
         }
     }
