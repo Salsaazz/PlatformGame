@@ -16,9 +16,8 @@ namespace PlatformGame.Movement
         public bool standStill = true;
         public void Move(IMovable movable)
         {
-
-
             var direction = movable.InputReader.ReadInput();
+
             if (direction.X < 0)
             {
                 isLeft = true;
@@ -37,8 +36,12 @@ namespace PlatformGame.Movement
             }
 
 
-            var afstand = direction * movable.Speed;
-            movable.Position += afstand;
+
+            var distance = direction * movable.Speed;
+            var futurePosition = movable.Position + distance;
+            movable.Position = futurePosition;
+
+
 
             /*if (direction.Y < 0 && jump == false)
             {
