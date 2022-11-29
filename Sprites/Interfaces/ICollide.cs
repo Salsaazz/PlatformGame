@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame
+namespace PlatformGame.Interfaces
 {
     internal interface ICollide<T>
     {

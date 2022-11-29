@@ -37,7 +37,7 @@ namespace PlatformGame
         public void Draw(SpriteBatch spriteBatch, Player followObject)
         {
 
-            if (followObject.isLeft)
+            if (followObject.movementManager.isLeft)
                 spriteBatch.Draw(_walkTexture, new Vector2(followObject.Position.X - marge, followObject.Position.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
 
             else

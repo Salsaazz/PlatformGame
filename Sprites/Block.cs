@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PlatformGame.Interfaces;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;

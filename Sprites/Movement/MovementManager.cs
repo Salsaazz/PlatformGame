@@ -21,7 +21,6 @@ namespace PlatformGame.Movement
         public bool isFalling = false;
         public void Move(IMovable movable)
         {
-            //var direction = movable.InputReader.ReadInput();
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
             float yAxis = movable.InputReader.ReadInput().Y;
             if (movable.Speed.X < 0)
@@ -54,7 +53,7 @@ namespace PlatformGame.Movement
                 float i = 8f;
                 movable.Speed -= new Vector2(0, 0.15f * i);
             }
-            if (movable.Position.Y <= currentHeight -100 && jump && !isFalling)
+            if (movable.Position.Y <= currentHeight -60 && jump && !isFalling)
             {
                 isFalling = true;
             }

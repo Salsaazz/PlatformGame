@@ -33,7 +33,7 @@ namespace PlatformGame.Characters
         public Rectangle HitBox { get; set; }
         public Color Colour { get; set; } = Color.AliceBlue;
         public IInputReader InputReader { get; set; }
-        private MovementManager movementManager;
+        public MovementManager movementManager;
         Texture2D boxTexture;
         bool keyPressed = false;
 
