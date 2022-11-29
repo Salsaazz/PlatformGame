@@ -41,37 +41,41 @@ namespace PlatformGame.Movement
                 movable.Speed.Normalize();
             }
 
-            if ((int)yAxis> 0 && jump == false && !isFalling)
+            if ((int)yAxis> 0 && !jump  && !isFalling)
             {
                 currentHeight = movable.Position.Y;
-                movable.Position -= new Vector2(0, 120f);
-                movable.Speed += new Vector2(0, -10f);
+                //movable.Position -= new Vector2(0, 120f);
+                //movable.Speed += new Vector2(0, -5f);
                 jump = true;
+                //isFalling = true;
+            }
+            if (jump && !isFalling)
+            {
+                float i = 8f;
+                movable.Speed -= new Vector2(0, 0.15f * i);
+            }
+            if (movable.Position.Y <= currentHeight -100 && jump && !isFalling)
+            {
                 isFalling = true;
             }
-
             if (jump && isFalling)
             {
                 float i = 8f;
                 movable.Speed += new Vector2(0, 0.15f * i);
             }
 
-            if (movable.Position.Y >= currentHeight)
+            if (movable.Position.Y >= currentHeight && jump && isFalling)
             {
                 jump = false;
-
-            }
-            if (!jump)
-            {
                 movable.Speed = new Vector2(movable.Speed.X, 0);
                 isFalling = false;
+
             }
+
 
             var afstand =  movable.Speed;
             var toekomstigePositie = movable.Position + afstand;
             movable.Position = toekomstigePositie;
-            //movable.Position += movable.Speed;
-            Debug.WriteLine(jump);
 
 
         }
