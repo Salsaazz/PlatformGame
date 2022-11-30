@@ -78,6 +78,8 @@ namespace PlatformGame
             capy = new Capybara(_capyTexture);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
+            blockList.Add(new Block(new Rectangle(600, 350, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(600, 300, 50, 50), boxPlayerTexture, Color.Blue));
             //CreateBlocks();
         }
 
@@ -107,7 +109,7 @@ namespace PlatformGame
 
             //tiles draw
 
-            player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            player.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight, blockList);
             capy.Update(gameTime, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             base.Update(gameTime);
 
@@ -126,6 +128,10 @@ namespace PlatformGame
             capy.Draw(_spriteBatch, player);
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, player.healthBar.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
+            foreach (var block in blockList)
+            {
+                block.Draw(_spriteBatch);
+            }
             _spriteBatch.End();
             base.Draw(gameTime);
         }

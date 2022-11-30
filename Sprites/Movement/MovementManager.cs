@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualBasic.Devices;
 using Microsoft.Xna.Framework;
+using PlatformGame.Characters;
 using PlatformGame.Interfaces;
+using SharpDX.Direct3D9;
 using SharpDX.XInput;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,9 @@ namespace PlatformGame.Movement
         public bool standStill = true;
         public bool jump = false;
         public bool isFalling = false;
-        public void Move(IMovable movable)
+
+
+        public void Move(IMovable movable, List<Block> blockList)
         {
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
             float yAxis = movable.InputReader.ReadInput().Y;
@@ -40,20 +44,18 @@ namespace PlatformGame.Movement
                 movable.Speed.Normalize();
             }
 
-            if ((int)yAxis> 0 && !jump  && !isFalling)
+            if ((int)yAxis > 0 && !jump && !isFalling)
             {
-                currentHeight = movable.Position.Y;
-                //movable.Position -= new Vector2(0, 120f);
-                //movable.Speed += new Vector2(0, -5f);
+                currentHeight = movable.Position.Y; ;
                 jump = true;
-                //isFalling = true;
             }
+
             if (jump && !isFalling)
             {
                 float i = 8f;
                 movable.Speed -= new Vector2(0, 0.15f * i);
             }
-            if (movable.Position.Y <= currentHeight -60 && jump && !isFalling)
+            if (movable.Position.Y <= currentHeight - 100 && jump && !isFalling)
             {
                 isFalling = true;
             }
@@ -71,11 +73,36 @@ namespace PlatformGame.Movement
 
             }
 
-
-            var afstand =  movable.Speed;
+            //if (hasCollided)
+            //{
+            //    movable.Speed = Vector2.Zero;
+            //}
+            var afstand = movable.Speed;
             var toekomstigePositie = movable.Position + afstand;
+            Rectangle toekomstigeRect = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, 50, 54);
+
+            if (Collide(toekomstigeRect, blockList))
+            {
+                movable.Speed = Vector2.Zero;
+                toekomstigePositie = movable.Position + movable.Speed;
+            }
             movable.Position = toekomstigePositie;
 
+
+        }
+        void Jumping()
+        {
+        }
+        bool Collide(Rectangle rectangle, List<Block> blockList)
+        {
+            foreach (var block in blockList)
+            {
+                if (rectangle.Intersects(block.rectangle))
+                {
+                    return true;
+                }
+            }
+            return false;
 
         }
     }

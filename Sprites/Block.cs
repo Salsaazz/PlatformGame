@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame
 {
-    internal class Block : ICollide<Block>
+    internal class Block 
     {
         public Rectangle rectangle;
         public Vector2 Position;
@@ -50,21 +50,7 @@ namespace PlatformGame
             this.Position.X = this.rectangle.X;
             this.Position.Y = this.rectangle.Y;
         }
-        private void addBlock(Rectangle rectangle, Texture2D texture, Vector2 snelheid, Color color)
-        {
-            blockLijst.Add(new Block(rectangle, texture, snelheid, color));
-        }
 
-        public Block(Rectangle rectangle)
-        {
-
-            this.rectangle = rectangle;
-            this.snelheid = new Vector2(2, 2);
-            this.color = Color.Black;
-            this.Position.X = this.rectangle.X;
-            this.Position.Y = this.rectangle.Y;
-
-        }
         public void Update(GameTime gameTime, int windowWidth, int widowHeight)
         {
             snelheid *= direction;
@@ -86,7 +72,7 @@ namespace PlatformGame
                 spriteBatch.Draw(texture, rectangle, color);
 
         }
-        public bool Collide(Block block)
+        /*public bool Collide(Block block)
         {
 
             if (this.rectangle.Intersects(block.rectangle))
@@ -98,7 +84,7 @@ namespace PlatformGame
             }
             //TODO
             return false;
-        }
+        }*/
     }
 }
 

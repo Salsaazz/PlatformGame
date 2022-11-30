@@ -50,8 +50,6 @@ namespace PlatformGame
         {
 
             this.positie.X += 1;
-            //this.positieWMarge.X = Player.Position.X - marge;
-            //this.Position.Y+=2;
             walkAnimation.Update(gameTime);
         }
     }
