@@ -78,8 +78,16 @@ namespace PlatformGame
             capy = new Capybara(_capyTexture);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             hitBoxPlayer = new Block();
-            blockList.Add(new Block(new Rectangle(600, 350, 50, 50), boxPlayerTexture, Color.Blue));
-            blockList.Add(new Block(new Rectangle(600, 300, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(600, 450, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(300, 550, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(350, 550, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(400, 550, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(450, 550, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(500, 550, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(550, 550, 50, 50), boxPlayerTexture, Color.Blue));
+            blockList.Add(new Block(new Rectangle(500, 400, 50, 50), boxPlayerTexture, Color.Blue));
+
+
             //CreateBlocks();
         }
 

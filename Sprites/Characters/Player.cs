@@ -44,7 +44,7 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, 57, 57);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(300, 450);
+            Position = new Vector2(300, 420);
             boxTexture = recTexture;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             drawBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 32, 43), boxTexture, Speed, Color.AliceBlue);
