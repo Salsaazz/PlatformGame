@@ -98,7 +98,7 @@ namespace PlatformGame.Movement
 
                 if (yAxis > 0 && !jump)
                 {
-                    movable.Speed = new Vector2(movable.Speed.X, 0);
+                    //movable.Speed = new Vector2(movable.Speed.X, 0);
                     isFalling = true;
                     jump = false;
 
