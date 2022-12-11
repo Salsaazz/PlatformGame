@@ -1,15 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using PlatformGame.Blocks;
 using PlatformGame.Collide;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
-using SharpDX.Direct2D1.Effects;
-using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Xml;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
@@ -65,16 +61,17 @@ namespace PlatformGame.Characters
             //Draw HitboxPlayer
             spriteBatch.Draw(boxTexture, HitBox, null, Color.White);
 
-            if ( movementManager.isLeft && !movementManager.standStill) {
+            if (movementManager.isLeft && !movementManager.standStill)
+            {
                 spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
             }
             else if (movementManager.isLeft && movementManager.standStill)
             {
                 spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
             }
-            else if(!movementManager.isLeft && !movementManager.standStill)
-                spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White,0f,new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
-             else if(!movementManager.isLeft && movementManager.standStill)
+            else if (!movementManager.isLeft && !movementManager.standStill)
+                spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
+            else if (!movementManager.isLeft && movementManager.standStill)
             {
                 spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
 

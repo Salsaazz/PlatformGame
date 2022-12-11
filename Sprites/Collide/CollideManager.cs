@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Collide
 {
-        class CollideManager
+    class CollideManager
     {
         public bool hasCollided(Rectangle hitbox, List<Block> list)
         {

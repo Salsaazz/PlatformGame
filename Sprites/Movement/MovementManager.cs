@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.Devices;
 using Microsoft.Xna.Framework;
+using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Interfaces;
 using SharpDX.Direct3D9;
@@ -24,12 +25,18 @@ namespace PlatformGame.Movement
         public bool isFalling = true;
         private int jumpHeight = 0;
         private bool onGround = false;
+        private bool pressY = false;
         public void Move(IMovable movable, List<Block> blockList)
         {
+            Debug.WriteLine(movable.InputReader.ReadInput().Y);
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
-            //movable.Speed = movable.InputReader.ReadInput();
             float yAxis = movable.InputReader.ReadInput().Y;
-            //Debug.WriteLine("Falling " + isFalling);
+            if (yAxis > 0 && !isFalling && !jump)
+            {
+                pressY = true;
+            }
+            Debug.WriteLine(pressY);
+
             if (movable.Speed.X < 0)
             {
                 isLeft = true;
@@ -47,7 +54,7 @@ namespace PlatformGame.Movement
                 movable.Speed.Normalize();
             }
 
-            if ((int)yAxis > 0 && !jump && onGround )
+            if (pressY && !jump && onGround )
             {
                 jumpHeight = (int)movable.Position.Y - 120;
                 isFalling = false;
@@ -72,10 +79,8 @@ namespace PlatformGame.Movement
                 onGround = false;
             }
 
-            var afstand = movable.Speed;
-            var toekomstigePositie = movable.Position + afstand;
+            var toekomstigePositie = movable.Position + movable.Speed;
             Rectangle toekomstigeRect = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, 50, 54);
-            //isFalling = true;
 
             if (Collide(toekomstigeRect, blockList))
             {
@@ -98,39 +103,32 @@ namespace PlatformGame.Movement
                     isFalling = false;
                     movable.Speed = new Vector2(movable.Speed.X, 0);
                     onGround = true;
+                    pressY = false;
                 }
 
-                if (yAxis > 0)
+                if (pressY )
                 {
                     movable.Speed = new Vector2(movable.Speed.X, 0);
                     isFalling = true;
                     jump = false;
 
                 }
-                /*if (jump)
-                {
-                    jump = false;
-                    movable.Speed = new Vector2(movable.Speed.X, 0);
-                    isFalling = true;
-                }*/
-                //ja richting = 0;
 
                 toekomstigePositie = movable.Position + movable.Speed;
 
             }
-            else if (!(Collide(toekomstigeRect, blockList) &&!onGround) 
+            else if (!(Collide(toekomstigeRect, blockList) 
+                &&!onGround) 
                 && !isFalling 
                 && !jump) 
             { 
                 isFalling = true; 
-                jump = false; }
+                jump = false; 
+            }
             movable.Position = toekomstigePositie;
-            Debug.WriteLine("Falling " + isFalling);
 
         }
-        void Jumping()
-        {
-        }
+
         bool Collide(Rectangle rectangle, List<Block> blockList)
         {
             foreach (var block in blockList)

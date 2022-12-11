@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame;
+using PlatformGame.Blocks;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame
 {
-     class Animation
+    class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
         //public AnimationFrame CurrentFrame { get; set; }

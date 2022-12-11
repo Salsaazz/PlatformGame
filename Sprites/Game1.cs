@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PlatformGame;
+using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
