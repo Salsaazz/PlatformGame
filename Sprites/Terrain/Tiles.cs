@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace PlatformGame.Terrain
 {
     internal class Tiles
     {
-        public List<Block> blocks = new List<Block>();
+        public List<Blockies> blocks = new List<Blockies>();
         int[,] gameboard = new int[,]
      {
         { 1,1,1,1,1,1,1,1 },
@@ -32,7 +31,7 @@ namespace PlatformGame.Terrain
                 {
                     if (gameboard[i, j] == 1)
                     {
-                        blocks.Add(new Block(new Rectangle((j * 10), (i * 10), 10, 10), texture, Color.Green));
+                        blocks.Add(new Blockies(new Rectangle((j * 10), (i * 10), 10, 10), texture, Color.Green));
                     }
                 }
             }

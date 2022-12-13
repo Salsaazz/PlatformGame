@@ -1,17 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame;
+using PlatformGame.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame
+namespace PlatformGame.Interfaces
 {
-    internal interface IGameObject
+    internal interface IFollowPlayer
     {
         void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch);
+        public void Draw(SpriteBatch spriteBatch, Player followObject);
+
     }
 }

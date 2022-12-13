@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Blocks
 {
-    internal class BlockFactory
+    internal class GroundBlock
     {
     }
 }

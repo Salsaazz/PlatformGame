@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
-using PlatformGame.Collide;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using System;
@@ -13,7 +12,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace PlatformGame.Characters
 {
-    internal class Player : IGameObject, IMovable
+    internal class Player : IGameObjectCollider, IMovable
     {
         private Texture2D texture;
         public Animation walkAnimation;
@@ -22,18 +21,14 @@ namespace PlatformGame.Characters
         public Vector2 Position { get; set; }
         //Velocity
         public Vector2 Speed { get; set; }
-        //Vector2 Velocity { get; set; } = new Vector2(0, 0);
         public bool isLeft = false;
-        public int healthBar = 10;
-        public Block drawBox;
-        public Rectangle HitBox { get; set; }
-        public Color Colour { get; set; } = Color.AliceBlue;
+        public int Health { get; set; } = 5;
+        public Block HitBox { get; set; }
+        private Color Colour = Color.AliceBlue;
         public IInputReader InputReader { get; set; }
         public MovementManager movementManager;
-        Texture2D boxTexture;
-        CollideManager collided;
-        public int ground = 550;
-        public Player(Texture2D texture, Texture2D recTexture, IInputReader inputReader)
+        Texture2D hitboxTexture;
+        public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader)
         {
             this.texture = texture;
             walkAnimation = new Animation();
@@ -41,26 +36,17 @@ namespace PlatformGame.Characters
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
             Position = new Vector2(300, 420);
-            boxTexture = recTexture;
-            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
-            drawBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 32, 43), boxTexture, Speed, Color.AliceBlue);
+            this.hitboxTexture = hitboxtexture;
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 50, 54), Color.Green, hitboxTexture );
             //van de IMoveable
             InputReader = inputReader;
             movementManager = new MovementManager();
-            collided = new CollideManager();
-
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            throw new NotImplementedException();
-        }
-        public void Draw(SpriteBatch spriteBatch, Texture2D objTexture)
-        {
             //Draw HitboxPlayer
-            spriteBatch.Draw(boxTexture, HitBox, null, Color.White);
-
+            HitBox.Draw(spriteBatch);
             if (movementManager.isLeft && !movementManager.standStill)
             {
                 spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
@@ -79,22 +65,10 @@ namespace PlatformGame.Characters
 
         }
 
-        //geef input
-        //input => richting of valrichting
-        //bereken toekomstige plaats adhv input
-        //check of tp botst
-        //nee positie = toekomst
-        //ja richting = 0;
-
-        public void Update(GameTime gameTime, int windowWidth, int widowHeight)
+        public void Update(GameTime gameTime, List<Blockies> list)
         {
-            throw new NotImplementedException();
-        }
-        public void Update(GameTime gameTime, int windowWidth, int widowHeight, List<Block> list)
-        {
-            bool collided = this.collided.hasCollided(HitBox, list);
             movementManager.Move(this, list);
-            HitBox = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
+            HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
             walkAnimation.Update(gameTime);
         }
 

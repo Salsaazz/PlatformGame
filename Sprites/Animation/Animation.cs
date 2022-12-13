@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame.Blocks;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace PlatformGame
         //static maken zodat je dit kan meegeven voor de hitboxes list
         public int counter=0;
         private double secondCounter = 0;
-        public List<Block> blocks = new List<Block>();
+        public List<Blockies> blocks = new List<Blockies>();
         public Animation()
         {
             frames = new List<AnimationFrame>();

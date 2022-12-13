@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualBasic.Devices;
 using Microsoft.Xna.Framework;
-using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Interfaces;
 using SharpDX.Direct3D9;
@@ -18,7 +17,6 @@ namespace PlatformGame.Movement
 {
     internal class MovementManager
     {
-        public float currentHeight;
         public bool isLeft = false;
         public bool standStill = true;
         public bool jump = false;
@@ -26,16 +24,22 @@ namespace PlatformGame.Movement
         private int jumpHeight = 0;
         private bool onGround = false;
         private bool pressY = false;
-        public void Move(IMovable movable, List<Block> blockList)
+        public Rectangle toekomstigeRect;
+        public void Move(IMovable movable, List<Blockies> blockList)
         {
-            Debug.WriteLine(movable.InputReader.ReadInput().Y);
+            //Debug.WriteLine(movable.InputReader.ReadInput().Y);
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
             float yAxis = movable.InputReader.ReadInput().Y;
+            Debug.Write(movable.Speed.X);
             if (yAxis > 0 && !isFalling && !jump)
             {
+                //om de zoveel seconde veranderd de input
+                // gaat direct van 2 --> 0
+                //dus zal er een error ontstaan als je wilt jumpen met collion detection
+                //eens willen jumpen(yAxis) --> variabele blijft op 2 tot die weer valt
+                //hiermee coll detection doen via een bool (pressY)
                 pressY = true;
             }
-            Debug.WriteLine(pressY);
 
             if (movable.Speed.X < 0)
             {
@@ -59,7 +63,6 @@ namespace PlatformGame.Movement
                 jumpHeight = (int)movable.Position.Y - 120;
                 isFalling = false;
                 jump = true;
-                //onGround = false;
             }
 
             if (jump && !isFalling)
@@ -80,7 +83,8 @@ namespace PlatformGame.Movement
             }
 
             var toekomstigePositie = movable.Position + movable.Speed;
-            Rectangle toekomstigeRect = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, 50, 54);
+            
+            toekomstigeRect = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, 50, 54);
 
             if (Collide(toekomstigeRect, blockList))
             {
@@ -93,25 +97,26 @@ namespace PlatformGame.Movement
                 //bereken toekomstige plaats adhv input
                 //check of tp botst
                 //nee positie = toekomst
-                if (movable.Speed.X > 0 || movable.Speed.X < 0)
-                {
-                    movable.Speed = new Vector2(0, movable.Speed.Y);
-                }
+                
                 if (isFalling)
                 {
                     jump = false;
                     isFalling = false;
                     movable.Speed = new Vector2(movable.Speed.X, 0);
                     onGround = true;
-                    pressY = false;
                 }
 
-                if (pressY )
+                if (pressY && !isFalling)
                 {
                     movable.Speed = new Vector2(movable.Speed.X, 0);
                     isFalling = true;
                     jump = false;
+                    pressY = false;
 
+                }
+                if (movable.Speed.X > 0 || movable.Speed.X < 0)
+                {
+                    movable.Speed = new Vector2(0, movable.Speed.Y);
                 }
 
                 toekomstigePositie = movable.Position + movable.Speed;
@@ -126,10 +131,11 @@ namespace PlatformGame.Movement
                 jump = false; 
             }
             movable.Position = toekomstigePositie;
+            Debug.Write("NA: " + movable.Speed.X);
 
         }
 
-        bool Collide(Rectangle rectangle, List<Block> blockList)
+        bool Collide(Rectangle rectangle, List<Blockies> blockList)
         {
             foreach (var block in blockList)
             {
