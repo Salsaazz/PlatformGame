@@ -13,15 +13,15 @@ namespace PlatformGame
     class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
-        //public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        //static maken zodat je dit kan meegeven voor de hitboxes list
         public int counter=0;
         private double secondCounter = 0;
+        private double framesPerSec;
         public List<Blockies> blocks = new List<Blockies>();
-        public Animation()
+        public Animation(double framesPerSec)
         {
             frames = new List<AnimationFrame>();
+            this.framesPerSec = framesPerSec;
         }
 
         public void Update(GameTime gameTime)
@@ -30,8 +30,8 @@ namespace PlatformGame
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
             //animatie met de Velocity aanpassen
-            //per 0.3sec 1frame
-            if (secondCounter >= 0.3d/ fps)
+            //per 0.3dsec 1frame
+            if (secondCounter >= framesPerSec/ fps)
             {
                 counter++;;
                 secondCounter = 0;

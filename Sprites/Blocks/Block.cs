@@ -24,11 +24,12 @@ namespace PlatformGame.Blocks
             Color = color;
 
         }
+
         public Block(Rectangle rectangle)
         {
             RectangleBlock = rectangle;
             Position = new Vector2(rectangle.X, rectangle.Y);
-            Color = Color.Green;
+            Color = Color.Red;
 
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -3,8 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
+using PlatformGame.Terrain;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection.Metadata;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
@@ -21,6 +24,8 @@ namespace PlatformGame.Characters
         public Vector2 Position { get; set; }
         //Velocity
         public Vector2 Speed { get; set; }
+        private int hitBoxWidth;
+        private int textureHeight;
         public bool isLeft = false;
         public int Health { get; set; } = 5;
         public Block HitBox { get; set; }
@@ -31,13 +36,14 @@ namespace PlatformGame.Characters
         public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader)
         {
             this.texture = texture;
-            walkAnimation = new Animation();
-            idleFrame = new Rectangle(0, 0, 57, 57);
+            walkAnimation = new Animation(0.3d);
+            hitBoxWidth = texture.Width / 4;
+            idleFrame = new Rectangle(0, 0, hitBoxWidth, texture.Height);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
             Position = new Vector2(300, 420);
             this.hitboxTexture = hitboxtexture;
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 50, 54), Color.Green, hitboxTexture );
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height), Color.Green, hitboxTexture );
             //van de IMoveable
             InputReader = inputReader;
             movementManager = new MovementManager();
@@ -65,10 +71,10 @@ namespace PlatformGame.Characters
 
         }
 
-        public void Update(GameTime gameTime, List<Blockies> list)
+        public void Update(GameTime gameTime, List<Tile> list)
         {
             movementManager.Move(this, list);
-            HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, 50, 54);
+            HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
         }
 

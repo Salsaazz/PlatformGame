@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
+using PlatformGame.Terrain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace PlatformGame.Interfaces
 {
     internal interface IGameObjectCollider
     {
-        void Update(GameTime gameTime, List<Blockies> list);
+        void Update(GameTime gameTime, List<Tile> list);
         void Draw(SpriteBatch spriteBatch);
         Block HitBox { get; set; }
     }

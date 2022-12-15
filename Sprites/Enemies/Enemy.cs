@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Enemies
 {
-    abstract class Enemy: IGameObjectCollider
+    abstract class Enemy//: IGameObjectCollider
     {
         //public int DamagePerSec { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle RectangleTexture { get; set; }
-        public Animation objectAnimation { get; set; }
+        public Animation objectAnimation { get; set; } = new Animation(0.20d);
         public bool IsLeft { get; set; } = false;
         public int textureWidth { get; set; }
         public int textureHeight { get; set; } = 1;
         public Vector2 Position { get; set; }
-        public Block HitBox { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Block HitBox { get ; set ; }
         public GameTimer gameTimer = new GameTimer();
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -38,9 +38,6 @@ namespace PlatformGame.Enemies
 
         abstract public void Update(GameTime gameTime, Player player);
 
-        public void Update(GameTime gameTime, List<Blockies> list)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

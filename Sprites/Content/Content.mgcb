@@ -157,7 +157,7 @@
 /processorParam:TextureFormat=Color
 /build:Capybara/CapybaraWalk.png
 
-#begin Crow/Crow.png
+#begin Crow/Crow2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,7 +167,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Crow/Crow.png
+/build:Crow/Crow2.png
 
 #begin Font/myFont.spritefont
 /importer:FontDescriptionImporter
@@ -283,4 +283,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Tiles/spritesheet (2).png
+
+#begin Tiles/spritesheet (3).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiles/spritesheet (3).png
 

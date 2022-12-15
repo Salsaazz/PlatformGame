@@ -13,6 +13,7 @@ using SharpDX.Direct3D9;
 using System.Collections.Generic;
 using System.Diagnostics;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
+using Tile = PlatformGame.Terrain.Tile;
 
 namespace PlatformGame
 {
@@ -34,10 +35,11 @@ namespace PlatformGame
         Texture2D _mountainTexture;
         Texture2D _pineTexture;
         Texture2D _skyTexture;
-        Texture2D HitBoxPlayerText;
+        Texture2D HitBoxTexture;
+        Texture2D _tile;
         SpriteFont font;
         List<Blockies> blockList = new List<Blockies>();
-        List<Blockies> textureBlockList = new List<Blockies>();
+        List<Tile> textureBlockList = new List<Tile>();
         Enemy crow;
         int[,] gameboard = new int[,]
      {
@@ -76,19 +78,21 @@ namespace PlatformGame
             _graphics.PreferredBackBufferHeight = 1000;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
-            //player = new Player(_playerTexture, HitBoxPlayerText, inputReader);
-            player = new Player(_playerTexture,HitBoxPlayerText, inputReader);
+            //player = new Player(_playerTexture, HitBoxTexture, inputReader);
+            player = new Player(_playerTexture,HitBoxTexture, inputReader);
             capy = new Capybara(_capyTexture);
-            //crow = new MovingEnemy(_crowTexture);
+            crow = new MovingEnemy(_crowTexture,HitBoxTexture,new Vector2(50,200), 3, 1);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
-            for (int i = 0; i < 1000; i+=50)
+            for (int i = 0; i < 1000; i+=57)
             {
-                blockList.Add(new Blockies(new Rectangle(100+i, 550, 50, 50), HitBoxPlayerText, Color.Blue));
-
+                //blockList.Add(new Blockies(new Rectangle(100+i, 550, 50, 50), HitBoxTexture, Color.Blue));
+                textureBlockList.Add(new Tile(_tile, 2, 100+i, 550, HitBoxTexture));
             }
-            for (int i = 0; i < 800; i+=50)
+            for (int i = 0; i < 600; i+=57)
             {
-                blockList.Add(new Blockies(new Rectangle(i+ 380, 250-i, 50, 50), HitBoxPlayerText, Color.Blue));
+                //blockList.Add(new Blockies(new Rectangle(i+ 380, 250-i, 50, 50), HitBoxTexture, Color.Blue));
+                textureBlockList.Add(new Tile(_tile, 2, 357 + i, 450-i, HitBoxTexture));
+                //textureBlockList.Add(new Tile(_tile, 2, i + 57, i + 70, HitBoxTexture));
 
             }
 
@@ -96,8 +100,8 @@ namespace PlatformGame
 
         protected override void LoadContent()
         {
-            HitBoxPlayerText = new Texture2D(GraphicsDevice, 1, 1);
-            HitBoxPlayerText.SetData(new[] { Color.White });
+            HitBoxTexture = new Texture2D(GraphicsDevice, 1, 1);
+            HitBoxTexture.SetData(new[] { Color.White });
 
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -108,7 +112,8 @@ namespace PlatformGame
             _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
             _pineTexture = Content.Load<Texture2D>("./Background/pine1");
             _skyTexture = Content.Load<Texture2D>("./Background/sky");
-            _crowTexture = Content.Load<Texture2D>("./Crow/Crow");
+            _crowTexture = Content.Load<Texture2D>("./Crow/Crow2");
+            _tile = Content.Load<Texture2D>("./Tiles/spritesheet (3)");
             font = Content.Load<SpriteFont>("./Font/myFont");
             inputReader = new KeyboardReader();
         }
@@ -119,8 +124,9 @@ namespace PlatformGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            player.Update(gameTime, blockList);
+            player.Update(gameTime, textureBlockList);
             capy.Update(gameTime);
+            crow.Update(gameTime, player);
             base.Update(gameTime);
             // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
         }
@@ -134,11 +140,12 @@ namespace PlatformGame
             background.Draw(_spriteBatch, _graphics);
             player.Draw(_spriteBatch);
             capy.Draw(_spriteBatch, player);
+            crow.Draw(_spriteBatch);
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, player.Health.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
-            foreach (var block in blockList)
+            foreach (var tile in textureBlockList)
             {
-                block.Draw(_spriteBatch);
+                tile.Draw(_spriteBatch);
             }
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -152,7 +159,7 @@ namespace PlatformGame
                 {
                     if (gameboard[i, j] == 1)
                     {
-                        blocks.Add(new BlockList(new Rectangle((j * 57), (i * 57), 57, 57), HitBoxPlayerText, Color.Green));
+                        blocks.Add(new BlockList(new Rectangle((j * 57), (i * 57), 57, 57), HitBoxTexture, Color.Green));
                     }
                 }
             }

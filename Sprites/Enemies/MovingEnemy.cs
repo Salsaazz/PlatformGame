@@ -17,27 +17,16 @@ namespace PlatformGame.Enemies
     internal class MovingEnemy : Enemy
     {
         IMovingBehavior movingBehavior = new Moving();
-        public MovingEnemy(Texture2D texture, Rectangle rectangle, int widthtexture, int totalSprites, int layers)
+        public MovingEnemy(Texture2D texture, Texture2D HitBoxTexture, Vector2 position, int totalSprites, int layers)
         {
-            Position = new Vector2(rectangle.X, rectangle.Y);
+            Position = position; 
             Texture = texture;
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
             textureWidth = texture.Width / totalSprites;
-            HitBox = new Block(rectangle, Color.Red, texture);
-
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, texture.Width/totalSprites, texture.Height/ layers), Color.Red, HitBoxTexture);
         }
 
 
-        /*public override void Draw(SpriteBatch spriteBatch)
-        {
-            HitBox.Draw(spriteBatch);
-            if (IsLeft)
-            {
-                spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
-            }
-            else
-            spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
-        }*/
 
         public override void Update(GameTime gameTime, Player player)
         {
@@ -61,7 +50,8 @@ namespace PlatformGame.Enemies
             }
             movingBehavior.Move(Position);
             //HitbBox updaten (door position,moet mee veranderen met de sprite)
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, textureWidth, textureWidth), Color.Red, Texture);
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, textureWidth/3, Texture.Height), Color.Red, HitBox.Texture);
+            objectAnimation.Update(gameTime);
         }
 
         public void Update(GameTime gameTime, List<Blockies> list)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualBasic.Devices;
 using Microsoft.Xna.Framework;
+using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Interfaces;
+using PlatformGame.Terrain;
 using SharpDX.Direct3D9;
 using SharpDX.XInput;
 using System;
@@ -25,7 +27,7 @@ namespace PlatformGame.Movement
         private bool onGround = false;
         private bool pressY = false;
         public Rectangle toekomstigeRect;
-        public void Move(IMovable movable, List<Blockies> blockList)
+        public void Move(IMovable movable, List<Tile> blockList)
         {
             //Debug.WriteLine(movable.InputReader.ReadInput().Y);
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
@@ -60,7 +62,7 @@ namespace PlatformGame.Movement
 
             if (pressY && !jump && onGround )
             {
-                jumpHeight = (int)movable.Position.Y - 120;
+                jumpHeight = (int)movable.Position.Y - 57*2;
                 isFalling = false;
                 jump = true;
             }
@@ -77,7 +79,7 @@ namespace PlatformGame.Movement
             }
             if (isFalling && !jump)
             {
-                float i = 8f;
+                float i = 10f;
                 movable.Speed += new Vector2(0, 0.15f * i);
                 onGround = false;
             }
@@ -97,7 +99,11 @@ namespace PlatformGame.Movement
                 //bereken toekomstige plaats adhv input
                 //check of tp botst
                 //nee positie = toekomst
-                
+                if (movable.Speed.X > 0 || movable.Speed.X < 0)
+                {
+                    movable.Speed = new Vector2(0, movable.Speed.Y);
+                }
+
                 if (isFalling)
                 {
                     jump = false;
@@ -113,10 +119,6 @@ namespace PlatformGame.Movement
                     jump = false;
                     pressY = false;
 
-                }
-                if (movable.Speed.X > 0 || movable.Speed.X < 0)
-                {
-                    movable.Speed = new Vector2(0, movable.Speed.Y);
                 }
 
                 toekomstigePositie = movable.Position + movable.Speed;
@@ -135,11 +137,11 @@ namespace PlatformGame.Movement
 
         }
 
-        bool Collide(Rectangle rectangle, List<Blockies> blockList)
+        bool Collide(Rectangle rectangle, List<Tile> blockList)
         {
             foreach (var block in blockList)
             {
-                if (rectangle.Intersects(block.rectangle))
+                if (rectangle.Intersects(block.HitBox.RectangleBlock))
                 {
                     return true;
                 }
