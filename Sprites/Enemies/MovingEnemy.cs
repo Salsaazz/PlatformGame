@@ -7,6 +7,7 @@ using PlatformGame.Interfaces;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -19,11 +20,12 @@ namespace PlatformGame.Enemies
         IMovingBehavior movingBehavior = new Moving();
         public MovingEnemy(Texture2D texture, Texture2D HitBoxTexture, Vector2 position, int totalSprites, int layers)
         {
-            Position = position; 
+            Position = position;
+            Speed = new Vector2(2, 0);
             Texture = texture;
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
             textureWidth = texture.Width / totalSprites;
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, texture.Width/totalSprites, texture.Height/ layers), Color.Red, HitBoxTexture);
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height), Color.Red, HitBoxTexture);
         }
 
 
@@ -38,27 +40,13 @@ namespace PlatformGame.Enemies
                     gameTimer.Counter = 0;
                 }
             }
-            if (Position.X > 1000 - textureWidth)
-            {
-                Position = new Vector2(Position.X * -1, Position.Y);
-                IsLeft = true;
-            }
-            else if(Position.X < 0)
-            {
-                Position = new Vector2(Position.X * -1, Position.Y);
-                IsLeft = false;
-            }
-            movingBehavior.Move(Position);
+
             //HitbBox updaten (door position,moet mee veranderen met de sprite)
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, textureWidth/3, Texture.Height), Color.Red, HitBox.Texture);
+            Speed = movingBehavior.Move(this.Position, Speed);
+            Position += Speed;
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, textureWidth, Texture.Height), Color.Red, HitBox.Texture);
             objectAnimation.Update(gameTime);
+            Debug.WriteLine(Position.X);
         }
-
-        public void Update(GameTime gameTime, List<Blockies> list)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

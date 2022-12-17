@@ -9,6 +9,6 @@ namespace PlatformGame.EnemyMoving
 {
     internal interface IMovingBehavior
     {
-        public void Move(Vector2 position);
+        public Vector2 Move(Vector2 position, Vector2 speed);
     }
 }

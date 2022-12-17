@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using PlatformGame.Blocks;
 using PlatformGame.Characters;
+using PlatformGame.Collision;
 using PlatformGame.Interfaces;
 using PlatformGame.Terrain;
 using SharpDX.Direct3D9;
@@ -21,12 +22,14 @@ namespace PlatformGame.Movement
     {
         public bool isLeft = false;
         public bool standStill = true;
-        public bool jump = false;
-        public bool isFalling = true;
+        public bool jump { get; set; } = false;
+        public bool isFalling { get; set; } = true;
         private int jumpHeight = 0;
-        private bool onGround = false;
-        private bool pressY = false;
-        public Rectangle toekomstigeRect;
+        public bool onGround { get; set; } = false;
+        public bool pressY { get; set; } = false;
+        public Rectangle futureRect;
+        CollisionManager collision = new CollisionManager();
+        public Vector2 futurePosition { get; set; }
         public void Move(IMovable movable, List<Tile> blockList)
         {
             //Debug.WriteLine(movable.InputReader.ReadInput().Y);
@@ -60,9 +63,9 @@ namespace PlatformGame.Movement
                 movable.Speed.Normalize();
             }
 
-            if (pressY && !jump && onGround )
+            if (pressY && !jump && onGround)
             {
-                jumpHeight = (int)movable.Position.Y - 57*2;
+                jumpHeight = (int)movable.Position.Y - 57 * 2;
                 isFalling = false;
                 jump = true;
             }
@@ -84,70 +87,13 @@ namespace PlatformGame.Movement
                 onGround = false;
             }
 
-            var toekomstigePositie = movable.Position + movable.Speed;
-            
-            toekomstigeRect = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, 50, 54);
+            futurePosition = movable.Position + movable.Speed;
 
-            if (Collide(toekomstigeRect, blockList))
-            {
-                //als het jumpt en collide --> topcollide
-                //isfalling = true --> bottomcollide snehlheid=0
-                //drukt op links of rechts --> snelheid(0,Y)
+            futureRect = new Rectangle((int)futurePosition.X, (int)futurePosition.Y, 50, 54);
 
-                //geef input
-                //input => richting of valrichting
-                //bereken toekomstige plaats adhv input
-                //check of tp botst
-                //nee positie = toekomst
-                if (movable.Speed.X > 0 || movable.Speed.X < 0)
-                {
-                    movable.Speed = new Vector2(0, movable.Speed.Y);
-                }
-
-                if (isFalling)
-                {
-                    jump = false;
-                    isFalling = false;
-                    movable.Speed = new Vector2(movable.Speed.X, 0);
-                    onGround = true;
-                }
-
-                if (pressY && !isFalling)
-                {
-                    movable.Speed = new Vector2(movable.Speed.X, 0);
-                    isFalling = true;
-                    jump = false;
-                    pressY = false;
-
-                }
-
-                toekomstigePositie = movable.Position + movable.Speed;
-
-            }
-            else if (!(Collide(toekomstigeRect, blockList) 
-                &&!onGround) 
-                && !isFalling 
-                && !jump) 
-            { 
-                isFalling = true; 
-                jump = false; 
-            }
-            movable.Position = toekomstigePositie;
-            Debug.Write("NA: " + movable.Speed.X);
-
-        }
-
-        bool Collide(Rectangle rectangle, List<Tile> blockList)
-        {
-            foreach (var block in blockList)
-            {
-                if (rectangle.Intersects(block.HitBox.RectangleBlock))
-                {
-                    return true;
-                }
-            }
-            return false;
-
+            var hasCollided = collision.CollisionDetection(futureRect, blockList);
+            collision.Collide(hasCollided,this, movable);
+            movable.Position = futurePosition;
         }
     }
 }

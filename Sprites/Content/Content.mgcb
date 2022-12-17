@@ -224,7 +224,7 @@
 /processorParam:TextureFormat=Color
 /build:Food/strawberry.png
 
-#begin Player/playersheetsprites (5).png
+#begin Player/playersheetsprites (52).png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -234,7 +234,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/playersheetsprites (5).png
+/build:Player/playersheetsprites (52).png
+
+#begin Player/playersheetsprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/playersheetsprites.png
 
 #begin playersheetsprites (5).png
 /importer:TextureImporter

@@ -74,8 +74,8 @@ namespace PlatformGame
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 1000;
-            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 800;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
             //player = new Player(_playerTexture, HitBoxTexture, inputReader);
@@ -83,16 +83,19 @@ namespace PlatformGame
             capy = new Capybara(_capyTexture);
             crow = new MovingEnemy(_crowTexture,HitBoxTexture,new Vector2(50,200), 3, 1);
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
-            for (int i = 0; i < 1000; i+=57)
+            for (int i = 0; i < 1000; i+=48)
             {
                 //blockList.Add(new Blockies(new Rectangle(100+i, 550, 50, 50), HitBoxTexture, Color.Blue));
-                textureBlockList.Add(new Tile(_tile, 2, 100+i, 550, HitBoxTexture));
+                textureBlockList.Add(new Tile(_tile, 2, 10+i, 800-55, HitBoxTexture));
+                for (int j = 0; j < 800; j+=55)
+                {
+                    textureBlockList.Add(new Tile(_tile, 2, 100 + i, 850 - i, HitBoxTexture));
+
+                }
             }
-            for (int i = 0; i < 600; i+=57)
+            for (int i = 0; i < 700; i+=50)
             {
-                //blockList.Add(new Blockies(new Rectangle(i+ 380, 250-i, 50, 50), HitBoxTexture, Color.Blue));
-                textureBlockList.Add(new Tile(_tile, 2, 357 + i, 450-i, HitBoxTexture));
-                //textureBlockList.Add(new Tile(_tile, 2, i + 57, i + 70, HitBoxTexture));
+                textureBlockList.Add(new Tile(_tile, 2, 0, 0 + i, HitBoxTexture));
 
             }
 
@@ -106,7 +109,7 @@ namespace PlatformGame
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            _playerTexture = Content.Load<Texture2D>("playersheetsprites_0");
+            _playerTexture = Content.Load<Texture2D>("./Player/playersheetsprites (52)");
             _capyTexture = Content.Load<Texture2D>("./Capybara/CapybaraWalk");
             _cloudTexture = Content.Load<Texture2D>("./Background/cloud");
             _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");

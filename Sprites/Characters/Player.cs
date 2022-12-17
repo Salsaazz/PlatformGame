@@ -37,11 +37,11 @@ namespace PlatformGame.Characters
         {
             this.texture = texture;
             walkAnimation = new Animation(0.3d);
-            hitBoxWidth = texture.Width / 4;
-            idleFrame = new Rectangle(0, 0, hitBoxWidth, texture.Height);
+            hitBoxWidth = texture.Width / 4 -7;
+            idleFrame = new Rectangle(0, 0, texture.Width/4, texture.Height);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(300, 420);
+            Position = new Vector2(60, 420);
             this.hitboxTexture = hitboxtexture;
             HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height), Color.Green, hitboxTexture );
             //van de IMoveable
@@ -76,6 +76,7 @@ namespace PlatformGame.Characters
             movementManager.Move(this, list);
             HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
+
         }
 
 

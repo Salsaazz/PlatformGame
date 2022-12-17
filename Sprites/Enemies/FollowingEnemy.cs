@@ -33,7 +33,7 @@ namespace PlatformGame.Enemies
             {
                 Position = new Vector2(Position.X * -1, Position.Y);
             }
-            movingBehavior.Move(Position);
+            //movingBehavior.Move(Position);
             gameTimer.UpdateCounter(gameTime);
 
         }

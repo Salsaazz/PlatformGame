@@ -24,6 +24,7 @@ namespace PlatformGame.Enemies
         public Vector2 Position { get; set; }
         public Block HitBox { get ; set ; }
         public GameTimer gameTimer = new GameTimer();
+        public Vector2 Speed { get; set; } = Vector2.Zero;
         public void Draw(SpriteBatch spriteBatch)
         {
             HitBox.Draw(spriteBatch);
