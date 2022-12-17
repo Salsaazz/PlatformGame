@@ -35,7 +35,7 @@ namespace PlatformGame.Enemies
 
         public override void Update(GameTime gameTime, Player player)
         {
-            if (player.HitBox.RectangleBlock.Intersects(HitBox.RectangleBlock))
+            if (player.HitBox.RectangleBlock.Intersects(HitBox.RectangleBlock) && !IsDead)
             {
                 if (player.gameTimer.Counter >= 1000)
                 {
@@ -44,7 +44,8 @@ namespace PlatformGame.Enemies
                     /*player.movementManager.jump = false;
                     player.movementManager.onGround = false;
                     player.movementManager.isFalling = true;*/
-                    if (player.movementManager.Movable.Speed.X > 0 || player.movementManager.Movable.Speed.X < 0)
+                    if (player.movementManager.Movable.Speed.X > 0 || player.movementManager.Movable.Speed.X < 0
+                        || player.movementManager.Movable.Speed.X == 0)
                     {
                         player.movementManager.Movable.Speed = new Vector2(0
                            , player.movementManager.Movable.Speed.Y);
@@ -57,11 +58,11 @@ namespace PlatformGame.Enemies
                     {
                         player.movementManager.Movable.Speed = new Vector2(player.movementManager.Movable.Speed.X, 0);
                         player.movementManager.jump = false;
-                        player.movementManager.isFalling = true;
+                        //player.movementManager.isFalling = true;
                         player.movementManager.onGround = false ;
 
                     }
-                    else if (player.movementManager.isFalling)
+                    else if (player.movementManager.isFalling && player.HitBox.RectangleBlock.Bottom-2   <= HitBox.RectangleBlock.Top)
                     {
                         IsDead = true;
 

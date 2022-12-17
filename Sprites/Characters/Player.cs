@@ -43,7 +43,7 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, texture.Width/4, texture.Height);
             //+21 marge door spritesheet marge tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(60, 420);
+            Position = new Vector2(60, 620);
             this.hitboxTexture = hitboxtexture;
             HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height), Color.Green, hitboxTexture );
             //van de IMoveable
