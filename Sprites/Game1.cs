@@ -41,6 +41,7 @@ namespace PlatformGame
         List<Blockies> blockList = new List<Blockies>();
         List<Tile> textureBlockList = new List<Tile>();
         Enemy crow;
+        Enemy crow2;
         int[,] gameboard = new int[,]
      {
         { 1,0,0,0,0,0,0,1,0,0,0,10 },
@@ -81,17 +82,19 @@ namespace PlatformGame
             //player = new Player(_playerTexture, HitBoxTexture, inputReader);
             player = new Player(_playerTexture,HitBoxTexture, inputReader);
             capy = new Capybara(_capyTexture);
-            crow = new MovingEnemy(_crowTexture,HitBoxTexture,new Vector2(50,200), 3, 1);
+            crow = new MovingEnemy(_crowTexture,HitBoxTexture,new Vector2(700,700), 3, 1);
+            crow2 = new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(100, 600), 3, 1);
+
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             for (int i = 0; i < 1000; i+=48)
             {
                 //blockList.Add(new Blockies(new Rectangle(100+i, 550, 50, 50), HitBoxTexture, Color.Blue));
                 textureBlockList.Add(new Tile(_tile, 2, 10+i, 800-55, HitBoxTexture));
-                for (int j = 0; j < 800; j+=55)
+                /*for (int j = 0; j < 800; j+=55)
                 {
                     textureBlockList.Add(new Tile(_tile, 2, 100 + i, 850 - i, HitBoxTexture));
 
-                }
+                }*/
             }
             for (int i = 0; i < 700; i+=50)
             {
@@ -130,6 +133,8 @@ namespace PlatformGame
             player.Update(gameTime, textureBlockList);
             capy.Update(gameTime);
             crow.Update(gameTime, player);
+            crow2.Update(gameTime, player);
+
             base.Update(gameTime);
             // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
         }
@@ -144,6 +149,7 @@ namespace PlatformGame
             player.Draw(_spriteBatch);
             capy.Draw(_spriteBatch, player);
             crow.Draw(_spriteBatch);
+            crow2.Draw(_spriteBatch);
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, player.Health.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             foreach (var tile in textureBlockList)

@@ -32,10 +32,9 @@ namespace PlatformGame
         {
 
             if (followPlayer.movementManager.isLeft)
-                spriteBatch.Draw(_walkTexture, new Vector2(followPlayer.Position.X - marge, followPlayer.Position.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
-
+                spriteBatch.Draw(_walkTexture, new Vector2(followPlayer.Position.X - marge, followPlayer.HitBox.RectangleBlock.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
             else
-                spriteBatch.Draw(_walkTexture, new Vector2(followPlayer.Position.X - marge, followPlayer.Position.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White);
+                spriteBatch.Draw(_walkTexture, new Vector2(followPlayer.Position.X - marge, followPlayer.HitBox.RectangleBlock.Y), walkAnimation.CurrentFrame.SourceRectangle, Color.White);
         }
 
         public void Update(GameTime gameTime)

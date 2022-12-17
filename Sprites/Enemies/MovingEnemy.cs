@@ -17,6 +17,8 @@ namespace PlatformGame.Enemies
 {
     internal class MovingEnemy : Enemy
     {
+        private float teller = 0;
+
         IMovingBehavior movingBehavior = new Moving();
         public MovingEnemy(Texture2D texture, Texture2D HitBoxTexture, Vector2 position, int totalSprites, int layers)
         {
@@ -25,7 +27,8 @@ namespace PlatformGame.Enemies
             Texture = texture;
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
             textureWidth = texture.Width / totalSprites;
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height), Color.Red, HitBoxTexture);
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 50, 53), Color.Red, HitBoxTexture);
+            HitBox.Type = Block.ObjectType.ENEMY;
         }
 
 
@@ -34,19 +37,46 @@ namespace PlatformGame.Enemies
         {
             if (player.HitBox.RectangleBlock.Intersects(HitBox.RectangleBlock))
             {
-                if (gameTimer.Counter == 1000)
+                if (player.gameTimer.Counter >= 1000)
                 {
                     player.Health--;
-                    gameTimer.Counter = 0;
+                    player.gameTimer.Counter = 0;
+                    /*player.movementManager.jump = false;
+                    player.movementManager.onGround = false;
+                    player.movementManager.isFalling = true;*/
+                    if (player.movementManager.Movable.Speed.X > 0 || player.movementManager.Movable.Speed.X < 0)
+                    {
+                        player.movementManager.Movable.Speed = new Vector2(0
+                           , player.movementManager.Movable.Speed.Y);
+                    }
+                    else
+                        Speed = new Vector2(Speed.X * -1, Speed.Y);
+
+
+                     if (player.movementManager.pressY && !player.movementManager.isFalling)
+                    {
+                        player.movementManager.Movable.Speed = new Vector2(player.movementManager.Movable.Speed.X, 0);
+                        player.movementManager.jump = false;
+                        player.movementManager.isFalling = true;
+                        player.movementManager.onGround = false ;
+
+                    }
+                    else if (player.movementManager.isFalling)
+                    {
+                        IsDead = true;
+
+                    }
+
+
                 }
             }
 
             //HitbBox updaten (door position,moet mee veranderen met de sprite)
             Speed = movingBehavior.Move(this.Position, Speed);
             Position += Speed;
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, textureWidth, Texture.Height), Color.Red, HitBox.Texture);
+            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 50, 53), Color.Red, HitBox.Texture);
             objectAnimation.Update(gameTime);
-            Debug.WriteLine(Position.X);
+
         }
     }
 }

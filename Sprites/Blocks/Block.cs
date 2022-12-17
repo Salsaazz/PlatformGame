@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace PlatformGame.Blocks
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle RectangleBlock { get; set; }
-
+        public ObjectType Type { get; set; }
+        public enum ObjectType { TILE, ENEMY, PLAYER, ITEM};   
         public Block(Rectangle rectangle, Color color, Texture2D texture)
         {
             RectangleBlock = rectangle;

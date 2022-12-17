@@ -4,6 +4,7 @@ using PlatformGame.Blocks;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using PlatformGame.Terrain;
+using PlatformGame.Timer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,6 +34,7 @@ namespace PlatformGame.Characters
         public IInputReader InputReader { get; set; }
         public MovementManager movementManager;
         Texture2D hitboxTexture;
+        public GameTimer gameTimer { get; set; } = new GameTimer();
         public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader)
         {
             this.texture = texture;
@@ -76,9 +78,10 @@ namespace PlatformGame.Characters
             movementManager.Move(this, list);
             HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
+            gameTimer.UpdateCounter(gameTime);
+            Debug.WriteLine(Position.Y);
 
         }
-
 
     }
 }

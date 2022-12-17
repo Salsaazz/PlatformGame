@@ -13,10 +13,6 @@ namespace PlatformGame.Enemies
     internal class FollowingEnemy : Enemy
     {
         IMovingBehavior movingBehavior = new Following();
-        /*public override void Draw(SpriteBatch spriteBatch)
-        {
-            throw new NotImplementedException();
-        }*/
 
         public override void Update(GameTime gameTime, Player player)
         {
@@ -29,7 +25,7 @@ namespace PlatformGame.Enemies
                     gameTimer.Counter = 0;
                 }
             }
-            if (Position.X > 1000 - textureWidth)
+            if (Position.X > 800 - textureWidth)
             {
                 Position = new Vector2(Position.X * -1, Position.Y);
             }

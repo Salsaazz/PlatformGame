@@ -30,6 +30,7 @@ namespace PlatformGame.Terrain
             this.y = y;
             rectangle = new Rectangle(this.x, this.y, textureWidth, texture.Height);
             HitBox = new Block(new Rectangle(this.x, this.y, (int)(textureWidth * 2.8f), (int)(texture.Height *3f)), Color.SeaGreen, HitBoxtexture);
+            HitBox.Type = Block.ObjectType.TILE;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

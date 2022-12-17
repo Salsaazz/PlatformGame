@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks;
 using PlatformGame.Characters;
+using PlatformGame.Enemies;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using PlatformGame.Terrain;
@@ -13,9 +15,11 @@ namespace PlatformGame.Collision
 {
     internal class CollisionManager
     {
-       public void Collide(bool hasCollided,MovementManager player, IMovable movable)
+        bool isEnemy = false;
+        bool isTile = false;
+        bool isItem = false;
+        public void Collide(bool hasCollided,MovementManager player, IMovable movable)
         {
-            var futurePosition = movable.Position + movable.Speed;
             if (hasCollided)
             {
 
@@ -60,12 +64,16 @@ namespace PlatformGame.Collision
             player.futurePosition = movable.Position + movable.Speed;
 
         }
+
         public bool CollisionDetection(Rectangle rectangle, List<Tile> blockList)
         {
             foreach (var block in blockList)
             {
                 if (rectangle.Intersects(block.HitBox.RectangleBlock))
                 {
+                    isTile = true;
+                    isEnemy = false; 
+                    isItem = false;
                     return true;
                 }
             }

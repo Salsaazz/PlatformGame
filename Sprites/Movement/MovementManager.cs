@@ -20,20 +20,23 @@ namespace PlatformGame.Movement
 {
     internal class MovementManager
     {
-        public bool isLeft = false;
+        public bool isLeft { get; set; } = false;
         public bool standStill = true;
         public bool jump { get; set; } = false;
         public bool isFalling { get; set; } = true;
         private int jumpHeight = 0;
         public bool onGround { get; set; } = false;
         public bool pressY { get; set; } = false;
+        public float XCoordinate { get; set; } = 0;
         public Rectangle futureRect;
         CollisionManager collision = new CollisionManager();
         public Vector2 futurePosition { get; set; }
+        public IMovable Movable { get; set; }
         public void Move(IMovable movable, List<Tile> blockList)
         {
-            //Debug.WriteLine(movable.InputReader.ReadInput().Y);
+            Movable = movable;
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
+            XCoordinate = movable.InputReader.ReadInput().X;
             float yAxis = movable.InputReader.ReadInput().Y;
             Debug.Write(movable.Speed.X);
             if (yAxis > 0 && !isFalling && !jump)
@@ -95,5 +98,6 @@ namespace PlatformGame.Movement
             collision.Collide(hasCollided,this, movable);
             movable.Position = futurePosition;
         }
+
     }
 }
