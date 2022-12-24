@@ -145,6 +145,18 @@
 /processorParam:TextureFormat=Color
 /build:Capybara/CapybaraWalk.png
 
+#begin cobra/snake3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:cobra/snake3.png
+
 #begin Crow/Crow2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -212,6 +224,18 @@
 /processorParam:TextureFormat=Color
 /build:Food/strawberry.png
 
+#begin Hyena/snake.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Hyena/snake.png
+
 #begin Player/playersheetsprites (52).png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -223,6 +247,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/playersheetsprites (52).png
+
+#begin snake/snake2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:snake/snake2.png
 
 #begin Tiles/spritesheet (3).png
 /importer:TextureImporter

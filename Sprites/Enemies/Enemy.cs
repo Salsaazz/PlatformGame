@@ -26,19 +26,8 @@ namespace PlatformGame.Enemies
         public GameTimer gameTimer = new GameTimer();
         public Vector2 Speed { get; set; } = Vector2.Zero;
         public bool IsDead { get; set; } = false;
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (!IsDead)
-            {
-            HitBox.Draw(spriteBatch);
-            if (Speed.X <0)
-            {
-                spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1.3f, 2.3f), SpriteEffects.FlipHorizontally, 0f);
-            }
-            else
-                spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1.3f, 2.3f), SpriteEffects.None, 0f);
-            }
-        }
+        abstract public void Draw(SpriteBatch spriteBatch);
+
 
         abstract public void Update(GameTime gameTime, Player player);
 

@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Content\Capybara\" />
     <Folder Include="Content\Crow\" />
+    <Folder Include="Content\Hyena\" />
     <Folder Include="Content\Player\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

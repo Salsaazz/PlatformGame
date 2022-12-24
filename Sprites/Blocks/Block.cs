@@ -16,8 +16,6 @@ namespace PlatformGame.Blocks
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle RectangleBlock { get; set; }
-        public ObjectType Type { get; set; }
-        public enum ObjectType { TILE, ENEMY, PLAYER, ITEM};   
         public Block(Rectangle rectangle, Color color, Texture2D texture)
         {
             RectangleBlock = rectangle;
@@ -36,7 +34,8 @@ namespace PlatformGame.Blocks
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, RectangleBlock, Color);
+                spriteBatch.Draw(Texture, RectangleBlock, Color);
+
         }
 
 

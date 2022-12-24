@@ -26,7 +26,6 @@ namespace PlatformGame.Characters
         //Velocity
         public Vector2 Speed { get; set; }
         private int hitBoxWidth;
-        private int textureHeight;
         public bool isLeft = false;
         public int Health { get; set; } = 5;
         public Block HitBox { get; set; }
@@ -79,7 +78,7 @@ namespace PlatformGame.Characters
             HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
             gameTimer.UpdateCounter(gameTime);
-            Debug.WriteLine(Position.Y);
+            Debug.WriteLine(Speed.X);
 
         }
 

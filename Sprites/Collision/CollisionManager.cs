@@ -13,13 +13,11 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Collision
 {
-    internal class CollisionManager
+     class CollisionManager
     {
-        bool isEnemy = false;
-        bool isTile = false;
-        bool isItem = false;
         public void Collide(bool hasCollided,MovementManager player, IMovable movable)
         {
+
             if (hasCollided)
             {
 
@@ -71,9 +69,6 @@ namespace PlatformGame.Collision
             {
                 if (rectangle.Intersects(block.HitBox.RectangleBlock))
                 {
-                    isTile = true;
-                    isEnemy = false; 
-                    isItem = false;
                     return true;
                 }
             }

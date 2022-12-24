@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿    using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
 using PlatformGame.Characters;
@@ -17,7 +17,6 @@ namespace PlatformGame.Enemies
 {
     internal class MovingEnemy : Enemy
     {
-        private float teller = 0;
 
         IMovingBehavior movingBehavior = new Moving();
         public MovingEnemy(Texture2D texture, Texture2D HitBoxTexture, Vector2 position, int totalSprites, int layers)
@@ -28,10 +27,21 @@ namespace PlatformGame.Enemies
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
             textureWidth = texture.Width / totalSprites;
             HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, 50, 53), Color.Red, HitBoxTexture);
-            HitBox.Type = Block.ObjectType.ENEMY;
         }
 
-
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (!IsDead)
+            {
+                HitBox.Draw(spriteBatch);
+                if (Speed.X < 0)
+                {
+                    spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1.3f, 2.3f), SpriteEffects.FlipHorizontally, 0f);
+                }
+                else
+                    spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1.3f, 2.3f), SpriteEffects.None, 0f);
+            }
+        }
 
         public override void Update(GameTime gameTime, Player player)
         {
@@ -41,16 +51,14 @@ namespace PlatformGame.Enemies
                 {
                     player.Health--;
                     player.gameTimer.Counter = 0;
-                    /*player.movementManager.jump = false;
-                    player.movementManager.onGround = false;
-                    player.movementManager.isFalling = true;*/
+
                     if (player.movementManager.Movable.Speed.X > 0 || player.movementManager.Movable.Speed.X < 0
-                        || player.movementManager.Movable.Speed.X == 0)
+                        )
                     {
                         player.movementManager.Movable.Speed = new Vector2(0
                            , player.movementManager.Movable.Speed.Y);
                     }
-                    else
+                    if(player.movementManager.Movable.Speed.X == 0)
                         Speed = new Vector2(Speed.X * -1, Speed.Y);
 
 
@@ -62,7 +70,7 @@ namespace PlatformGame.Enemies
                         player.movementManager.onGround = false ;
 
                     }
-                    else if (player.movementManager.isFalling && player.HitBox.RectangleBlock.Bottom-2   <= HitBox.RectangleBlock.Top)
+                    else if (player.movementManager.isFalling && player.HitBox.RectangleBlock.Bottom -2  <= HitBox.RectangleBlock.Top)
                     {
                         IsDead = true;
 

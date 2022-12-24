@@ -35,13 +35,17 @@ namespace PlatformGame
         Texture2D _mountainTexture;
         Texture2D _pineTexture;
         Texture2D _skyTexture;
+        Texture2D _cobraTexture;
         Texture2D HitBoxTexture;
         Texture2D _tile;
         SpriteFont font;
+        Block blokje;
         List<Blockies> blockList = new List<Blockies>();
         List<Tile> textureBlockList = new List<Tile>();
         Enemy crow;
         Enemy crow2;
+
+        Enemy cobra;
         int[,] gameboard = new int[,]
      {
         { 1,0,0,0,0,0,0,1,0,0,0,10 },
@@ -82,23 +86,22 @@ namespace PlatformGame
             //player = new Player(_playerTexture, HitBoxTexture, inputReader);
             player = new Player(_playerTexture,HitBoxTexture, inputReader);
             capy = new Capybara(_capyTexture);
-            crow = new MovingEnemy(_crowTexture,HitBoxTexture,new Vector2(700,700), 3, 1);
-            crow2 = new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(100, 600), 3, 1);
+            crow = new MovingEnemy(_crowTexture,HitBoxTexture,new Vector2(100,700), 3, 1);
+            crow2 = new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(400, 250), 3, 1);
 
+            cobra = new StandingEnemy(_cobraTexture, HitBoxTexture, new Vector2(700, 690), 4, 1);
+
+            textureBlockList.Add(new Tile(_tile, 2, 500, 670, HitBoxTexture, Tile.TileType.GRASS));
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
-            for (int i = 0; i < 1000; i+=48)
+            for (int i = 0; i < 1000; i+=47)
             {
                 //blockList.Add(new Blockies(new Rectangle(100+i, 550, 50, 50), HitBoxTexture, Color.Blue));
-                textureBlockList.Add(new Tile(_tile, 2, 10+i, 800-55, HitBoxTexture));
-                /*for (int j = 0; j < 800; j+=55)
-                {
-                    textureBlockList.Add(new Tile(_tile, 2, 100 + i, 850 - i, HitBoxTexture));
+                textureBlockList.Add(new Tile(_tile, 2, i, 800-55, HitBoxTexture, Tile.TileType.GRASS));
 
-                }*/
             }
             for (int i = 0; i < 700; i+=50)
             {
-                textureBlockList.Add(new Tile(_tile, 2, 0, 0 + i, HitBoxTexture));
+                textureBlockList.Add(new Tile(_tile, 2, 0, 0 + i, HitBoxTexture, Tile.TileType.GROUND));
 
             }
 
@@ -119,6 +122,7 @@ namespace PlatformGame
             _pineTexture = Content.Load<Texture2D>("./Background/pine1");
             _skyTexture = Content.Load<Texture2D>("./Background/sky");
             _crowTexture = Content.Load<Texture2D>("./Crow/Crow2");
+            _cobraTexture = Content.Load<Texture2D>("./cobra/snake3");
             _tile = Content.Load<Texture2D>("./Tiles/spritesheet (3)");
             font = Content.Load<SpriteFont>("./Font/myFont");
             inputReader = new KeyboardReader();
@@ -135,6 +139,7 @@ namespace PlatformGame
             crow.Update(gameTime, player);
             crow2.Update(gameTime, player);
 
+            cobra.Update(gameTime, player);
             base.Update(gameTime);
             // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
         }
@@ -148,14 +153,17 @@ namespace PlatformGame
             background.Draw(_spriteBatch, _graphics);
             player.Draw(_spriteBatch);
             capy.Draw(_spriteBatch, player);
-            crow.Draw(_spriteBatch);
-            crow2.Draw(_spriteBatch);
+
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(font, player.Health.ToString(), new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 400), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);
             foreach (var tile in textureBlockList)
             {
                 tile.Draw(_spriteBatch);
             }
+            cobra.Draw(_spriteBatch);
+            crow2.Draw(_spriteBatch);
+            crow.Draw(_spriteBatch);
+
             _spriteBatch.End();
             base.Draw(gameTime);
         }
