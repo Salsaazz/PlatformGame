@@ -10,38 +10,42 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Terrain
 {
-    internal class Tile
+    internal class Tile: Blok
     {
         private Texture2D texture;
         private Rectangle rectangle;
+        private Texture2D BoundingBoxTexture;
         int textureWidth;
          public enum TileType{ GRASS, GROUND};
-        TileType tileType;
+        public TileType TypeTile { get; set; }
         int x;
         int y;
-        public Block HitBox { get; set; }
-        public Tile(Texture2D texture, int totalSprites, int x, int y, Texture2D HitBoxtexture, TileType tileType)
+        public Tile(Texture2D texture, int totalSprites, int x, int y, Texture2D boxTexture, TileType tileType)
+            : base(new Vector2(x,y), Color.White, texture)
         {
             this.texture = texture;
             textureWidth = (int)((texture.Width / totalSprites));
 
             this.x = x;
             this.y = y;
-            rectangle = new Rectangle(this.x, this.y, textureWidth, texture.Height);
-            HitBox = new Block(new Rectangle(this.x, this.y, (int)(textureWidth * 2.8f), (int)(texture.Height *3f)), Color.SeaGreen, HitBoxtexture);
-            this.tileType = tileType;
+            rectangle = new Rectangle(this.x, this.y, 32, 32);
+            BoundingBox = new Rectangle(this.x, this.y, 32, 32);
+            BoundingBoxTexture = boxTexture;
+            this.TypeTile = tileType;
+           
         }
-        public void Draw(SpriteBatch spriteBatch)
+
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            HitBox.Draw(spriteBatch);
-            //spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
-            if (tileType == TileType.GRASS)
+            //spriteBatch.Draw(BoundingBoxTexture, BoundingBox, Color.White);
+            if (TypeTile == TileType.GRASS)
             {
-                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(textureWidth, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, new Vector2(3f, 3f), SpriteEffects.None, 0f);
-                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, new Vector2(3f, 3f), SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(textureWidth, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
             }
-            else if(tileType == TileType.GROUND)
-                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(textureWidth, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, new Vector2(3f, 3f), SpriteEffects.None, 0f);
+            else if (TypeTile == TileType.GROUND)
+            spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(textureWidth, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero,Vector2.One, SpriteEffects.None, 0f);
 
 
         }

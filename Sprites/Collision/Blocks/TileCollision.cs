@@ -9,46 +9,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame.Collision
+namespace PlatformGame.Collision.Blocks
 {
-    internal class TileCollision : Collision
+    internal class TileCollision : MovingBehavior
     {
-        public override void Movement(Player player, Enemy enemy)
+        public override void Collide(Player player, Enemy enemy)
         {
-            if (player.HitBox.RectangleBlock.Intersects(enemy.HitBox.RectangleBlock))
+            if (player.HitBox.RectangleBlock.Intersects(enemy.BoundingBox))
             {
                 if (player.movementManager.Movable.Speed.X > 0 || player.movementManager.Movable.Speed.X < 0)
                 {
                     player.movementManager.Movable.Speed = new Vector2(0, player.movementManager.Movable.Speed.Y);
                 }
 
-                if (player.movementManager.isFalling)
+                if (player.movementManager.IsFalling)
                 {
                     player.movementManager.jump = false;
-                    player.movementManager.isFalling = false;
+                    player.movementManager.IsFalling = false;
                     player.movementManager.Movable.Speed = new Vector2(player.movementManager.Movable.Speed.X, 0);
-                    player.movementManager.onGround = true;
+                    player.movementManager.OnGround = true;
                 }
 
-                if (player.movementManager.pressY && !player.movementManager.isFalling)
+                if (player.movementManager.pressY && !player.movementManager.IsFalling)
                 {
                     player.movementManager.Movable.Speed = new Vector2(player.movementManager.Movable.Speed.X, 0);
-                    player.movementManager.isFalling = true;
+                    player.movementManager.IsFalling = true;
                     player.movementManager.jump = false;
                     player.movementManager.pressY = false;
                 }
             }
-       
-        else if (!player.movementManager.isFalling
-            && !player.movementManager.jump)
+
+            else if (!player.movementManager.IsFalling
+                && !player.movementManager.jump)
             {
-                player.movementManager.isFalling = true;
+                player.movementManager.IsFalling = true;
                 player.movementManager.jump = false;
-                player.movementManager.onGround = false;
+                player.movementManager.OnGround = false;
             }
-            player.movementManager.futurePosition = player.movementManager.Movable.Position 
+            player.movementManager.futurePosition = player.movementManager.Movable.Position
                 + player.movementManager.Movable.Speed;
         }
     }
-    
+
 }

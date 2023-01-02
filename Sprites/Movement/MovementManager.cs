@@ -20,26 +20,25 @@ namespace PlatformGame.Movement
 {
     internal class MovementManager
     {
-        public bool isLeft { get; set; } = false;
+        public bool IsLeft { get; set; } = false;
         public bool standStill = true;
         public bool jump { get; set; } = false;
-        public bool isFalling { get; set; } = true;
+        public bool IsFalling { get; set; } = true;
         private int jumpHeight = 0;
-        public bool onGround { get; set; } = false;
+        public bool OnGround { get; set; } = false;
         public bool pressY { get; set; } = false;
         public float XCoordinate { get; set; } = 0;
-        public Rectangle futureRect;
+        public Rectangle futureRect { get; set; }
         CollisionManager collision = new CollisionManager();
         public Vector2 futurePosition { get; set; }
         public IMovable Movable { get; set; }
-        public void Move(IMovable movable, List<Tile> blockList)
+        public void Move(IMovable movable, List<Blok> blockList)
         {
             Movable = movable;
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
             XCoordinate = movable.InputReader.ReadInput().X;
             float yAxis = movable.InputReader.ReadInput().Y;
-            Debug.Write(movable.Speed.X);
-            if (yAxis > 0 && !isFalling && !jump)
+            if (yAxis > 0 && !IsFalling && !jump)
             {
                 //om de zoveel seconde veranderd de input
                 // gaat direct van 2 --> 0
@@ -51,12 +50,12 @@ namespace PlatformGame.Movement
 
             if (movable.Speed.X < 0)
             {
-                isLeft = true;
+                IsLeft = true;
                 standStill = false;
             }
             else if (movable.Speed.X > 0)
             {
-                isLeft = false;
+                IsLeft = false;
                 standStill = false;
             }
             else standStill = true;
@@ -66,38 +65,42 @@ namespace PlatformGame.Movement
                 movable.Speed.Normalize();
             }
 
-            if (pressY && !jump && onGround)
+            if (pressY && !jump && OnGround)
             {
-                jumpHeight = (int)movable.Position.Y - 57 * 2;
-                isFalling = false;
+                jumpHeight = (int)movable.Position.Y - 32 * 2;
+                IsFalling = false;
                 jump = true;
+                OnGround = false;
+
             }
 
-            if (jump && !isFalling)
+            if (jump && !IsFalling)
             {
                 float i = 20f;
                 movable.Speed -= new Vector2(0, 0.15f * i);
+                OnGround = false;
+
             }
-            if (movable.Position.Y <= jumpHeight && jump && !isFalling)
+            if (movable.Position.Y <= jumpHeight && jump && !IsFalling)
             {
-                isFalling = true;
+                IsFalling = true;
                 jump = false;
+                OnGround = false;
             }
-            if (isFalling && !jump)
+            if (IsFalling && !jump)
             {
                 float i = 10f;
                 movable.Speed += new Vector2(0, 0.15f * i);
-                onGround = false;
+                OnGround = false;
             }
 
             futurePosition = movable.Position + movable.Speed;
 
-            futureRect = new Rectangle((int)futurePosition.X, (int)futurePosition.Y, 50, 54);
+            futureRect = new Rectangle((int)futurePosition.X, (int)futurePosition.Y, 32, 32);
 
             var hasCollided = collision.CollisionDetection(futureRect, blockList);
             collision.Collide(hasCollided,this, movable);
             movable.Position = futurePosition;
         }
-
     }
 }

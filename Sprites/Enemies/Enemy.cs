@@ -12,21 +12,27 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Enemies
 {
-    abstract class Enemy//: IGameObjectCollider
+    abstract class Enemy: Blok
     {
         //public int DamagePerSec { get; set; }
-        public Texture2D Texture { get; set; }
         public Rectangle RectangleTexture { get; set; }
         public Animation objectAnimation { get; set; } = new Animation(0.20d);
         public bool IsLeft { get; set; } = false;
         public int textureWidth { get; set; }
         public int textureHeight { get; set; } = 1;
-        public Vector2 Position { get; set; }
-        public Block HitBox { get ; set ; }
+        public Texture2D BoundingBoxTexture { get; set; }
         public GameTimer gameTimer = new GameTimer();
         public Vector2 Speed { get; set; } = Vector2.Zero;
         public bool IsDead { get; set; } = false;
-        abstract public void Draw(SpriteBatch spriteBatch);
+        public int Damage { get; set; }
+        public Enemy( Vector2 position,Color color, Texture2D texture, Texture2D boxTexture,int totalSprites, int layers) : base(position,color, texture)
+        {
+            Texture = texture;
+            BoundingBoxTexture = boxTexture;
+            Position = position;
+            textureWidth = texture.Width / totalSprites;
+            textureHeight = texture.Height;
+        }
 
 
         abstract public void Update(GameTime gameTime, Player player);

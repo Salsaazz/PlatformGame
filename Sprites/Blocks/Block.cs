@@ -16,6 +16,10 @@ namespace PlatformGame.Blocks
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle RectangleBlock { get; set; }
+        public Rectangle BoundingBox { get; set; }
+        public enum BlockType { TILE, STANDINGENEM, FOLLOWENEM, MOVINGENEM };
+        public BlockType Type { get; set; }
+
         public Block(Rectangle rectangle, Color color, Texture2D texture)
         {
             RectangleBlock = rectangle;
@@ -38,6 +42,11 @@ namespace PlatformGame.Blocks
 
         }
 
+        /*public virtual void IsCollidedWithEvent
+        (Character collider)
+        {
+            CollideWithEvent.Execute();
+        }*/
 
     }
 }

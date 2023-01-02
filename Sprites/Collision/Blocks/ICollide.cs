@@ -9,10 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame.Collision
+namespace PlatformGame.Collision.Blocks
 {
     internal interface ICollide
     {
-        public void Collide(Player player,Enemy enemy);
+        public void Move(Player player, Enemy enemy);
     }
 }

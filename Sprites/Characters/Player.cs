@@ -21,12 +21,9 @@ namespace PlatformGame.Characters
         private Texture2D texture;
         public Animation walkAnimation;
         public Rectangle idleFrame;
-        //bewegen
         public Vector2 Position { get; set; }
-        //Velocity
         public Vector2 Speed { get; set; }
         private int hitBoxWidth;
-        public bool isLeft = false;
         public int Health { get; set; } = 5;
         public Block HitBox { get; set; }
         private Color Colour = Color.AliceBlue;
@@ -34,15 +31,16 @@ namespace PlatformGame.Characters
         public MovementManager movementManager;
         Texture2D hitboxTexture;
         public GameTimer gameTimer { get; set; } = new GameTimer();
+
         public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader)
         {
             this.texture = texture;
             walkAnimation = new Animation(0.3d);
-            hitBoxWidth = texture.Width / 4 -7;
-            idleFrame = new Rectangle(0, 0, texture.Width/4, texture.Height);
+            hitBoxWidth = texture.Width / 6;
+            idleFrame = new Rectangle(0, 0, texture.Width/6, texture.Height);
             //+21 marge door spritesheet marge tss de images
-            walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 4, 1);
-            Position = new Vector2(60, 620);
+            walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 6, 1);
+            Position = new Vector2(60, 320);
             this.hitboxTexture = hitboxtexture;
             HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height), Color.Green, hitboxTexture );
             //van de IMoveable
@@ -54,31 +52,30 @@ namespace PlatformGame.Characters
         {
             //Draw HitboxPlayer
             HitBox.Draw(spriteBatch);
-            if (movementManager.isLeft && !movementManager.standStill)
+            if (movementManager.standStill)
             {
-                spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
-            }
-            else if (movementManager.isLeft && movementManager.standStill)
-            {
-                spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
-            }
-            else if (!movementManager.isLeft && !movementManager.standStill)
-                spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
-            else if (!movementManager.isLeft && movementManager.standStill)
-            {
-                spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
+                if (movementManager.IsLeft)
+                    spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.FlipHorizontally, 0f);
+                else
+                    spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
 
+            }
+            else
+            {
+                if (movementManager.IsLeft)
+                    spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.FlipHorizontally, 0f);
+                else
+                    spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
             }
 
         }
 
-        public void Update(GameTime gameTime, List<Tile> list)
+        public void Update(GameTime gameTime, List<Blok> bloklist)
         {
-            movementManager.Move(this, list);
+            movementManager.Move(this, bloklist);
             HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
             gameTimer.UpdateCounter(gameTime);
-            Debug.WriteLine(Speed.X);
 
         }
 

@@ -20,12 +20,12 @@ namespace PlatformGame.Movement
             Vector2 direction = Vector2.Zero;
             if (state.IsKeyDown(Keys.Left))
             {
-                direction.X -= 3;
+                direction.X -= 4;
                 
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                direction.X += 3;
+                direction.X += 4;
             }
 
             if (state.IsKeyDown(Keys.Up))

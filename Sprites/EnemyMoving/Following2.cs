@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.EnemyMoving
 {
-    internal class Following : IMovingBehavior
+    internal class Following2 : IMovingBehavior2
     {
         public Vector2 Move(Vector2 position, Vector2 speed)
         {

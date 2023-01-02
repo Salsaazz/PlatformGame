@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../Sprites/enemiesSprites/Porcupine Sprite Sheet (1).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../../Sprites/enemiesSprites/Porcupine Sprite Sheet (1).png;Porcupine/Porcupine Sprite Sheet (1).png
+
 #begin ../../../Sprites/Food/Capybara/banana.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -224,6 +236,18 @@
 /processorParam:TextureFormat=Color
 /build:Food/strawberry.png
 
+#begin Fox/Fox Sprite Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Fox/Fox Sprite Sheet.png
+
 #begin Hyena/snake.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -236,7 +260,7 @@
 /processorParam:TextureFormat=Color
 /build:Hyena/snake.png
 
-#begin Player/playersheetsprites (52).png
+#begin Player/Dude_Monster_Walk_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -246,7 +270,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/playersheetsprites (52).png
+/build:Player/Dude_Monster_Walk_6.png
+
+#begin Porcupine/Porcupine Sprite Sheet (2).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Porcupine/Porcupine Sprite Sheet (2).png
 
 #begin snake/snake2.png
 /importer:TextureImporter
@@ -260,7 +296,7 @@
 /processorParam:TextureFormat=Color
 /build:snake/snake2.png
 
-#begin Tiles/spritesheet (3).png
+#begin Tiles/spritesheet (4).png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -270,5 +306,17 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/spritesheet (3).png
+/build:Tiles/spritesheet (4).png
+
+#begin Tiles/Tile_02.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiles/Tile_02.png
 

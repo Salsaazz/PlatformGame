@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.EnemyMoving
 {
-    internal class Standing : IMovingBehavior
+    internal class Standing : IMovingBehavior2
     {
         public Vector2 Move(Vector2 position, Vector2 speed)
         {
