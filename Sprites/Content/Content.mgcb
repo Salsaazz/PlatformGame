@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../Sprites/enemiesSprites/Porcupine Sprite Sheet (1).png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../../Sprites/enemiesSprites/Porcupine Sprite Sheet (1).png;Porcupine/Porcupine Sprite Sheet (1).png
-
 #begin ../../../Sprites/Food/Capybara/banana.png
 /importer:TextureImporter
 /processor:TextureProcessor
