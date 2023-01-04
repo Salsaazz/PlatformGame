@@ -12,7 +12,6 @@ namespace PlatformGame.Interfaces
     internal interface IFollowPlayer
     {
         void Update(GameTime gameTime);
-        public void Draw(SpriteBatch spriteBatch, Player followObject);
-
+        public void Draw(SpriteBatch spriteBatch, Player player);
     }
 }

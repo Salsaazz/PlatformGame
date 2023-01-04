@@ -38,7 +38,7 @@ namespace PlatformGame.Characters
             walkAnimation = new Animation(0.3d);
             hitBoxWidth = texture.Width / 6;
             idleFrame = new Rectangle(0, 0, texture.Width/6, texture.Height);
-            //+21 marge door spritesheet marge tss de images
+            //+21 distance door spritesheet distance tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 6, 1);
             Position = new Vector2(60, 320);
             this.hitboxTexture = hitboxtexture;
