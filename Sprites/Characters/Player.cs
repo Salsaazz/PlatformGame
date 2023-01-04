@@ -25,7 +25,7 @@ namespace PlatformGame.Characters
         public Vector2 Speed { get; set; }
         private int hitBoxWidth;
         public int Health { get; set; } = 5;
-        public Block HitBox { get; set; }
+        public Rectangle HitBox { get; set; }
         private Color Colour = Color.AliceBlue;
         public IInputReader InputReader { get; set; }
         public MovementManager movementManager;
@@ -42,7 +42,7 @@ namespace PlatformGame.Characters
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 6, 1);
             Position = new Vector2(60, 320);
             this.hitboxTexture = hitboxtexture;
-            HitBox = new Block(new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height), Color.Green, hitboxTexture );
+            HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             //van de IMoveable
             InputReader = inputReader;
             movementManager = new MovementManager();
@@ -51,7 +51,8 @@ namespace PlatformGame.Characters
         public void Draw(SpriteBatch spriteBatch)
         {
             //Draw HitboxPlayer
-            HitBox.Draw(spriteBatch);
+            spriteBatch.Draw(hitboxTexture, HitBox, Color.BlueViolet);
+            //HitBox.Draw(spriteBatch);
             if (movementManager.standStill)
             {
                 if (movementManager.IsLeft)
@@ -70,10 +71,10 @@ namespace PlatformGame.Characters
 
         }
 
-        public void Update(GameTime gameTime, List<Blok> bloklist)
+        public void Update(GameTime gameTime, List<Block> bloklist)
         {
             movementManager.Move(this, bloklist);
-            HitBox.RectangleBlock = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
+            HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
             gameTimer.UpdateCounter(gameTime);
 

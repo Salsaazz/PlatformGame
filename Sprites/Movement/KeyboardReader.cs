@@ -32,7 +32,10 @@ namespace PlatformGame.Movement
             {
                 direction.Y += 2;
             }
-
+            if (state.IsKeyDown(Keys.Down))
+            {
+                direction.Y += -2;
+            }
             return direction;
         }
 

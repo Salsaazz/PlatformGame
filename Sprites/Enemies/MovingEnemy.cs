@@ -1,9 +1,8 @@
-﻿    using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Collision.Blocks;
-using PlatformGame.EnemyMoving;
 using PlatformGame.Interfaces;
 using SharpDX.Direct3D9;
 using System;
@@ -20,7 +19,6 @@ namespace PlatformGame.Enemies
     {
 
         //IMovingBehavior movingBehavior = new Moving();
-        MovingBehavior movingBehavior = new Moving();
         public MovingEnemy(Texture2D texture, Texture2D boxTexture, Color color, Vector2 position, int totalSprites, int layers)
             : base(position, color, texture, boxTexture, totalSprites, layers)
         {
@@ -29,9 +27,11 @@ namespace PlatformGame.Enemies
             Speed = new Vector2(2, 0);
             Texture = texture;
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
-            textureWidth = texture.Width / totalSprites;
-            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, textureWidth/ totalSprites, texture.Height);
+            TextureWidth = texture.Width / totalSprites;
+            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth/ totalSprites, texture.Height);
             Damage = 1;
+            MovingBehavior2 = new Moving();
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -48,11 +48,11 @@ namespace PlatformGame.Enemies
             }
         }
 
-        public override void Update(GameTime gameTime, Player player)
+        /*public override void Update(GameTime gameTime, Player player)
         {
             movingBehavior.Move(player, this);
             objectAnimation.Update(gameTime);
 
-        }
+        }*/
     }
 }

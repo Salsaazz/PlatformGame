@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Terrain
 {
-    internal class Tile: Blok
+    internal class Tile: Block
     {
         private Texture2D texture;
         private Rectangle rectangle;

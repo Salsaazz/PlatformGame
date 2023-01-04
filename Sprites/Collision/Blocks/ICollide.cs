@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Enemies;
 using PlatformGame.Interfaces;
@@ -13,6 +14,6 @@ namespace PlatformGame.Collision.Blocks
 {
     internal interface ICollide
     {
-        public void Move(Player player, Enemy enemy);
+        public void Move(Player player, Enemy blok);
     }
 }

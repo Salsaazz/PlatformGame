@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Collision.Blocks
 {
-    internal interface IMovingbehavior : ICollide
+    internal interface IMovingBehavior
     {
-        public void Move(Player player, Enemy enemy)
+        /*public void Move(Player player, Enemy enemy)
         {
             Collide(player, enemy);
             enemy.Position += enemy.Speed;
-            enemy.BoundingBox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, 50, enemy.Texture.Height);
-        }
-        public abstract void Collide(Player player, Enemy enemy);
+            enemy.BoundingBox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.TextureWidth, enemy.TextureHeight);
+        }*/
+        public void Collide(Player player, Enemy enemy);
     }
 }

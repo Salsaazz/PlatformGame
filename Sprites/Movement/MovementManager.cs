@@ -26,13 +26,14 @@ namespace PlatformGame.Movement
         public bool IsFalling { get; set; } = true;
         private int jumpHeight = 0;
         public bool OnGround { get; set; } = false;
-        public bool pressY { get; set; } = false;
+        public bool pressUp { get; set; } = false;
+        public bool pressDown { get; set; } = false;
         public float XCoordinate { get; set; } = 0;
         public Rectangle futureRect { get; set; }
         CollisionManager collision = new CollisionManager();
         public Vector2 futurePosition { get; set; }
         public IMovable Movable { get; set; }
-        public void Move(IMovable movable, List<Blok> blockList)
+        public void Move(IMovable movable, List<Block> blockList)
         {
             Movable = movable;
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
@@ -44,9 +45,11 @@ namespace PlatformGame.Movement
                 // gaat direct van 2 --> 0
                 //dus zal er een error ontstaan als je wilt jumpen met collion detection
                 //eens willen jumpen(yAxis) --> variabele blijft op 2 tot die weer valt
-                //hiermee coll detection doen via een bool (pressY)
-                pressY = true;
+                //hiermee coll detection doen via een bool (pressUp)
+                pressUp = true;
+                pressDown = false;
             }
+            else if(yAxis < 0) { pressDown = true; }
 
             if (movable.Speed.X < 0)
             {
@@ -65,7 +68,7 @@ namespace PlatformGame.Movement
                 movable.Speed.Normalize();
             }
 
-            if (pressY && !jump && OnGround)
+            if (pressUp && !jump && OnGround)
             {
                 jumpHeight = (int)movable.Position.Y - 32 * 2;
                 IsFalling = false;

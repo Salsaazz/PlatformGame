@@ -17,7 +17,6 @@ namespace PlatformGame
         public int counter=0;
         private double secondCounter = 0;
         private double framesPerSec;
-        public List<Blockies> blocks = new List<Blockies>();
         public Animation(double framesPerSec)
         {
             frames = new List<AnimationFrame>();

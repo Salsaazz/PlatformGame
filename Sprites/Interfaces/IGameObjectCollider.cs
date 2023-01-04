@@ -12,8 +12,8 @@ namespace PlatformGame.Interfaces
 {
     internal interface IGameObjectCollider
     {
-        void Update(GameTime gameTime, List<Blok> list);
+        void Update(GameTime gameTime, List<Block> list);
         void Draw(SpriteBatch spriteBatch);
-        Block HitBox { get; set; }
+        //Block HitBox { get; set; }
     }
 }

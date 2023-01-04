@@ -26,9 +26,9 @@ namespace PlatformGame
         private SpriteBatch _spriteBatch;
         //dePokemonPlayer
         private Player player;
-        private Capybara capy;
+        private Helper capy;
         private Texture2D _playerTexture;
-        private Texture2D _capyTexture;
+        private Texture2D _catTexture;
         private Texture2D _crowTexture;
         private Background background;
         Texture2D _cloudTexture;
@@ -38,38 +38,13 @@ namespace PlatformGame
         Texture2D _cobraTexture;
         Texture2D _porcupineTexture;
         Texture2D HitBoxTexture;
+        Texture2D _foodTexture;
         Texture2D _tile;
         SpriteFont font;
-        Block blokje;
-        List<Blockies> blockList = new List<Blockies>();
-        List<Blok> gameObjects = new List<Blok>();
-
+        StartScreen startScreen;
+        List<Blocks.Block> gameObjects = new List<Blocks.Block>();
         List<Tile> textureBlockList = new List<Tile>();
-        Enemy crow;
-        Enemy crow2;
 
-        Enemy cobra;
-        int[,] gameboard = new int[,]
-     {
-        { 1,0,0,0,0,0,0,1,0,0,0,10 },
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,1,1,1,1,1,0,1,0,0,0,0},
-        { 1,0,0,0,0,0,0,2,0,0,0,0 },
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,0,0,0,0,0,0,0,0,0,0,0 },
-        { 1,0,0,0,0,0,0,0,0,0,0,0},
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,0,0,0,0,0,0,1,0,0,0,0 },
-        { 1,1,1,1,1,1,0,1,0,0,0,0},
-        { 1,0,0,0,0,0,0,2,0,0,0,0 },
-        { 1,0,0,0,0,0,0,8,0,0,0,0 },
-        { 1,1,1,1,1,1,1,1,1,1,1,1},
-        { 1,1,1,1,1,1,1,1,1,1,1,1}
-
-     };
         IInputReader inputReader;
         public Game1()
         {
@@ -87,7 +62,7 @@ namespace PlatformGame
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
             player = new Player(_playerTexture,HitBoxTexture, inputReader);
-            capy = new Capybara(_capyTexture);
+            capy = new Helper(_catTexture);
             textureBlockList.Add(new Tile(_tile, 2, 500, 670, HitBoxTexture, Tile.TileType.GRASS));
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
             for (int i = 0; i < 2000; i+=32)
@@ -100,8 +75,8 @@ namespace PlatformGame
             gameObjects.Add(new MovingEnemy( _crowTexture, HitBoxTexture,  Color.Red, new Vector2(100, 500), 3, 1));
             gameObjects.Add(new FollowingEnemy(_cobraTexture, HitBoxTexture, Color.Green, new Vector2(100, 600), 4, 1));
             gameObjects.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, Color.Green, new Vector2(400, 470), 2, 1));
-
-
+            gameObjects.Add(new Item(new Vector2(400, 400), Color.White, _foodTexture, 3));
+            startScreen = new StartScreen();
         }
 
         protected override void LoadContent()
@@ -113,7 +88,7 @@ namespace PlatformGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
             _playerTexture = Content.Load<Texture2D>("./Player/Dude_Monster_Walk_6");
-            _capyTexture = Content.Load<Texture2D>("./Capybara/CapybaraWalk");
+            _catTexture = Content.Load<Texture2D>("./Cat/Cat Sprite Sheet");
             _cloudTexture = Content.Load<Texture2D>("./Background/cloud");
             _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
             _pineTexture = Content.Load<Texture2D>("./Background/pine1");
@@ -121,6 +96,7 @@ namespace PlatformGame
             _crowTexture = Content.Load<Texture2D>("./Crow/Crow2");
             _cobraTexture = Content.Load<Texture2D>("./cobra/snake3");
             _porcupineTexture = Content.Load<Texture2D>("./Porcupine/Porcupine Sprite Sheet (2)");
+            _foodTexture = Content.Load<Texture2D>("./Food/FISH");
             _tile = Content.Load<Texture2D>("./Tiles/spritesheet (4)");
             font = Content.Load<SpriteFont>("./Font/myFont");
             inputReader = new KeyboardReader();
@@ -131,19 +107,19 @@ namespace PlatformGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            //player.Update(gameTime, textureBlockList);
-
+            startScreen.Update(gameTime);
             player.Update(gameTime, gameObjects);
             capy.Update(gameTime);
             foreach (var gobject in gameObjects)
             {
-                if (!(gobject is Tile))
+                if (gobject is Enemy)
                 {
-                    Enemy temp = gobject as Enemy;
+                    Enemies.Enemy temp = gobject as Enemies.Enemy;
                     temp.Update(gameTime, player);
                 }
 
-            }          
+            }
+
             base.Update(gameTime);
         }
 
@@ -154,6 +130,8 @@ namespace PlatformGame
             _spriteBatch.Begin();
             // TODO: Add your drawing code here
             background.Draw(_spriteBatch, _graphics);
+            startScreen.Draw(_spriteBatch, font);
+
             player.Draw(_spriteBatch);
             capy.Draw(_spriteBatch, player);
             _spriteBatch.DrawString(font, "A_STRANGE_ENCOUNTER", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, 50), Color.Black, 0f, new Vector2(1f, 1f), 3f, SpriteEffects.None, 0f);

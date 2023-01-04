@@ -15,7 +15,7 @@ namespace PlatformGame.Collision.Blocks
     {
         public override void Collide(Player player, Enemy enemy)
         {
-            if (player.HitBox.RectangleBlock.Intersects(enemy.BoundingBox))
+            if (player.HitBox.Intersects(enemy.BoundingBox))
             {
                 if (player.movementManager.Movable.Speed.X > 0 || player.movementManager.Movable.Speed.X < 0)
                 {
@@ -30,12 +30,12 @@ namespace PlatformGame.Collision.Blocks
                     player.movementManager.OnGround = true;
                 }
 
-                if (player.movementManager.pressY && !player.movementManager.IsFalling)
+                if (player.movementManager.pressUp && !player.movementManager.IsFalling)
                 {
                     player.movementManager.Movable.Speed = new Vector2(player.movementManager.Movable.Speed.X, 0);
                     player.movementManager.IsFalling = true;
                     player.movementManager.jump = false;
-                    player.movementManager.pressY = false;
+                    player.movementManager.pressUp = false;
                 }
             }
 

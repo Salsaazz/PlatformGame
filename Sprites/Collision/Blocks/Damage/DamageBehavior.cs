@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame.Collision.Blocks
+namespace PlatformGame.Collision.Blocks.Damage
 {
-     abstract class DamageBehavior
+    abstract class DamageBehavior
     {
         public abstract void Damage(Player player, Enemy enemy);
     }

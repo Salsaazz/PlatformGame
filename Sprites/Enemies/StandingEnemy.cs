@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
 using PlatformGame.Characters;
-using PlatformGame.Collision.Blocks;
-using PlatformGame.EnemyMoving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,7 +14,6 @@ namespace PlatformGame.Enemies
 {
     internal class StandingEnemy : Enemy
     {
-        MovingBehavior movingBehavior = new Standing();
         public StandingEnemy(Texture2D texture, Texture2D boxTexture, Color color, Vector2 position, int totalSprites, int layers)
             : base(position, color, texture, boxTexture, totalSprites, layers)
         {
@@ -24,8 +21,9 @@ namespace PlatformGame.Enemies
             Speed = new Vector2(0, 0);
             Texture = texture;
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
-            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, textureWidth, textureHeight);
+            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth, TextureHeight);
             Damage = 4;
+             MovingBehavior2 = new Standing();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -35,10 +33,10 @@ namespace PlatformGame.Enemies
 
         }
 
-        public override void Update(GameTime gameTime, Player player)
+       /* public override void Update(GameTime gameTime, Player player)
         {
             movingBehavior.Move(player, this);
             objectAnimation.Update(gameTime);
-        }
+        }*/
     }
 }

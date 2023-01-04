@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Capybara\" />
+    <Folder Include="Content\Cat\" />
     <Folder Include="Content\Crow\" />
     <Folder Include="Content\Hyena\" />
     <Folder Include="Content\Player\" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Enemies;
 using PlatformGame.Interfaces;
@@ -13,11 +14,11 @@ namespace PlatformGame.Collision.Blocks
 {
     abstract class MovingBehavior : ICollide
     {
-        public void Move(Player player, Enemy enemy)
+        public void Move(Player player, Enemy blok)
         {
-            Collide(player, enemy);
-            enemy.Position += enemy.Speed;
-            enemy.BoundingBox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.textureWidth, enemy.textureHeight);
+            Collide(player, blok);
+            blok.Position += blok.Speed;
+            blok.BoundingBox = new Rectangle((int)blok.Position.X, (int)blok.Position.Y, blok.TextureWidth, blok.TextureHeight);
         }
         public abstract void Collide(Player player, Enemy enemy);
     }

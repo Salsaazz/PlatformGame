@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
+using PlatformGame.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,44 +9,21 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Blocks
 {
-    internal class Block
+    public abstract class Block
     {
-
         public Color Color { get; set; }
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
-        public Rectangle RectangleBlock { get; set; }
         public Rectangle BoundingBox { get; set; }
-        public enum BlockType { TILE, STANDINGENEM, FOLLOWENEM, MOVINGENEM };
-        public BlockType Type { get; set; }
-
-        public Block(Rectangle rectangle, Color color, Texture2D texture)
+        public Block(Vector2 position, Color color, Texture2D texture)
         {
-            RectangleBlock = rectangle;
+            Position = position;
             Texture = texture;
-            Position = new Vector2(rectangle.X, rectangle.Y);
             Color = color;
-
         }
 
-        public Block(Rectangle rectangle)
-        {
-            RectangleBlock = rectangle;
-            Position = new Vector2(rectangle.X, rectangle.Y);
-            Color = Color.Red;
+        public abstract void Draw(SpriteBatch spriteBatch);
 
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-                spriteBatch.Draw(Texture, RectangleBlock, Color);
-
-        }
-
-        /*public virtual void IsCollidedWithEvent
-        (Character collider)
-        {
-            CollideWithEvent.Execute();
-        }*/
 
     }
 }

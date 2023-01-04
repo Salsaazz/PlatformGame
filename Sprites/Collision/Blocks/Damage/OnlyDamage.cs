@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame.Collision.Blocks
+namespace PlatformGame.Collision.Blocks.Damage
 {
-    internal class OnlyDamage : DamageBehavior
+    internal class OnlyDamage : IDamageBehavior
     {
-        public override void Damage(Player player, Enemy enemy)
+        public void Damage(Player player, Enemy enemy)
         {
-            if (player.HitBox.RectangleBlock.Intersects(enemy.BoundingBox))
+            if (player.HitBox.Intersects(enemy.BoundingBox))
             {
                 if (player.gameTimer.Counter >= 1000)
                 {
