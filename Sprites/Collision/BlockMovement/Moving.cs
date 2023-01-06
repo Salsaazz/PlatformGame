@@ -17,7 +17,7 @@ namespace PlatformGame.Collision.Blocks
         {
             //damageBehavior.Damage(player, enemy);
             Damage(player, enemy);
-            if (enemy.Position.X > 800 - 50 || enemy.Position.X < 0)
+            if (enemy.Position.X > 1000 - 50 || enemy.Position.X < 0)
             {
                 enemy.Speed = new Vector2(enemy.Speed.X * -1, enemy.Speed.Y);
             }
@@ -25,7 +25,6 @@ namespace PlatformGame.Collision.Blocks
             {
                 enemy.Speed = new Vector2(enemy.Speed.X * -1, enemy.Speed.Y);
             }
-            else enemy.Speed = enemy.Speed;
         }
 
         public void Damage(Player player, Enemy enemy)

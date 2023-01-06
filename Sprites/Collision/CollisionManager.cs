@@ -20,7 +20,7 @@ namespace PlatformGame.Collision
      class CollisionManager
     {
         PlatformGame.Blocks.Block collisionBlock;
-        public void Collide(bool hasCollided, MovementManager player, IMovable movable)
+        public void Collide(bool hasCollided, MovementManager movementManager, IMovable movable, Player player)
         {
 
             if (hasCollided)
@@ -35,13 +35,22 @@ namespace PlatformGame.Collision
                 //bereken toekomstige plaats adhv input
                 //check of tp botst
                 //nee positie = toekomst
-                if (player.pressDown && collisionBlock is Item)
+                if (collisionBlock is Fence)
+                {
+                    player.touchedGate = true;
+                }
+                else player.touchedGate = false;
+
+                if (collisionBlock is Item)
                 {
                     //voor de items
                     Item temp = collisionBlock as Item;
-                        temp.IsTaken = true;
+                    if (!temp.IsTaken && movementManager.pressDown)
+                    { temp.IsTaken = true;
+                        player.Item++;
+                    }
                 }
-                else if (!(collisionBlock is Item))
+                 else if(!(collisionBlock is Item))
                 {
 
 
@@ -58,56 +67,54 @@ namespace PlatformGame.Collision
                         movable.Speed = new Vector2(0, movable.Speed.Y);
                     }
 
-                    if (player.IsFalling && !(collisionBlock is Item))
+                    if (movementManager.IsFalling && !(collisionBlock is Item))
                     {
                         if (collisionBlock is Tile)
                         {
                             Tile temp1 = collisionBlock as Tile;
                             if (temp1.TypeTile == Tile.TileType.GRASS)
                             {
-                                player.jump = false;
-                                player.IsFalling = false;
+                                movementManager.jump = false;
+                                movementManager.IsFalling = false;
                                 movable.Speed = new Vector2(movable.Speed.X, 0);
-                                player.OnGround = true;
-                                player.pressUp = false;
+                                movementManager.OnGround = true;
+                                movementManager.pressUp = false;
                             }
                         }
                         else if (collisionBlock is Enemies.Enemy)
                         {
-                            player.jump = false;
-                            player.IsFalling = false;
-                            player.OnGround = true;
-                            player.pressUp = false;
+                            movementManager.jump = false;
+                            movementManager.IsFalling = false;
+                            movementManager.OnGround = true;
+                            movementManager.pressUp = false;
                         }
 
                     }
 
-                    if (player.pressUp && !player.IsFalling && !(collisionBlock is Item))
+                    if (movementManager.pressUp && !movementManager.IsFalling && !(collisionBlock is Item))
                     {
                         if (!(collisionBlock is FollowingEnemy))
 
                         {
                             movable.Speed = new Vector2(movable.Speed.X, 0);
-                            player.IsFalling = true;
-                            player.jump = false;
-                            player.pressUp = false;
-                            player.OnGround = true;
+                            movementManager.IsFalling = true;
+                            movementManager.jump = false;
+                            movementManager.pressUp = false;
+                            movementManager.OnGround = true;
                         }
                     }
                 }
             }
 
             else if (!hasCollided
-            && !player.IsFalling
-            && !player.jump)
+            && !movementManager.IsFalling
+            && !movementManager.jump)
             {
-                player.IsFalling = true;
-                player.jump = false;
-
+                movementManager.IsFalling = true;
+                movementManager.jump = false;
+                movementManager.pressDown = false;
             }
-            player.futurePosition = movable.Position + movable.Speed;
-
-            Debug.WriteLine(player.IsFalling);
+            movementManager.futurePosition = movable.Position + movable.Speed;
         }
 
         public bool CollisionDetection(Rectangle futureRect, List<PlatformGame.Blocks.Block> blockList)

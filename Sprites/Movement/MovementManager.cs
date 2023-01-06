@@ -33,9 +33,9 @@ namespace PlatformGame.Movement
         CollisionManager collision = new CollisionManager();
         public Vector2 futurePosition { get; set; }
         public IMovable Movable { get; set; }
-        public void Move(IMovable movable, List<Block> blockList)
+        public void Move(IMovable movable, List<Block> blockList, Player player)
         {
-            Movable = movable;
+            this.Movable = movable;
             movable.Speed = new Vector2(movable.InputReader.ReadInput().X, 0);
             XCoordinate = movable.InputReader.ReadInput().X;
             float yAxis = movable.InputReader.ReadInput().Y;
@@ -70,7 +70,7 @@ namespace PlatformGame.Movement
 
             if (pressUp && !jump && OnGround)
             {
-                jumpHeight = (int)movable.Position.Y - 32 * 2;
+                jumpHeight = (int)movable.Position.Y - 32 * 2 -2;
                 IsFalling = false;
                 jump = true;
                 OnGround = false;
@@ -102,7 +102,7 @@ namespace PlatformGame.Movement
             futureRect = new Rectangle((int)futurePosition.X, (int)futurePosition.Y, 32, 32);
 
             var hasCollided = collision.CollisionDetection(futureRect, blockList);
-            collision.Collide(hasCollided,this, movable);
+            collision.Collide(hasCollided,this, movable, player);
             movable.Position = futurePosition;
         }
     }

@@ -18,11 +18,8 @@ namespace PlatformGame
         public bool IsTaken { get; set; } = false;
         Random random = new Random();
         int number;
-        public Item(Vector2 position, Color color, Texture2D texture, int totalSprites) : base(position, color, texture)
+        public Item( Texture2D texture,int totalSprites,Vector2 position ) : base(position, texture)
         {
-            Position = position;
-            Color = color;
-            Texture = texture;
             TextureWidth = texture.Width / totalSprites;
             TextureHeight = texture.Height;
             number = random.Next(0, totalSprites);
@@ -36,18 +33,19 @@ namespace PlatformGame
                 switch (number)
                 {
                     case 0:
-                        spriteBatch.Draw(Texture, Position, new Rectangle(0, 0, TextureWidth, TextureHeight), Color);
+                        spriteBatch.Draw(Texture, Position, new Rectangle(0, 0, TextureWidth, TextureHeight), Color.White);
                         break;
                     case 1:
-                        spriteBatch.Draw(Texture, Position, new Rectangle(TextureWidth, 0, TextureWidth, TextureHeight), Color);
+                        spriteBatch.Draw(Texture, Position, new Rectangle(TextureWidth, 0, TextureWidth, TextureHeight), Color.White);
                         break;
                     case 2:
-                        spriteBatch.Draw(Texture, Position, new Rectangle(TextureWidth * 2, 0, TextureWidth, TextureHeight), Color);
+                        spriteBatch.Draw(Texture, Position, new Rectangle(TextureWidth * 2, 0, TextureWidth, TextureHeight), Color.White);
                         break;
                     default:
                         break;
                 }
             }
+
         }
 
 

@@ -22,13 +22,12 @@ namespace PlatformGame.Enemies
         public int TextureHeight { get; set; }
         public Texture2D BoundingBoxTexture { get; set; }
         public GameTimer gameTimer = new GameTimer();
-        public Vector2 Speed { get; set; } = Vector2.Zero;
+        public Vector2 Speed { get; set; }
         public bool IsDead { get; set; } = false;
         public int Damage { get; set; }
         public IMovingBehavior MovingBehavior2 { get; set; }
-        public Enemy( Vector2 position,Color color, Texture2D texture, Texture2D boxTexture,int totalSprites, int layers) : base(position,color, texture)
+        public Enemy( Vector2 position, Texture2D texture, Texture2D boxTexture,int totalSprites, int layers) : base(position, texture)
         {
-            Texture = texture;
             BoundingBoxTexture = boxTexture;
             Position = position;
             TextureWidth = texture.Width / totalSprites;
@@ -39,7 +38,7 @@ namespace PlatformGame.Enemies
         public void Update(GameTime gameTime, Player player)
         {
             MovingBehavior2.Collide(player, this);
-            Position += this.Speed;
+            Position += Speed;
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth,TextureHeight);
             objectAnimation.Update(gameTime);
 

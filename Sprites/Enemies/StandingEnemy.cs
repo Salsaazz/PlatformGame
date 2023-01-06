@@ -14,29 +14,19 @@ namespace PlatformGame.Enemies
 {
     internal class StandingEnemy : Enemy
     {
-        public StandingEnemy(Texture2D texture, Texture2D boxTexture, Color color, Vector2 position, int totalSprites, int layers)
-            : base(position, color, texture, boxTexture, totalSprites, layers)
+        public StandingEnemy(Texture2D texture, Texture2D boxTexture, Vector2 position, int totalSprites, int layers)
+            : base(position, texture, boxTexture, totalSprites, layers)
         {
-            Position = position;
             Speed = new Vector2(0, 0);
-            Texture = texture;
             objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
-            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth, TextureHeight);
             Damage = 4;
-             MovingBehavior2 = new Standing();
+            MovingBehavior2 = new Standing();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(BoundingBoxTexture, BoundingBox, Color.Red);
 
-            spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.FlipHorizontally, 0f);
 
         }
-
-       /* public override void Update(GameTime gameTime, Player player)
-        {
-            movingBehavior.Move(player, this);
-            objectAnimation.Update(gameTime);
-        }*/
     }
 }

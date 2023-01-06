@@ -12,24 +12,17 @@ namespace PlatformGame.Terrain
 {
     internal class Tile: Block
     {
-        private Texture2D texture;
         private Rectangle rectangle;
         private Texture2D BoundingBoxTexture;
         int textureWidth;
          public enum TileType{ GRASS, GROUND};
         public TileType TypeTile { get; set; }
-        int x;
-        int y;
-        public Tile(Texture2D texture, int totalSprites, int x, int y, Texture2D boxTexture, TileType tileType)
-            : base(new Vector2(x,y), Color.White, texture)
+        public Tile(Texture2D texture, int totalSprites, Vector2 position, Texture2D boxTexture, TileType tileType)
+            : base(position, texture)
         {
-            this.texture = texture;
             textureWidth = (int)((texture.Width / totalSprites));
-
-            this.x = x;
-            this.y = y;
-            rectangle = new Rectangle(this.x, this.y, 32, 32);
-            BoundingBox = new Rectangle(this.x, this.y, 32, 32);
+            rectangle = new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
+            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
             BoundingBoxTexture = boxTexture;
             this.TypeTile = tileType;
            
@@ -41,11 +34,11 @@ namespace PlatformGame.Terrain
             //spriteBatch.Draw(BoundingBoxTexture, BoundingBox, Color.White);
             if (TypeTile == TileType.GRASS)
             {
-                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(textureWidth, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
-                spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Texture, Position, new Rectangle(textureWidth, 0, textureWidth, Texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Texture,Position, new Rectangle(0, 0, textureWidth, Texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
             }
             else if (TypeTile == TileType.GROUND)
-            spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(textureWidth, 0, textureWidth, texture.Height), Color.White, 0f, Vector2.Zero,Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Texture, Position, new Rectangle(textureWidth, 0, textureWidth, Texture.Height), Color.White, 0f, Vector2.Zero,Vector2.One, SpriteEffects.None, 0f);
 
 
         }

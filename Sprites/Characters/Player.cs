@@ -8,6 +8,7 @@ using PlatformGame.Timer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using System.Reflection.Metadata;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -20,7 +21,7 @@ namespace PlatformGame.Characters
     {
         private Texture2D texture;
         public Animation walkAnimation;
-        public Rectangle idleFrame;
+        private Rectangle idleFrame;
         public Vector2 Position { get; set; }
         public Vector2 Speed { get; set; }
         private int hitBoxWidth;
@@ -31,8 +32,9 @@ namespace PlatformGame.Characters
         public MovementManager movementManager;
         Texture2D hitboxTexture;
         public GameTimer gameTimer { get; set; } = new GameTimer();
-
-        public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader)
+        public int Item { get; set; }
+        public bool touchedGate { get; set; } = false;
+        public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader, Vector2 position)
         {
             this.texture = texture;
             walkAnimation = new Animation(0.3d);
@@ -40,7 +42,9 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, texture.Width/6, texture.Height);
             //+21 distance door spritesheet distance tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 6, 1);
-            Position = new Vector2(60, 320);
+            //Position = new Vector2(38,600 );
+            Position = position;
+
             this.hitboxTexture = hitboxtexture;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             //van de IMoveable
@@ -50,16 +54,14 @@ namespace PlatformGame.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //Draw HitboxPlayer
-            spriteBatch.Draw(hitboxTexture, HitBox, Color.BlueViolet);
-            //HitBox.Draw(spriteBatch);
+
             if (movementManager.standStill)
             {
                 if (movementManager.IsLeft)
                     spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.FlipHorizontally, 0f);
+
                 else
                     spriteBatch.Draw(texture, Position, idleFrame, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
-
             }
             else
             {
@@ -69,14 +71,18 @@ namespace PlatformGame.Characters
                     spriteBatch.Draw(texture, Position, walkAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 0f);
             }
 
+
         }
 
         public void Update(GameTime gameTime, List<Block> bloklist)
         {
-            movementManager.Move(this, bloklist);
+            //movementManager.Move(this,bloklist, this);
+           movementManager.Move(this, bloklist, this);
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
             gameTimer.UpdateCounter(gameTime);
+            Debug.WriteLine("X: " + Position.X);
+            Debug.WriteLine("Y: " + Position.Y);
 
         }
 

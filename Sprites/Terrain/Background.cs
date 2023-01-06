@@ -25,11 +25,11 @@ namespace PlatformGame.Terrain
             skyTexture = sky;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager _graphics)
+        public void Draw(SpriteBatch spriteBatch)//GraphicsDeviceManager _graphics)
         {
-            Vector2 back = new Vector2(0, 0);
+            /*Vector2 back = new Vector2(0, 0);
             back.X = _graphics.PreferredBackBufferWidth;
-            back.Y = _graphics.PreferredBackBufferHeight;
+            back.Y = _graphics.PreferredBackBufferHeight;*/
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 5f, SpriteEffects.None, 0f);
             spriteBatch.Draw(_mountainTexture, new Vector2(0, 150), null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0f);
             spriteBatch.Draw(_cloudTexture, new Vector2(0, 10), null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
