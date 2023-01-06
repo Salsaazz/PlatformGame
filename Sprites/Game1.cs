@@ -74,7 +74,7 @@ namespace PlatformGame
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1 },
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1 },
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,1 },
-        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,1,0,0,0,0,0,0,2 },
+        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,2,0,0,0,0,0,0,2 },
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,1,2,0,0,0,0,2,1 },
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,1,0,0,0,0,0,0,1 },
         { 1,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,2,0,0,0,2,2,2,2 },
@@ -135,8 +135,7 @@ namespace PlatformGame
             _graphics.PreferredBackBufferHeight = 700;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
-            player = new Player(_playerTexture, HitBoxTexture, inputReader, new Vector2(850,20));
-            player2 = new Player(_playerTexture, HitBoxTexture, inputReader,new Vector2(50, 50));
+            player = new Player(_playerTexture, HitBoxTexture, inputReader);
 
             helper = new Helper(_catTexture);
             item = new Item(_foodTexture,3,new Vector2(10, 10));
@@ -195,7 +194,7 @@ namespace PlatformGame
 
 
             level1 = new Level(background, blocks1, player, helper, font, item, _heartTexture);
-            level2 = new Level(background, blocks2, player2, helper, font, item, _heartTexture);
+            level2 = new Level(background, blocks2, player, helper, font, item, _heartTexture);
 
             gameOverScreen = new GameOverScreen(font, _gameOverTexture);
             theEnd = new TheEnd(font, _theEndtexture);
@@ -236,7 +235,7 @@ namespace PlatformGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            screenManager.Update(gameTime);
+            screenManager.Update(gameTime); 
 
             base.Update(gameTime);
         }

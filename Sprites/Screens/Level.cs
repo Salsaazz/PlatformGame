@@ -111,7 +111,7 @@ namespace PlatformGame.Screens
         {
             player.Position = restartPlayerPosition;
             playerDead = false;
-            player.Item = 4;
+            player.Item = 0;
             player.Health = 5;
             player.touchedGate = true;
             for (int i = 0; i < blocks.Count; i++)

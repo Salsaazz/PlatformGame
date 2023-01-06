@@ -25,6 +25,7 @@ namespace PlatformGame.Screens
         Level level2;
         TheEnd theEnd;
         ScreenType CurrentScreenType { get; set; } = ScreenType.START;
+        ScreenType PreviousScreenType { get; set; } = ScreenType.START;
         Screen CurrentScreen { get; set; }
         KeyboardReader readKey = new KeyboardReader();
         /*public ScreenManager(GameOverScreen gameOverScreen,StartScreen startScreen,Level level1,
@@ -33,7 +34,6 @@ namespace PlatformGame.Screens
         public ScreenManager(StartScreen startScreen, Level level1, Level level2, GameOverScreen gameOverScreen,
             TheEnd theEnd)
         {
-            //this.gameOverScreen = gameOverScreen;
             this.startScreen = startScreen;
             CurrentScreen = this.startScreen;
             this.level1 = level1;
@@ -44,31 +44,7 @@ namespace PlatformGame.Screens
         }
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            //CurrentScreen.Draw(spriteBatch, font);
-            switch (CurrentScreenType)
-            {
-                case ScreenType.START:
-                    startScreen.Draw(spriteBatch, font);
-                    break;
-                case ScreenType.GAMEOVER:
-                    gameOverScreen.Draw(spriteBatch, font);
-
-                    break;
-                case ScreenType.LEVEL1:
-                    level1.Draw(spriteBatch, font);
-
-                    break;
-                case ScreenType.LEVEL2:
-                    level2.Draw(spriteBatch, font);
-
-                    break;
-                case ScreenType.ENDING:
-                    theEnd.Draw(spriteBatch, font);
-
-                    break;
-                default:
-                    break;
-            }
+            CurrentScreen.Draw(spriteBatch, font);
         }
 
         public void Update(GameTime gameTime)
@@ -80,7 +56,7 @@ namespace PlatformGame.Screens
                 CurrentScreen = startScreen;
 
             }
-            if (state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.START ||
+             if (state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.START ||
                 state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.GAMEOVER)
             {
                 CurrentScreenType = ScreenType.LEVEL1;
@@ -89,7 +65,7 @@ namespace PlatformGame.Screens
 
             }
 
-             if (CurrentScreenType == ScreenType.ENDING)
+            else if (CurrentScreenType == ScreenType.ENDING)
             {
                 CurrentScreen = theEnd;
                 if (state.IsKeyDown(Keys.Enter))
@@ -97,7 +73,7 @@ namespace PlatformGame.Screens
                     CurrentScreenType = ScreenType.START;
                 }
             }
-             if (CurrentScreenType == ScreenType.LEVEL1)
+             else if (CurrentScreenType == ScreenType.LEVEL1)
             {
 
                 if (level1.playerDead)
@@ -112,9 +88,13 @@ namespace PlatformGame.Screens
                 else
                     CurrentScreen = level1;
             }
-             if (CurrentScreenType == ScreenType.LEVEL2)
+             else if (CurrentScreenType == ScreenType.LEVEL2)
             {
-                level2.RestartLevel();
+                if (PreviousScreenType != CurrentScreenType)
+                {
+                    level2.RestartLevel();
+                    PreviousScreenType = ScreenType.LEVEL2;
+                }
 
                 if (level2.playerDead)
                 {
@@ -122,6 +102,7 @@ namespace PlatformGame.Screens
                 }
                  if (level2.player.Item >= 5 && level2.player.touchedGate)
                 {
+                    
                     CurrentScreenType = ScreenType.ENDING;
 
                 }
@@ -131,13 +112,13 @@ namespace PlatformGame.Screens
                 }
             }
 
-             if (CurrentScreenType == ScreenType.GAMEOVER && state.IsKeyDown(Keys.RightShift) ||
+             else if (CurrentScreenType == ScreenType.GAMEOVER && state.IsKeyDown(Keys.RightShift) ||
                 CurrentScreenType == ScreenType.GAMEOVER && state.IsKeyDown(Keys.LeftShift))
             {
                 CurrentScreenType = ScreenType.START;
 
             }
-             if (CurrentScreenType == ScreenType.GAMEOVER)
+             else if (CurrentScreenType == ScreenType.GAMEOVER)
             {
                 CurrentScreen = gameOverScreen;
             }

@@ -70,7 +70,7 @@ namespace PlatformGame.Movement
 
             if (pressUp && !jump && OnGround)
             {
-                jumpHeight = (int)movable.Position.Y - 32 * 2 -2;
+                jumpHeight = (int)movable.Position.Y - 32 * 2 -5;
                 IsFalling = false;
                 jump = true;
                 OnGround = false;

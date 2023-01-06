@@ -34,7 +34,7 @@ namespace PlatformGame.Characters
         public GameTimer gameTimer { get; set; } = new GameTimer();
         public int Item { get; set; }
         public bool touchedGate { get; set; } = false;
-        public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader, Vector2 position)
+        public Player(Texture2D texture, Texture2D hitboxtexture, IInputReader inputReader)
         {
             this.texture = texture;
             walkAnimation = new Animation(0.3d);
@@ -42,8 +42,7 @@ namespace PlatformGame.Characters
             idleFrame = new Rectangle(0, 0, texture.Width/6, texture.Height);
             //+21 distance door spritesheet distance tss de images
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 6, 1);
-            //Position = new Vector2(38,600 );
-            Position = position;
+            Position = new Vector2(38,600 );
 
             this.hitboxTexture = hitboxtexture;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
@@ -81,9 +80,6 @@ namespace PlatformGame.Characters
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
             gameTimer.UpdateCounter(gameTime);
-            Debug.WriteLine("X: " + Position.X);
-            Debug.WriteLine("Y: " + Position.Y);
-
         }
 
     }
