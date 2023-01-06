@@ -1,16 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PlatformGame.Blocks;
+using PlatformGame.Terrain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sprites
+namespace PlatformGame.Interfaces
 {
-    internal interface IGameObject
+    internal interface IGameObjectCollider
     {
-        void Update(GameTime gameTime, int windowWidth, int widowHeight);
+        void Update(GameTime gameTime, List<Block> list);
         void Draw(SpriteBatch spriteBatch);
+        //Block HitBox { get; set; }
     }
 }

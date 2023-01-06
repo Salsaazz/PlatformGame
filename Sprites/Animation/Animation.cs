@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -9,20 +8,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sprites
+namespace PlatformGame
 {
-     class Animation
+    class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
-        //public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        //static maken zodat je dit kan meegeven voor de hitboxes list
         public int counter=0;
         private double secondCounter = 0;
-        public List<Block> blocks = new List<Block>();
-        public Animation()
+        private double framesPerSec;
+        public Animation(double framesPerSec)
         {
             frames = new List<AnimationFrame>();
+            this.framesPerSec = framesPerSec;
         }
 
         public void Update(GameTime gameTime)
@@ -30,9 +28,9 @@ namespace Sprites
             CurrentFrame = frames[counter];
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
-            //animatie met de snelheid aanpassen
-            //per 0.3sec 1frame
-            if (secondCounter >= 0.3d/ fps)
+            //animatie met de Velocity aanpassen
+            //per 0.3dsec 1frame
+            if (secondCounter >= framesPerSec/ fps)
             {
                 counter++;;
                 secondCounter = 0;
