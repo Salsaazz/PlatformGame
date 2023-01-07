@@ -33,13 +33,6 @@ namespace PlatformGame
         private Helper helper;
         Item item;
         private Texture2D _playerTexture;
-        private Texture2D _capybara;
-        private Player player;
-        private Player player2;
-
-        private Helper helper;
-        Item item;
-        private Texture2D _playerTexture;
         private Texture2D _catTexture;
         private Texture2D _crowTexture;
         private Background background;
@@ -69,6 +62,7 @@ namespace PlatformGame
         List<Block> blocks1 = new List<Block>();
         List<Block> blocks2 = new List<Block>();
         Song song;
+
         int[,] gameboard1 = new int[,]
 {
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
@@ -81,8 +75,8 @@ namespace PlatformGame
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1 },
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2 },
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,2,0,0,0,0,0,2,1 },
-        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,1,2,0,0,0,0,0,1 },
-        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,1,0,0,0,0,0,0,1 },
+        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,1,2,0,0,0,0,0,2 },
+        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,2,0,0,0,0,0,0,2 },
         { 1,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,2,0,0,0,2,2,2,2 },
         { 1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,1,1,2,0,0,0,0,0,1 },
         { 1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1 },
@@ -143,6 +137,7 @@ namespace PlatformGame
             _graphics.ApplyChanges();
             player = Player.GetInstance();
             player.Init(_playerTexture, HitBoxTexture, inputReader);
+
             helper = new Helper(_catTexture);
             item = new Item(_foodTexture,3,new Vector2(10, 10));
             background = new Background(_cloudTexture, _mountainTexture, _pineTexture, _skyTexture);
@@ -162,14 +157,24 @@ namespace PlatformGame
             blocks1.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(928, 655), 2, 1));
             blocks1.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(963, 655), 2, 1));
             blocks1.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(900, 80), 2, 1));
+
             blocks1.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(950, 448), 3, 1));
             blocks1.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(70, 352), 3, 1));
             blocks1.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(250, 96), 3, 1));       
+
+
+            blocks1.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(950, 448), 3, 1));
+            blocks1.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(70, 352), 3, 1));
+            blocks1.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(250, 96), 3, 1));
+        
             blocks1.Add(new Item(_foodTexture, 3 ,new Vector2(66, 415)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(386, 448)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(958, 360)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(802, 354)));
-            blocks1.Add(new Item(_foodTexture, 3, new Vector2(638, 105)));
+            //blocks1.Add(new Item(_foodTexture, 3, new Vector2(638, 105)));
+
+            blocks1.Add(new Item(_foodTexture, 3, new Vector2(770, 96)));
+
 
             blocks2.Add(new Fence(new Vector2(950, 640), _fenceTexture));
             blocks2.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(253, 368), 2, 1));
@@ -182,10 +187,12 @@ namespace PlatformGame
             blocks2.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(578, 111), 2, 1));
             blocks2.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(834, 464), 2, 1));
             blocks2.Add(new StandingEnemy(_porcupineTexture, HitBoxTexture, new Vector2(930, 464), 2, 1));
+
             blocks2.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(683, 192), 3, 1));
             blocks2.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(250, 96), 3, 1));
             blocks2.Add(new MovingEnemy(_crowTexture, HitBoxTexture, new Vector2(100, 511), 3, 1));
             blocks2.Add(new FollowingEnemy(_cobraTexture, HitBoxTexture, new Vector2(560, 620), 4, 1));
+
             blocks2.Add(new Item(_foodTexture, 3, new Vector2(93, 520)));
             blocks2.Add(new Item(_foodTexture, 3, new Vector2(34, 266)));
             blocks2.Add(new Item(_foodTexture, 3, new Vector2(414, 361)));
@@ -198,6 +205,7 @@ namespace PlatformGame
             gameOverScreen = new GameOverScreen(font, _gameOverTexture);
             theEnd = new TheEnd(font, _theEndtexture);
             startScreen = new StartScreen(font, _startScreentexture, player, _cloudTexture);
+
             screenManager = new ScreenManager(startScreen, level1, level2, gameOverScreen, theEnd);
         }
 
@@ -230,6 +238,7 @@ namespace PlatformGame
             song = Content.Load<Song>("Song/Song");
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -238,6 +247,7 @@ namespace PlatformGame
                 Exit();
 
             screenManager.Update(gameTime); 
+
             base.Update(gameTime);
         }
 
