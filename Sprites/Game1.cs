@@ -223,13 +223,25 @@ namespace Sprites
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            // TODO: Add your drawing code here
-            //nog enemy, jumping player,tilesets met collision detections
-            background.Draw(_spriteBatch, _graphics);
-            player.Draw(_spriteBatch);
-            capy.Draw(_spriteBatch);
+            screenManager.Draw(_spriteBatch, font);
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+        void CreateBlocks(int[,] gameboard, List<Block> blocks)
+        {
+            for (int l = 0; l < gameboard.GetLength(0); l++)
+            {
+                for (int c = 0; c < gameboard.GetLength(1); c++)
+                {
+
+                    if (gameboard[l, c] == 1)
+                    {
+                        blocks.Add(new Tile(_tile, 2, new Vector2(c * 32, l * 32), HitBoxTexture, TileType.GROUND));
+                    }
+                    else if (gameboard[l, c] == 2)
+                        blocks.Add(new Tile(_tile, 2, new Vector2(c * 32, l * 32), HitBoxTexture, TileType.GRASS));
+                }
+            }
         }
     }
 }
