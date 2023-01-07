@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame.Blocks;
 using PlatformGame.Collision.Blocks;
 using PlatformGame.Timer;
 using SharpDX.Direct3D9;
@@ -12,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace PlatformGame
+namespace PlatformGame.Blocks
 {
     internal class Item : Block
     {
@@ -21,7 +20,7 @@ namespace PlatformGame
         public bool IsTaken { get; set; } = false;
         Random random = new Random();
         int number;
-        public Item( Texture2D texture,int totalSprites,Vector2 position ) : base(position, texture)
+        public Item(Texture2D texture, int totalSprites, Vector2 position) : base(position, texture)
         {
             TextureWidth = texture.Width / totalSprites;
             TextureHeight = texture.Height;

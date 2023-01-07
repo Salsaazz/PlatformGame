@@ -1,6 +1,7 @@
-﻿using PlatformGame.Characters;
+﻿using PlatformGame.Blocks.Enemies;
+using PlatformGame.Characters;
 using PlatformGame.Collision.Blocks.Damage;
-using PlatformGame.Enemies;
+using PlatformGame.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,8 @@ namespace PlatformGame.Collision.Blocks
 {
     internal class Standing : IMovingBehavior, IDamageBehavior
     {
-        //DamageBehavior damageBehavior = new OnlyDamage();
         public void Collide(Player player, Enemy enemy)
         {
-            //damageBehavior.Damage(player, enemy);
             Damage(player, enemy);
         }
 

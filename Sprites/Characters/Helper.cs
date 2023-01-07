@@ -18,17 +18,16 @@ namespace PlatformGame
         Texture2D _walkTexture;
         Rectangle walkRectangle;
         Rectangle idleFrame;
-        int distance = 16;
+        int distance;
 
         public Helper(Texture2D texture)
         {
             this._walkTexture = texture;
             walkAnimation = new Animation(0.15d);
-            //normale width = 513 maar -1 want er is een zwarte streep
             walkRectangle = new Rectangle(0, 0, 32, 32);
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 8, 1);
             idleFrame = new Rectangle(0, 0, texture.Width / 8, texture.Height);
-
+            distance = 16;
         }
 
 

@@ -9,25 +9,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PlatformGame.Collision.Blocks;
 
-namespace PlatformGame.Enemies
+namespace PlatformGame.Blocks.Enemies
 {
-    abstract class Enemy: Block
+    abstract class Enemy : Block
     {
         //public Rectangle RectangleTexture { get; set; }
-        public Animation objectAnimation { get; set; } = new Animation(0.20d);
+        public Animation objectAnimation { get; set; }
         public bool IsLeft { get; set; } = false;
         public int TextureWidth { get; set; }
         public int TextureHeight { get; set; }
         public Texture2D BoundingBoxTexture { get; set; }
-        public GameTimer gameTimer = new GameTimer();
         public Vector2 Speed { get; set; }
-        public bool IsDead { get; set; } = false;
+        public bool IsDead { get; set; }
         public int Damage { get; set; }
         public IMovingBehavior MovingBehavior2 { get; set; }
-        public Enemy( Vector2 position, Texture2D texture, Texture2D boxTexture,int totalSprites, int layers) : base(position, texture)
+        public Enemy(Vector2 position, Texture2D texture, Texture2D boxTexture, int totalSprites, int layers) : base(position, texture)
         {
+            objectAnimation = new Animation(0.20d);
+            IsDead = false;
             BoundingBoxTexture = boxTexture;
             Position = position;
             TextureWidth = texture.Width / totalSprites;
@@ -39,7 +39,7 @@ namespace PlatformGame.Enemies
         {
             MovingBehavior2.Collide(player, this);
             Position += Speed;
-            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth,TextureHeight);
+            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth, TextureHeight);
             objectAnimation.Update(gameTime);
 
 

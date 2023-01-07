@@ -13,12 +13,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame.Enemies
+namespace PlatformGame.Blocks.Enemies
 {
     internal class MovingEnemy : Enemy
     {
 
-        //IMovingBehavior movingBehavior = new Moving();
         public MovingEnemy(Texture2D texture, Texture2D boxTexture, Vector2 position, int totalSprites, int layers)
             : base(position, texture, boxTexture, totalSprites, layers)
         {

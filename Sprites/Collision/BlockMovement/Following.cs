@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
 using PlatformGame.Collision.Blocks.Damage;
-using PlatformGame.Enemies;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using System;
@@ -15,10 +15,8 @@ namespace PlatformGame.Collision.Blocks
 {
     internal class Following : IMovingBehavior, IDamageBehavior
     {
-        //DamageBehavior damageBehavior = new OnlyDamage();
         public void Collide(Player player, Enemy enemy)
         {
-            //damageBehavior.Damage(player, enemy);
             Damage(player, enemy);
             if (enemy.Position.X - 20 > player.Position.X && enemy.Position.X > player.Position.X)
             {
@@ -30,7 +28,6 @@ namespace PlatformGame.Collision.Blocks
                 enemy.Speed = new Vector2(1, 0);
                 enemy.IsLeft = false;
             }
-            //sta still
             else enemy.Speed = Vector2.Zero;
         }
 

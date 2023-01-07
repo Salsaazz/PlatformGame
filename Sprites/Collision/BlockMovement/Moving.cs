@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
 using PlatformGame.Collision.Blocks.Damage;
-using PlatformGame.Enemies;
+using PlatformGame.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,8 @@ namespace PlatformGame.Collision.Blocks
 {
     internal class Moving : IMovingBehavior, IDamageBehavior
     {
-        //DamageBehavior damageBehavior = new KillWithDamage();
         public void Collide(Player player, Enemy enemy)
         {
-            //damageBehavior.Damage(player, enemy);
             Damage(player, enemy);
             if (enemy.Position.X > 1000 - 50 || enemy.Position.X < 0)
             {
@@ -33,7 +32,6 @@ namespace PlatformGame.Collision.Blocks
             {
                 if (player.movementManager.IsFalling && player.HitBox.Bottom - 5 < enemy.BoundingBox.Top)
                 {
-                    //kill enemy
                     enemy.IsDead = true;
                 }
                 else if (player.gameTimer.Counter >= 1000)
@@ -41,7 +39,6 @@ namespace PlatformGame.Collision.Blocks
                     player.Health -= enemy.Damage;
                     player.gameTimer.Counter = 0;
                 }
-                //running away after getting hit
             }
         }
     }

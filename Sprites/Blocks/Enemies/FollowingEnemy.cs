@@ -9,7 +9,7 @@ using PlatformGame.Blocks;
 using PlatformGame.Characters;
 using PlatformGame.Collision.Blocks;
 
-namespace PlatformGame.Enemies
+namespace PlatformGame.Blocks.Enemies
 {
     internal class FollowingEnemy : Enemy
     {
@@ -32,7 +32,7 @@ namespace PlatformGame.Enemies
             else
             {
                 spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
-           }
+            }
         }
     }
 }

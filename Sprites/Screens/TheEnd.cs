@@ -16,14 +16,18 @@ namespace PlatformGame.Screens
         GameTimer gameTimer;
         Color[] colors = new Color[] { Color.Blue, Color.OrangeRed, Color.DeepPink, Color.ForestGreen };
         Color color = Color.ForestGreen;
-        Random rnd = new Random();
-        int checkNumber = -1;
-        int number=-1;
-        string text = "PRESS [ENTER]";
+        Random rnd;
+        int checkNumber ;
+        int number;
+        string text ;
         public TheEnd(SpriteFont font, Texture2D texture) : base(font)
         {
             this.texture = texture;
             gameTimer = new GameTimer();
+            rnd = new Random();
+            checkNumber = -1;
+            number = -1;
+            text = "PRESS [ENTER]";
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)

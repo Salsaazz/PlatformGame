@@ -31,7 +31,6 @@ namespace PlatformGame.Terrain
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(BoundingBoxTexture, BoundingBox, Color.White);
             if (TypeTile == TileType.GRASS)
             {
                 spriteBatch.Draw(Texture, Position, new Rectangle(textureWidth, 0, textureWidth, Texture.Height), Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);

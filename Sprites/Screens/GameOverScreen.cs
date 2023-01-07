@@ -16,12 +16,15 @@ namespace PlatformGame.Screens
 
         Texture2D texture;
         GameTimer gameTimer;
-        string text = "PRESS [ENTER] TO RESTART";
-        string text2 = "PRESS [SHIFT] TO QUIT";
+        string text;
+        string text2;
 
         public GameOverScreen(SpriteFont font, Texture2D texture) : base(font) {
             this.texture = texture;
             gameTimer = new GameTimer();
+            text= "PRESS [ENTER] TO RESTART";
+            text2 = "PRESS [SHIFT] TO QUIT";
+
         }
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
+using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
-using PlatformGame.Enemies;
 using PlatformGame.Terrain;
 using SharpDX.Direct2D1;
 using SharpDX.Direct3D9;
@@ -31,8 +31,8 @@ namespace PlatformGame.Screens
         Helper helper;
         Item item;
         Fence fence;
-        string text ="LOCKED";
-        Color textColor = Color.Red;
+        string text;
+        Color textColor;
         public bool playerDead { get; set; }
 
         //nog poort als paramater
@@ -48,6 +48,8 @@ namespace PlatformGame.Screens
             this.item = item;
             playerDead = false;
             restartBlocksPosition = new List<Vector2>();
+            text = "LOCKED";
+            textColor = Color.Red;
             for (int i = 0; i < blocks.Count; i++)
             {
                 restartBlocksPosition.Add(blockList[i].Position);
@@ -103,7 +105,7 @@ namespace PlatformGame.Screens
             {
                 if (block is Enemy)
                 {
-                    Enemy temp = block as Enemies.Enemy;
+                    Enemy temp = block as Enemy;
                     temp.Update(gameTime, player);
                 }
             }

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Standing = PlatformGame.Collision.Blocks.Standing;
 
-namespace PlatformGame.Enemies
+namespace PlatformGame.Blocks.Enemies
 {
     internal class StandingEnemy : Enemy
     {

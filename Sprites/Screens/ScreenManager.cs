@@ -27,7 +27,7 @@ namespace PlatformGame.Screens
         ScreenType CurrentScreenType { get; set; } 
         ScreenType PreviousScreenType { get; set; } 
         Screen CurrentScreen { get; set; }
-        KeyboardReader readKey = new KeyboardReader();
+        KeyboardReader readKey;
         public ScreenManager(StartScreen startScreen, Level level1, Level level2, GameOverScreen gameOverScreen,
             TheEnd theEnd)
         {
@@ -39,7 +39,7 @@ namespace PlatformGame.Screens
             this.level2 = level2;
             this.gameOverScreen = gameOverScreen;
             this.theEnd = theEnd;
-
+            readKey = new KeyboardReader();
         }
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {

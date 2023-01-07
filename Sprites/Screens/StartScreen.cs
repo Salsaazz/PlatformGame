@@ -19,7 +19,7 @@ namespace PlatformGame.Screens
     internal class StartScreen : Screen
     {
         GameTimer gameTimer;
-        string text = "PRESS [ENTER] TO START";
+        string text;
         Texture2D texture;
         Player player { get; set; }
         Texture2D _cloudTexture;
@@ -33,6 +33,7 @@ namespace PlatformGame.Screens
             this.player = player;
             _cloudTexture = clouds;
             cloudPosition = new Vector2(0,0);
+            text = "PRESS [ENTER] TO START";
         }
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {

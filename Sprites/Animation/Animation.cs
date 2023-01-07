@@ -14,13 +14,16 @@ namespace PlatformGame
     {
         public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        public int counter=0;
-        private double secondCounter = 0;
+        public int counter;
+        private double secondCounter;
         private double framesPerSec;
         public Animation(double framesPerSec)
         {
+            counter = 0;
+            secondCounter = 0;
             frames = new List<AnimationFrame>();
             this.framesPerSec = framesPerSec;
+            
         }
 
         public void Update(GameTime gameTime)

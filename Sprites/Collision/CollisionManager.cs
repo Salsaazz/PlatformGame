@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using PlatformGame.Blocks;
+using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
 using PlatformGame.Collision.Blocks;
-using PlatformGame.Enemies;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using PlatformGame.Terrain;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace PlatformGame.Collision
 {
-     class CollisionManager
+    class CollisionManager
     {
         PlatformGame.Blocks.Block collisionBlock;
         public void Collide(bool hasCollided, MovementManager movementManager, IMovable movable, Player player)
@@ -26,15 +26,7 @@ namespace PlatformGame.Collision
             if (hasCollided)
             {
 
-                //als het jumpt en collide --> topcollide
-                //isfalling = true --> bottomcollide snehlheid=0
-                //drukt op links of rechts --> snelheid(0,Y)
 
-                //geef input
-                //input => richting of valrichting
-                //bereken toekomstige plaats adhv input
-                //check of tp botst
-                //nee positie = toekomst
                 if (collisionBlock is Fence)
                 {
                     player.touchedGate = true;
@@ -43,7 +35,6 @@ namespace PlatformGame.Collision
 
                 if (collisionBlock is Item)
                 {
-                    //voor de items
                     Item temp = collisionBlock as Item;
                     if (!temp.IsTaken && movementManager.pressDown)
                     { temp.IsTaken = true;
@@ -81,7 +72,7 @@ namespace PlatformGame.Collision
                                 movementManager.pressUp = false;
                             }
                         }
-                        else if (collisionBlock is Enemies.Enemy)
+                        else if (collisionBlock is Enemy)
                         {
                             movementManager.jump = false;
                             movementManager.IsFalling = false;

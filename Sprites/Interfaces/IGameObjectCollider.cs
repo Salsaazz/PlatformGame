@@ -14,6 +14,5 @@ namespace PlatformGame.Interfaces
     {
         void Update(GameTime gameTime, List<Block> list);
         void Draw(SpriteBatch spriteBatch);
-        //Block HitBox { get; set; }
     }
 }

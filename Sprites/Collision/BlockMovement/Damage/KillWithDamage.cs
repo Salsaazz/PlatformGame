@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
-using PlatformGame.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;

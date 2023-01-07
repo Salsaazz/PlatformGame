@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using PlatformGame.Blocks;
+using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
-using PlatformGame.Enemies;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using PlatformGame.Screens;
@@ -171,8 +171,6 @@ namespace PlatformGame
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(386, 448)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(958, 360)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(802, 354)));
-            //blocks1.Add(new Item(_foodTexture, 3, new Vector2(638, 105)));
-
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(770, 96)));
 
 
