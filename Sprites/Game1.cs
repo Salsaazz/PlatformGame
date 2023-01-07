@@ -12,12 +12,20 @@ using PlatformGame.Terrain;
 using SharpDX.Direct2D1;
 using SharpDX.Direct2D1.Effects;
 using SharpDX.Direct3D9;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
+using static PlatformGame.Terrain.Tile;
+using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
+using Tile = PlatformGame.Terrain.Tile;
 
-namespace Sprites
+namespace PlatformGame
 {
     public class Game1 : Game
     {
+        //TODO tiles
+        //FOOD collect
+        //collide met enemy --> dood
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //dePokemonPlayer
@@ -27,9 +35,18 @@ namespace Sprites
         private Texture2D _playerTexture;
         private Texture2D _capybara;
         private Player player;
+        private Player player2;
+
+        private Helper helper;
+        Item item;
+        private Texture2D _playerTexture;
+        private Texture2D _catTexture;
+        private Texture2D _crowTexture;
         private Background background;
-        private Capybara capy;
         Texture2D _cloudTexture;
+        Texture2D _startScreentexture;
+        Texture2D _theEndtexture;
+        Texture2D _heartTexture;
         Texture2D _mountainTexture;
         Texture2D _pineTexture;
         Texture2D _skyTexture;
@@ -121,8 +138,8 @@ namespace Sprites
             // TODO: Add your initialization logic here
             base.Initialize();
             _graphics.PreferredBackBufferWidth = 1000;
-            _graphics.PreferredBackBufferHeight = 1000;
-            _graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferHeight = 700;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
             player = Player.GetInstance();
             player.Init(_playerTexture, HitBoxTexture, inputReader);
@@ -186,13 +203,20 @@ namespace Sprites
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            HitBoxTexture = new Texture2D(GraphicsDevice, 1, 1);
+            HitBoxTexture.SetData(new[] { Color.White });
 
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            _playerTexture = Content.Load<Texture2D>("playersheetsprites (5)");
-            _capybara = Content.Load<Texture2D>("./Capybara/CapybaraWalk");
+            _startScreentexture = Content.Load<Texture2D>("./Screen/StartScreen");
+            _gameOverTexture = Content.Load<Texture2D>("./Screen/gameover2");
+            _heartTexture = Content.Load<Texture2D>("./Player/Heart (2)");
+            _theEndtexture = Content.Load<Texture2D>("./Screen/YouWIn");
+            _playerTexture = Content.Load<Texture2D>("./Player/Dude_Monster_Walk_6");
+            _catTexture = Content.Load<Texture2D>("./Cat/Cat Sprite Sheet");
             _cloudTexture = Content.Load<Texture2D>("./Background/cloud");
-             _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
+            _mountainTexture = Content.Load<Texture2D>("./Background/mountain2");
             _pineTexture = Content.Load<Texture2D>("./Background/pine1");
             _skyTexture = Content.Load<Texture2D>("./Background/sky");
             _crowTexture = Content.Load<Texture2D>("./Crow/Crow2");
@@ -215,7 +239,6 @@ namespace Sprites
 
             screenManager.Update(gameTime); 
             base.Update(gameTime);
-           // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -244,3 +267,4 @@ namespace Sprites
         }
     }
 }
+    

@@ -1,39 +1,36 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sprites
+namespace PlatformGame
 {
-     class Animation
+    class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        public int counter;
+        public int counter=0;
         private double secondCounter = 0;
-
-        public Animation()
+        private double framesPerSec;
+        public Animation(double framesPerSec)
         {
             frames = new List<AnimationFrame>();
-        }
-        public void AddFrame(AnimationFrame frame)
-        {
-            frames.Add(frame);
-            CurrentFrame = frames[0];
+            this.framesPerSec = framesPerSec;
         }
 
-
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime)
         {
             CurrentFrame = frames[counter];
-
-            secondCounter += gametime.ElapsedGameTime.TotalSeconds;
+            secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
-            //animatie met de snelheid aanpassen
-            //per 0.3sec 1frame
-            if (secondCounter >= 0.3d/ fps)
+            //animatie met de Velocity aanpassen
+            //per 0.3dsec 1frame
+            if (secondCounter >= framesPerSec/ fps)
             {
                 counter++;;
                 secondCounter = 0;
@@ -54,6 +51,8 @@ namespace Sprites
             {
                 for (int x = 0; x <= width - widthOfFrame; x += widthOfFrame)
                 {
+                    //x schuiven we op om naar de volgende frame te gaan
+                    //van de spritesheet
                     frames.Add(new AnimationFrame(new Rectangle(x, y, widthOfFrame, heightOfFrame)));
                 }
             }

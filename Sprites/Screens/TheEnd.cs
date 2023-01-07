@@ -47,7 +47,7 @@ namespace PlatformGame.Screens
                     gameTimer.Counter = 0;
                 }
 
-            }
+                }
             else if (gameTimer.Counter > 500 && text != "")
             {
                 text = "";

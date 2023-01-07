@@ -46,7 +46,7 @@ namespace PlatformGame.Screens
         }
 
         public override void Update(GameTime gameTime)
-        {
+            {
             gameTimer.UpdateCounter(gameTime);
             if (player.Health != 5)
             {
@@ -58,26 +58,30 @@ namespace PlatformGame.Screens
             {
 
                 if (gameTimer.Counter > 10000 && text == "")
-                {
+            {
 
-                    text = "PRESS [ENTER] TO START";
-                    gameTimer.Counter = 0;
+                text = "PRESS [ENTER] TO START";
+                gameTimer.Counter = 0;
 
-                }
+            }
                 else if (gameTimer.Counter > 5000 && text != "")
                 {
                      text = "";
                      gameTimer.Counter = 0;
 
-                }
+        }
                 cloudPosition.X -= 1;
             }
             if (cloudPosition.X < -1000)
-            {
+        {
                 cloudPosition.X = 0;
             }
             gameTimer.UpdateCounter(gameTime);
+            if (player.Health != 5)
+            {
+               player.Health = 5;
 
+            }
         }
     }
 }

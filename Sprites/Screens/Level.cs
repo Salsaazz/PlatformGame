@@ -55,7 +55,7 @@ namespace PlatformGame.Screens
                 {
                     Fence  temp = blockList[i] as Fence;
                     fence = temp;
-               }
+                }
             }
            
             restartPlayerPosition = player.Position;
