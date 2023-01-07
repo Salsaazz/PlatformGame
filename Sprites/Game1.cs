@@ -218,7 +218,6 @@ namespace Sprites
            // Debug.WriteLine(_graphics.PreferredBackBufferHeight);
         }
 
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
