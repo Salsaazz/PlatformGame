@@ -18,9 +18,8 @@ namespace PlatformGame.Blocks.Enemies
             : base(position, texture, boxTexture, totalSprites, layers)
         {
             Speed = new Vector2(0, 0);
-            objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
             Damage = 4;
-            MovingBehavior2 = new Standing();
+            MovingBehavior = new Standing();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

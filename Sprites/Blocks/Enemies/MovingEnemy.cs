@@ -23,9 +23,8 @@ namespace PlatformGame.Blocks.Enemies
         {
 
             Speed = new Vector2(5, 0);
-            objectAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, totalSprites, layers);
             Damage = 1;
-            MovingBehavior2 = new Moving();
+            MovingBehavior = new Moving();
 
         }
 
@@ -33,8 +32,7 @@ namespace PlatformGame.Blocks.Enemies
         {
             if (!IsDead)
             {
-                //spriteBatch.Draw(BoundingBoxTexture, BoundingBox, Color.Red);
-                if (Speed.X < 0)
+                if (IsLeft)
                 {
                     spriteBatch.Draw(Texture, Position, objectAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.FlipHorizontally, 0f);
                 }

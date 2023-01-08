@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformGame.Movement.BlockMovement.Damage
+namespace PlatformGame.Interfaces
 {
     internal interface IDamageBehavior
     {

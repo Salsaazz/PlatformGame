@@ -12,7 +12,6 @@ namespace PlatformGame.Terrain
 {
     internal class Tile: Block
     {
-        private Rectangle rectangle;
         private Texture2D BoundingBoxTexture;
         int textureWidth;
          public enum TileType{ GRASS, GROUND};
@@ -21,7 +20,6 @@ namespace PlatformGame.Terrain
             : base(position, texture)
         {
             textureWidth = (int)((texture.Width / totalSprites));
-            rectangle = new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
             BoundingBoxTexture = boxTexture;
             this.TypeTile = tileType;

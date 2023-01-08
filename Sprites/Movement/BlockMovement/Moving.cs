@@ -2,7 +2,6 @@
 using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
 using PlatformGame.Interfaces;
-using PlatformGame.Movement.BlockMovement.Damage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace PlatformGame.Movement.BlockMovement
         public void Move(Player player, Enemy enemy)
         {
             Damage(player, enemy);
-            if (enemy.Position.X > 1000 - 50 || enemy.Position.X < 0)
+            if (enemy.Position.X > 1000 - 50 || enemy.Position.X < 32)
             {
                 enemy.Speed = new Vector2(enemy.Speed.X * -1, enemy.Speed.Y);
             }
@@ -24,6 +23,9 @@ namespace PlatformGame.Movement.BlockMovement
             {
                 enemy.Speed = new Vector2(enemy.Speed.X * -1, enemy.Speed.Y);
             }
+            if (enemy.Speed.X > 0)
+                enemy.IsLeft = false;
+            else enemy.IsLeft = true;
         }
 
         public void Damage(Player player, Enemy enemy)
