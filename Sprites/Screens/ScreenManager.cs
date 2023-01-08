@@ -31,7 +31,7 @@ namespace PlatformGame.Screens
         public ScreenManager(StartScreen startScreen, Level level1, Level level2, GameOverScreen gameOverScreen,
             TheEnd theEnd)
         {
-            CurrentScreenType = ScreenType.ENDING;
+            CurrentScreenType = ScreenType.START;
             PreviousScreenType = ScreenType.START;
             this.startScreen = startScreen;
             CurrentScreen = this.theEnd;
@@ -58,7 +58,7 @@ namespace PlatformGame.Screens
             if (state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.START ||
             state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.GAMEOVER)
             {
-                CurrentScreenType = ScreenType.START;
+                CurrentScreenType = ScreenType.LEVEL1;
                 level1.RestartLevel();
                 level2.RestartLevel();
 
