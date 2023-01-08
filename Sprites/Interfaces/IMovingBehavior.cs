@@ -11,12 +11,7 @@ namespace PlatformGame.Interfaces
 {
     internal interface IMovingBehavior
     {
-        /*public void Move(Player player, Enemy enemy)
-        {
-            Collide(player, enemy);
-            enemy.Position += enemy.Speed;
-            enemy.BoundingBox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, enemy.TextureWidth, enemy.TextureHeight);
-        }*/
-        public void Collide(Player player, Enemy enemy);
+
+        public void Move(Player player, Enemy enemy);
     }
 }

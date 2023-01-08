@@ -126,7 +126,6 @@ namespace PlatformGame
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
             _graphics.PreferredBackBufferWidth = 1000;
             _graphics.PreferredBackBufferHeight = 700;
@@ -211,7 +210,6 @@ namespace PlatformGame
 
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            // TODO: use this.Content to load your game content here
             _startScreentexture = Content.Load<Texture2D>("./Screen/StartScreen");
             _gameOverTexture = Content.Load<Texture2D>("./Screen/gameover2");
             _heartTexture = Content.Load<Texture2D>("./Player/Heart (2)");

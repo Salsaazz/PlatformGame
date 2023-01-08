@@ -37,7 +37,7 @@ namespace PlatformGame.Blocks.Enemies
 
         public void Update(GameTime gameTime, Player player)
         {
-            MovingBehavior2.Collide(player, this);
+            MovingBehavior2.Move(player, this);
             Position += Speed;
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, TextureWidth, TextureHeight);
             objectAnimation.Update(gameTime);

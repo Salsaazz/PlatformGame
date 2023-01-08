@@ -35,7 +35,6 @@ namespace PlatformGame.Screens
         Color textColor;
         public bool playerDead { get; set; }
 
-        //nog poort als paramater
         public Level(Background background, List<Block> blockList, Player player, Helper helper, SpriteFont font
             , Item item, Texture2D heart)
             : base(font)

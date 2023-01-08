@@ -31,8 +31,6 @@ namespace PlatformGame
             CurrentFrame = frames[counter];
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
             int fps = 1;
-            //animatie met de Velocity aanpassen
-            //per 0.3dsec 1frame
             if (secondCounter >= framesPerSec/ fps)
             {
                 counter++;;
@@ -54,8 +52,6 @@ namespace PlatformGame
             {
                 for (int x = 0; x <= width - widthOfFrame; x += widthOfFrame)
                 {
-                    //x schuiven we op om naar de volgende frame te gaan
-                    //van de spritesheet
                     frames.Add(new AnimationFrame(new Rectangle(x, y, widthOfFrame, heightOfFrame)));
                 }
             }

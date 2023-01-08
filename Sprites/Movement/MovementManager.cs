@@ -41,11 +41,6 @@ namespace PlatformGame.Movement
             float yAxis = movable.InputReader.ReadInput().Y;
             if (yAxis > 0 && !IsFalling && !jump)
             {
-                //om de zoveel seconde veranderd de input
-                // gaat direct van 2 --> 0
-                //dus zal er een error ontstaan als je wilt jumpen met collion detection
-                //eens willen jumpen(yAxis) --> variabele blijft op 2 tot die weer valt
-                //hiermee coll detection doen via een bool (pressUp)
                 pressUp = true;
                 pressDown = false;
             }

@@ -15,7 +15,7 @@ namespace PlatformGame.Collision.Blocks
 {
     internal class Following : IMovingBehavior, IDamageBehavior
     {
-        public void Collide(Player player, Enemy enemy)
+        public void Move(Player player, Enemy enemy)
         {
             Damage(player, enemy);
             if (enemy.Position.X - 20 > player.Position.X && enemy.Position.X > player.Position.X)

@@ -62,7 +62,6 @@ namespace PlatformGame.Characters
             walkAnimation.GetFramesFromTextureProperties(texture.Width, texture.Height, 6, 1);
             this.hitboxTexture = hitboxtexture;
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
-            //van de IMoveable
             InputReader = inputReader;
             movementManager = new MovementManager();
         }

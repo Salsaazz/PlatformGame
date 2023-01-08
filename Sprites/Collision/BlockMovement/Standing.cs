@@ -12,7 +12,7 @@ namespace PlatformGame.Collision.Blocks
 {
     internal class Standing : IMovingBehavior, IDamageBehavior
     {
-        public void Collide(Player player, Enemy enemy)
+        public void Move(Player player, Enemy enemy)
         {
             Damage(player, enemy);
         }
