@@ -50,17 +50,17 @@ namespace PlatformGame.Screens
         {
 
             KeyboardState state = Keyboard.GetState();
-            if (CurrentScreenType == ScreenType.START)
-            {
-                CurrentScreen = startScreen;
-
-            }
-             if (state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.START ||
-                state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.GAMEOVER)
+            if (state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.START ||
+            state.IsKeyDown(Keys.Enter) && CurrentScreenType == ScreenType.GAMEOVER)
             {
                 CurrentScreenType = ScreenType.LEVEL1;
                 level1.RestartLevel();
                 level2.RestartLevel();
+
+            }
+            if (CurrentScreenType == ScreenType.START)
+            {
+                CurrentScreen = startScreen;
 
             }
 
@@ -99,7 +99,7 @@ namespace PlatformGame.Screens
                 {
                     CurrentScreenType = ScreenType.GAMEOVER;
                 }
-                 if (level2.player.Item >= 5 && level2.player.touchedGate)
+                else if (level2.player.Item >= 5 && level2.player.touchedGate)
                 {
                     
                     CurrentScreenType = ScreenType.ENDING;

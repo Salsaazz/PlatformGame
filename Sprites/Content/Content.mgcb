@@ -296,11 +296,11 @@
 /processorParam:TextureFormat=Color
 /build:Screen/YouWIn.jpg
 
-#begin Song/Song.mp3
+#begin Song/ForestMusic.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Song/Song.mp3
+/build:Song/ForestMusic.mp3
 
 #begin Tiles/spritesheet (4).png
 /importer:TextureImporter

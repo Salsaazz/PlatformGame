@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
 using PlatformGame.Characters;
-using PlatformGame.Collision.Blocks;
 using PlatformGame.Interfaces;
+using PlatformGame.Movement.BlockMovement;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;

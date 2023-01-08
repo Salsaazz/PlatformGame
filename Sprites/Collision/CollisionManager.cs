@@ -2,7 +2,6 @@
 using PlatformGame.Blocks;
 using PlatformGame.Blocks.Enemies;
 using PlatformGame.Characters;
-using PlatformGame.Collision.Blocks;
 using PlatformGame.Interfaces;
 using PlatformGame.Movement;
 using PlatformGame.Terrain;
@@ -19,7 +18,7 @@ namespace PlatformGame.Collision
 {
     class CollisionManager
     {
-        PlatformGame.Blocks.Block collisionBlock;
+        Block collisionBlock;
         public void Collide(bool hasCollided, MovementManager movementManager, IMovable movable, Player player)
         {
 

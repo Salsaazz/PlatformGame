@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformGame.Blocks;
 using PlatformGame.Characters;
-using PlatformGame.Collision.Blocks;
+using PlatformGame.Movement.BlockMovement;
 
 namespace PlatformGame.Blocks.Enemies
 {

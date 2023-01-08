@@ -167,7 +167,7 @@ namespace PlatformGame
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(386, 448)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(958, 360)));
             blocks1.Add(new Item(_foodTexture, 3, new Vector2(802, 354)));
-            blocks1.Add(new Item(_foodTexture, 3, new Vector2(770, 96)));
+            blocks1.Add(new Item(_foodTexture, 3, new Vector2(638, 96)));
 
 
             blocks2.Add(new Fence(new Vector2(950, 640), _fenceTexture));
@@ -228,7 +228,7 @@ namespace PlatformGame
             _fenceTexture = Content.Load<Texture2D>("./Fence/WoodenFence (1)");
             font = Content.Load<SpriteFont>("./Font/myFont");
             inputReader = new KeyboardReader();
-            song = Content.Load<Song>("Song/Song");
+            song = Content.Load<Song>("Song/ForestMusic");
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
 

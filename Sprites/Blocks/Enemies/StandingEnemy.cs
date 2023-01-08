@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Standing = PlatformGame.Collision.Blocks.Standing;
+using Standing = PlatformGame.Movement.BlockMovement.Standing;
 
 namespace PlatformGame.Blocks.Enemies
 {

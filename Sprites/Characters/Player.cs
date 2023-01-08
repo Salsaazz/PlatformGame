@@ -93,7 +93,7 @@ namespace PlatformGame.Characters
             HitBox = new Rectangle((int)Position.X, (int)Position.Y, hitBoxWidth, texture.Height);
             walkAnimation.Update(gameTime);
             gameTimer.UpdateCounter(gameTime);
-
-        }
+            Debug.WriteLine(Position.X + " " + Position.Y);
+                }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PlatformGame.Collision.Blocks;
 using PlatformGame.Timer;
 using SharpDX.Direct3D9;
 using System;
